@@ -6,7 +6,7 @@ const Button = ({ variant, children, className, href }: any) => {
     <Link href={href || "#"} className="group">
       <div
         className={`button_gradient sora-font flex items-center gap-3 rounded-full font-sans md:text-xl px-[11px] py-[8px] cursor-pointer pr-4 font-semibold capitalize
-        ${variant === "white" ? "bg-white text-blue-50 group-hover:bg-blue-20 group-hover:text-white" : "bg-blue-20 text-white group-hover:bg-blue-10"}
+        ${variant === "white" ? "bg-white text-blue-50 group-hover:bg-blue-20 group-hover:text-white" : "bg-blue-20 text-white group-hover:bg-blue-50"}
         ${className}
       `}>
         <div

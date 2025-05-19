@@ -12,7 +12,7 @@ const Hero = () => {
     <main
       className="h-screen w-full bg-cover bg-no-repeat"
       style={{
-        backgroundImage: `linear-gradient(270deg, rgba(115, 115, 115, 0) 0%, #00022C 100%), url(/images/hero.jpg)`,
+        backgroundImage: `linear-gradient(270deg, rgba(115, 115, 115, 0) 0%, #00022C 100%), url(/images/hero.png)`,
       }}
     >
       <div className="container px-3 mx-auto h-full flex flex-col items-start justify-center pt-20">

@@ -38,7 +38,7 @@ const AboutUs = () => {
               {[1, 2, 3]?.map((item, idx) => (
                 <figure key={idx}>
                   <Image
-                    src={images[idx]}
+                    src={'/images/about.png'}
                     alt="About Us"
                     width={586}
                     height={448}
@@ -91,14 +91,14 @@ const AboutUs = () => {
             <p className="text-text text-xl mt-3">{description}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full mt-12">
               <div className="flex items-center font-medium gap-5 font-sans">
-                <div className="w-[60px] h-[60px] rounded-full bg-red-50">
-                  {/* <Image src={images[0]} alt="About Us" width={60} height={60} className="w-[60px] h-[60px]"/> */}
+                <div className="">
+                  <Image src={`/svg/about-1.svg`} alt="About Us" width={60} height={60} className="w-[60px] h-[60px]"/>
                 </div>
                 <p className="text-blue-50">{features[0]}</p>
               </div>
               <div className="flex items-center font-medium gap-5 font-sans">
-                <div className="w-[60px] h-[60px] rounded-full bg-red-50">
-                  {/* <Image src={images[0]} alt="About Us" width={60} height={60} className="w-[60px] h-[60px]"/> */}
+                <div className="">
+                  <Image src={`/svg/about-2.svg`} alt="About Us" width={60} height={60} className="w-[60px] h-[60px]"/>
                 </div>
                 <p className="text-blue-50">{features[1]}</p>
               </div>
@@ -106,8 +106,8 @@ const AboutUs = () => {
             {/* border  */}
             <div className="bg-[#0632321A] h-[1px] w-full my-[34px]" />
             <ul className="flex flex-col gap-3">
+              <List>{features[2]}</List>
               <List>{features[3]}</List>
-              <List>{features[4]}</List>
             </ul>
           </div>
         </div>

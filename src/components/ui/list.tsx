@@ -6,7 +6,7 @@ const List = ({ children }: any) => {
     <>
       <li className="text-text flex items-center gap-3">
         <Image
-          src={"/images/Vector.svg"}
+          src={"/svg/list.svg"}
           alt=""
           width={20}
           height={20}
