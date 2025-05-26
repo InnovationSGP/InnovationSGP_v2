@@ -22,7 +22,7 @@ const Heading = ({
     >
       {children}
       <span
-        className={secondColor === "blue" ? "text-blue-30" : "text-blue-30"}
+        className={secondColor === "blue" ? "text-blue-30" : "text-gray-300/80"}
       >
         {" "}
         {colorText}

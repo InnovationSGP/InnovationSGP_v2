@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --blue-10: #7F9AD6F7;
-  --blue-20: #486EC4;
-  --blue-30: #2951AC;
+  --blue-10: #7f9ad6f7;
+  --blue-20: #486ec4;
+  --blue-30: #2951ac;
   --blue-40: #193881;
   --blue-50: #050950;
   --black-10: #858585;
-  --black-20: #2D2D2D;
+  --black-20: #2d2d2d;
   --text: #515151;
 }
 
@@ -24,11 +24,19 @@
   --font-sora: var(--font-sora);
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-sora);
 }
 
-p, a, li, span {
+p,
+a,
+li,
+span {
   font-family: var(--font-sans);
 }
 
@@ -36,6 +44,13 @@ p, a, li, span {
   max-width: 1260px !important;
 }
 
-.white_button_gradient{
-  background: linear-gradient(180deg, #FFFFFF 0%, #B4B4D1 100%);
+.white_button_gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #b4b4d1 100%);
 }
+
+.gradient {
+  background: linear-gradient(120deg, #3d60ad 21.65%, #153170 78.35%);
+}
+
+.slick-list {margin: 0 -10px; z-index: 2;}
+.slick-slide>div {padding: 0 10px;}

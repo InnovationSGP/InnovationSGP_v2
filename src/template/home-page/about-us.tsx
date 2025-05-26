@@ -85,7 +85,7 @@ const AboutUs = () => {
           {/* Right Section  */}
           <div className="flex flex-col items-start mt-12 md:mt-0">
             <Label>{label}</Label>
-            <Heading colorText={colorText} className="mt-3 text-black-20">
+            <Heading colorText={colorText} secondColor="blue" className="mt-3 text-black-20">
               {title}
             </Heading>
             <p className="text-text text-xl mt-3">{description}</p>

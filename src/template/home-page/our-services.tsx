@@ -2,6 +2,7 @@ import Button from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Label from "@/components/ui/label";
 import React from "react";
+import ServiceList from "./service-list";
 
 const OurServices = () => {
   return (
@@ -12,6 +13,7 @@ const OurServices = () => {
             <Label>{`Our Services`}</Label>
             <Heading
               colorText={`professional talents`}
+              secondColor="blue"
               className="mt-4 mb-3 !leading-10 max-w-[817px]"
             >
               Deliver efficiently and connect 
@@ -19,6 +21,9 @@ const OurServices = () => {
           </div>
           <Button className="hidden md:flex">Contact Us</Button>
         </div>
+        <section>
+            <ServiceList/>
+        </section>
       </section>
     </>
   );

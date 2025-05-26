@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import { navItems } from './nav-items'
 
 const Nav = () => {
     const params = usePathname()
@@ -22,28 +23,3 @@ const Nav = () => {
 }
 
 export default Nav
-
-
-
-const navItems = [
-    {
-        label: 'Home',
-        href: '/',
-    },
-    {
-        label: 'Services',
-        href: '/services',
-    },
-    {
-        label: 'Sector',
-        href: '/sector',
-    },
-    {
-        label: 'Intel',
-        href: '/intel',
-    },
-    {
-        label: 'About',
-        href: '/about',
-    }
-]

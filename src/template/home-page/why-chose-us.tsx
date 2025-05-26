@@ -16,6 +16,7 @@ const WhyChoseUs = () => {
           <Label>{content.label}</Label>
           <Heading
             colorText={content.colorText}
+            secondColor="blue"
             className="mt-4 mb-3 !leading-10 md:!text-[36px]"
             style={{ lineHeight: "42px !important" }}
           >
@@ -57,6 +58,7 @@ const WhyChoseUs = () => {
               colorText={content.commitment.colorText}
               className="mt-4 mb-3 !leading-10 !text-2xl !md:leading-[30px]"
               style={{ lineHeight: "32px !important" }}
+              secondColor="blue"
             >
               {content.commitment.heading}
             </Heading>
