@@ -1,6 +1,6 @@
 import WorkProcess from "@/template/services/work-process";
 import Hero from "../../template/services/hero";
-import Blogcard from "@/template/services/blogcard";
+import Blogcard from "@/template/services/blog-card";
 
 
 export default function Home() {

@@ -54,3 +54,10 @@ span {
 
 .slick-list {margin: 0 -10px; z-index: 2;}
 .slick-slide>div {padding: 0 10px;}
+
+.blog_gradient{
+  background: linear-gradient(180deg, #EFF7FF 54.73%, #FFFFFF 105.65%);
+}
+.home_page_blog_gradient{
+  background: linear-gradient(180deg, rgba(239, 247, 255, 0) 0%, #EFF7FF 50%, #EFF7FF 100%);
+}

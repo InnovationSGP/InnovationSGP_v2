@@ -13,7 +13,7 @@ const Testimonials = () => {
       <div className="gradient rounded-[32px] py-[60px] px-3 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
         <div>
           <Label>TESTIMONIAL</Label>
-          <Heading colorText={"Say About US"} className="mt-4 !text-white">
+          <Heading colorText={"Say About US"} secondColor="gary" className="mt-4 !text-white">
             Hear What Our Happy Clients
           </Heading>
           <div className="my-[32px] py-4 text-white flex items-center gap-3 border-t border-b border-[#FFFFFF26]">

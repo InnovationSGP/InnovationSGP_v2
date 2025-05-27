@@ -49,9 +49,9 @@ const MobileHeader = () => {
                                             <path
                                                 d="M15 8.00004C15 8.00004 11.3176 13 9.99996 13C8.68237 13 5 8 5 8"
                                                 stroke="#ECECEC"
-                                                stroke-width="1.25"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
+                                                strokeWidth="1.25"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
                                             />
                                         </svg>
                                         </button>
