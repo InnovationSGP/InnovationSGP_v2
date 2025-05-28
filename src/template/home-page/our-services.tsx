@@ -3,6 +3,7 @@ import Heading from "@/components/ui/heading";
 import Label from "@/components/ui/label";
 import React from "react";
 import ServiceList from "./service-list";
+import MobileServiceList from "./mobile-service-list";
 
 const OurServices = () => {
   return (
@@ -21,8 +22,11 @@ const OurServices = () => {
           </div>
           <Button className="hidden md:flex">Contact Us</Button>
         </div>
-        <section>
+        <section className="hidden md:block">
             <ServiceList/>
+        </section>
+        <section className="md:hidden">
+            <MobileServiceList/>
         </section>
       </section>
     </>

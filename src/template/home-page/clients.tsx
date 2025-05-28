@@ -10,11 +10,22 @@ const Clients = () => {
           Our Trusted <span className="text-blue-30">Clients</span>
         </h2>
       </div>
-      <div className="flex justify-around mt-10 items-center">
+      <div className="md:flex justify-around hidden mt-10 items-center">
           <Image src="/images/logo-1.svg" alt="" className="" width={113} height={35}/>
           <Image src="/images/logo-2.png" alt="" className="" width={204} height={35}/>
           <Image src="/images/logo-3.svg" alt="" className="" width={136} height={91}/>
       </div>
+      <div className="md:hidden logo-scroller mt-10">
+        <div className="logo-track">
+          <Image src="/images/logo-1.svg" alt="Logo 1" width={113} height={35} className="w-[90px]"/>
+          <Image src="/images/logo-2.png" alt="Logo 2" width={204} height={35} className="w-[90px]"/>
+          <Image src="/images/logo-3.svg" alt="Logo 3" width={136} height={91} className="w-[90px]"/>
+          <Image src="/images/logo-1.svg" alt="Logo 1" width={113} height={35} className="w-[90px]"/>
+          <Image src="/images/logo-2.png" alt="Logo 2" width={204} height={35} className="w-[90px]"/>
+          <Image src="/images/logo-3.svg" alt="Logo 3" width={136} height={91} className="w-[90px]"/>
+        </div>
+      </div>
+
     </section>
   );
 };

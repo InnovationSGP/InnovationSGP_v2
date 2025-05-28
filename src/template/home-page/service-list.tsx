@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const services = [
+export const services = [
   {
     id: 1,
     title: "Deploy fast and safe",

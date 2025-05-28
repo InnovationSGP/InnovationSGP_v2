@@ -31,14 +31,20 @@ const AboutUs = () => {
 
   return (
     <>
-      <section className="py-24">
-        <div className="grid container mx-auto px-3 grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="relative rounded-[16px]">
+      <section
+        className="py-24 relative"
+        style={{
+          background:
+            "linear-gradient(180deg, #EFF7FF 54.73%, #FFFFFF 109.46%)",
+        }}
+      >
+        <div className="grid container mx-auto px-3 grid-cols-1 md:grid-cols-2 md:gap-10">
+          <div className="relative rounded-[16px] grid-order mt-10 md:mt-0">
             <Slider {...settings} ref={slider}>
               {[1, 2, 3]?.map((item, idx) => (
                 <figure key={idx}>
                   <Image
-                    src={'/images/about.png'}
+                    src={"/images/about.png"}
                     alt="About Us"
                     width={586}
                     height={448}
@@ -47,7 +53,7 @@ const AboutUs = () => {
                 </figure>
               ))}
             </Slider>
-            <div className="bg-blue-40 absolute top-[330px] right-10 px-[28px] py-[35px] max-w-[208px] rounded-[12px]">
+            <div className="bg-blue-40 absolute top-[330px] right-10 px-[28px] py-[35px] max-w-[208px] z-10 rounded-[12px]">
               <h4 className="font-semibold text-5xl text-[#E9EEF8]">
                 {happyCustomer}
               </h4>
@@ -56,7 +62,7 @@ const AboutUs = () => {
               </p>
             </div>
             {/* Nav buttons  */}
-            <div className="bg-[#F7FBFF] flex items-center gap-3 rounded-tr-[13px] absolute bottom-[4px] left-[-2px] md:bottom-[6px] md:left-0 px-10 py-[22px]">
+            <div className="bg-[#F7FBFF] flex items-center gap-3 rounded-tr-[13px] absolute bottom-[4px] left-[-2px] md:bottom-[6px] md:left-0 px-10 py-[22px] z-10">
               <button
                 onClick={() => slider?.current?.slickPrev()}
                 className="bg-black-10 h-10 w-10 cursor-pointer rounded-full flex items-center hover:bg-blue-10 justify-center rotate-180"
@@ -83,22 +89,38 @@ const AboutUs = () => {
           </div>
 
           {/* Right Section  */}
-          <div className="flex flex-col items-start mt-12 md:mt-0">
+          <div className="flex flex-col items-start">
             <Label>{label}</Label>
-            <Heading colorText={colorText} secondColor="blue" className="mt-3 text-black-20">
+            <Heading
+              colorText={colorText}
+              secondColor="blue"
+              className="mt-3 text-black-20"
+            >
               {title}
             </Heading>
             <p className="text-text text-xl mt-3">{description}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full mt-12">
               <div className="flex items-center font-medium gap-5 font-sans">
                 <div className="">
-                  <Image src={`/svg/about-1.svg`} alt="About Us" width={60} height={60} className="w-[60px] h-[60px]"/>
+                  <Image
+                    src={`/svg/about-1.svg`}
+                    alt="About Us"
+                    width={60}
+                    height={60}
+                    className="w-[60px] h-[60px]"
+                  />
                 </div>
                 <p className="text-blue-50">{features[0]}</p>
               </div>
               <div className="flex items-center font-medium gap-5 font-sans">
                 <div className="">
-                  <Image src={`/svg/about-2.svg`} alt="About Us" width={60} height={60} className="w-[60px] h-[60px]"/>
+                  <Image
+                    src={`/svg/about-2.svg`}
+                    alt="About Us"
+                    width={60}
+                    height={60}
+                    className="w-[60px] h-[60px]"
+                  />
                 </div>
                 <p className="text-blue-50">{features[1]}</p>
               </div>
@@ -111,6 +133,20 @@ const AboutUs = () => {
             </ul>
           </div>
         </div>
+        <Image
+          src={"/svg/about-mask.svg"}
+          alt=""
+          className="absolute top-0 right-0"
+          width={108}
+          height={102}
+        />
+        <Image
+          src={"/svg/about-shape.svg"}
+          alt=""
+          className="absolute bottom-0 right-0"
+          width={210}
+          height={160}
+        />
       </section>
     </>
   );

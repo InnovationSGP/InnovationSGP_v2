@@ -11,7 +11,7 @@ const WhyChoseUs = () => {
 
   return (
     <>
-      <section className="bg-white py-[100px] gap-8 md:gap-4 flex md:flex-row flex-col container mx-auto px-3">
+      <section className="bg-white pt-10 pb-20 md:py-[100px] gap-8 md:gap-4 flex md:flex-row flex-col container mx-auto px-3">
         <div className="flex-1">
           <Label>{content.label}</Label>
           <Heading
