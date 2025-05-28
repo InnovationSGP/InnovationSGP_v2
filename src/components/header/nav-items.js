@@ -19,7 +19,7 @@ export const navItems = [
     },
     {
         label: 'Intel',
-        href: '/intel',
+        href: '/blog',
     },
     {
         label: 'About',
