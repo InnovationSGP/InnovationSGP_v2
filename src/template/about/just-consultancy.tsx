@@ -51,14 +51,14 @@ function JustConsultancy () {
               width={500}
               height={500}
               alt="Main"
-              className="w-full   rounded-2xl "
+              className="w-full object-cover rounded-2xl "
             />
             <Image
               src="/images/about.png"
               width={200}
               height={300}
               alt="Overlay"
-              className="absolute -mt-52 -left-8  h-72 rounded-2xl hidden sm:block"
+              className="absolute -mt-52 -left-8 object-cover h-72 rounded-2xl hidden sm:block"
             />
           </div>
         </div>
