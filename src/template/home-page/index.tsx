@@ -9,6 +9,7 @@ import Testimonials from './testimonials'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Blogs from './blogs'
+import { blogPosts } from '../services/blogs'
 
 const HomePageTemplate = () => {
   return (
@@ -19,7 +20,11 @@ const HomePageTemplate = () => {
       <OurServices/>
       <Clients/>
       <Testimonials/>
-      <Blogs/>
+      <Blogs 
+        title="Read our latest"
+        colorTitle="Blog posts"
+        label="Blogs"
+      data={blogPosts.slice(0,3)}/>
     </>
   )
 }

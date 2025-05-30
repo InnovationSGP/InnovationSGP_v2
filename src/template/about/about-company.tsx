@@ -11,17 +11,17 @@ const cardData = [
     desc: 'Our consultancy excels in providing quick solutions tailored to your business challenges',
   },
   {
-    img: '/images/innovation.png',
+    img: '/images/Quick-solutions.svg',
     title: 'Innovation',
     desc: 'Innovative solutions to help you stay ahead in a competitive market.',
   },
   {
-    img: '/images/support.png',
+    img: '/images/Quick-solutions.svg',
     title: 'Support',
     desc: 'Reliable support at every step of your growth journey.',
   },
   {
-    img: '/images/growth.png',
+    img: '/images/Quick-solutions.svg',
     title: 'Scalable Growth',
     desc: 'Scalable solutions tailored to meet your business needs.',
   },

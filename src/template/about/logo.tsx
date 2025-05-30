@@ -6,14 +6,14 @@ const logoList = [
     { name: 'paloalto', image: '/images/paloalto.png' },
     { name: 'kucoin', image: '/images/kucoin.png' },
     { name: 'mojo', image: '/images/mojo.png' },
-    { name: 'Thomas-Wilson', image: '/images/Thomas-Wilson.png' },
+    { name: 'Thomas-Wilson', image: '/images/paloalto.png' },
     { name: 'vivotek', image: '/images/vivotek.png' },
     { name: 'walmart', image: '/images/walmart.png' },
 ];
 
 function Logo() {
     return (
-        <section className='container mx-auto px-4 pb-16'>
+        <section className='container mx-auto px-4 pb-16 mt-20'>
             {/* Heading with side borders */}
             <div className="flex items-center justify-center gap-4 pb-10">
                 <div className="flex-grow h-px bg-gray-300" />
@@ -24,7 +24,7 @@ function Logo() {
             </div>
 
             {/* Logo Grid */}
-            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-6 gap-y-10 items-center'>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-10 items-center'>
                 {logoList.map((logo, index) => (
                     <div key={index} className="flex justify-center">
                         <Image

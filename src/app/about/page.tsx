@@ -4,6 +4,7 @@ import JustConsultancy from "@/template/about/just-consultancy";
 import Team from "@/template/about/team";
 import Logo from "@/template/about/logo";
 import Banner from "@/components/banner";
+import Testimonials from "@/template/home-page/testimonials";
 
 
 
@@ -19,6 +20,7 @@ export default function Home() {
       <AboutCompany />
       <JustConsultancy />
       <Team />
+      <Testimonials/>
       <Logo />
 
 
