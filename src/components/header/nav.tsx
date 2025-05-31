@@ -59,13 +59,13 @@ const Nav = () => {
                         className="flex items-center justify-between px-4 py-3 text-gray-800 hover:bg-gray-100"
                       >
                         {subItem?.label}
-                        {subItem?.subMenu && (
+                        {/* {subItem?.subMenu && (
                           <span className="text-gray-400 ml-2">{">"}</span>
-                        )}
+                        )} */}
                       </Link>
 
                       {/* 3rd-level submenu (visible on hover of this item or its child) */}
-                      {subItem?.subMenu && (
+                      {/* {subItem?.subMenu && (
                         <ul className="absolute top-0 left-full mt-0 hidden group-hover/submenu:block group-hover:block hover:block bg-white shadow-lg rounded-md z-50 min-w-[250px]">
                           {subItem?.subMenu.map((nestedItem:any, nestedIndex:number) => (
                             <li key={nestedIndex}>
@@ -78,7 +78,7 @@ const Nav = () => {
                             </li>
                           ))}
                         </ul>
-                      )}
+                      )} */}
                     </li>
                   ))}
                 </ul>
