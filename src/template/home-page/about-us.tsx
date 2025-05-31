@@ -53,7 +53,7 @@ const AboutUs = () => {
                 </figure>
               ))}
             </Slider>
-            <div className="bg-blue-40 absolute top-[330px] right-10 px-[28px] py-[35px] max-w-[208px] z-10 rounded-[12px]">
+            <div className="bg-blue-40 absolute top-[330px] right-5 md:right-10 p-5 md:px-[28px] md:py-[35px] max-w-[208px] z-10 rounded-[12px]">
               <h4 className="font-semibold text-5xl text-[#E9EEF8]">
                 {happyCustomer}
               </h4>
@@ -62,7 +62,7 @@ const AboutUs = () => {
               </p>
             </div>
             {/* Nav buttons  */}
-            <div className="bg-[#F7FBFF] flex items-center gap-3 rounded-tr-[13px] absolute bottom-[4px] left-[-2px] md:bottom-[6px] md:left-0 px-10 py-[22px] z-10">
+            <div className="bg-[#F7FBFF] flex items-center gap-3 rounded-tr-[13px] absolute bottom-[4px] left-[-2px] md:bottom-[6px] md:left-0 px-6 md:px-10 py-[22px] z-10">
               <button
                 onClick={() => slider?.current?.slickPrev()}
                 className="bg-black-10 h-10 w-10 cursor-pointer rounded-full flex items-center hover:bg-blue-10 justify-center rotate-180"

@@ -34,8 +34,8 @@ export const services = [
 const ServiceList = () => {
   return (
     <div className="container mx-auto border-t border-[#06323226] mt-[54px] space-y-4">
-      {services.map((service) => (
-        <div className="border-[#06323226] border-b group mb-0">
+      {services.map((service, idx) => (
+        <div className="border-[#06323226] border-b group mb-0" key={idx}>
           <div
             key={service.id}
             className={`flex items-center justify-between rounded-3xl gap-10 cursor-pointer group-hover:bg-blue-10/10 pr-6 py-7 group-hover:py-0 transition-all`}
