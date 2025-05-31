@@ -4,6 +4,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
   ],
+  "useEslintrc": true,
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
@@ -11,3 +12,4 @@
     "react/no-unescaped-entities": "warn"
   }
 }
+
