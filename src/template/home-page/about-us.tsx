@@ -7,16 +7,10 @@ import Image from "next/image";
 import Slider from "react-slick";
 import List from "@/components/ui/list";
 
-const AboutUs = () => {
+const AboutUs = ({ data }: any) => {
   const { about } = homeContent;
   const {
-    label,
-    title,
-    colorText,
-    description,
-    features,
     happyCustomer,
-    images,
   } = about;
 
   var settings = {
@@ -41,10 +35,10 @@ const AboutUs = () => {
         <div className="grid container mx-auto px-3 grid-cols-1 md:grid-cols-2 md:gap-10">
           <div className="relative rounded-[16px] grid-order mt-10 md:mt-0">
             <Slider {...settings} ref={slider}>
-              {[1, 2, 3]?.map((item, idx) => (
+              {data?.about_images?.map((item:any, idx:number) => (
                 <figure key={idx}>
                   <Image
-                    src={"/images/about.png"}
+                    src={item}
                     alt="About Us"
                     width={586}
                     height={448}
@@ -90,46 +84,45 @@ const AboutUs = () => {
 
           {/* Right Section  */}
           <div className="flex flex-col items-start">
-            <Label>{label}</Label>
+            <Label>{data?.about_label}</Label>
             <Heading
-              colorText={colorText}
+              colorText={data?.about_color_title}
               secondColor="blue"
               className="mt-3 text-black-20"
             >
-              {title}
+              {data?.about_plain_title}
             </Heading>
-            <p className="text-text text-xl mt-3">{description}</p>
+            <div className="text-text text-xl mt-3">
+              <div dangerouslySetInnerHTML={{ __html: data?.about_caption }} />
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full mt-12">
-              <div className="flex items-center font-medium gap-5 font-sans">
-                <div className="">
-                  <Image
-                    src={`/svg/about-1.svg`}
-                    alt="About Us"
-                    width={60}
-                    height={60}
-                    className="w-[60px] h-[60px]"
-                  />
+              {data?.about_icon_list?.map((item:any, idx:number) => (
+                <div
+                  key={idx}
+                  className="flex items-center font-medium gap-5 font-sans"
+                >
+                  <div className="">
+                    <Image
+                      src={item?.icon.url}
+                      alt="About Us"
+                      width={60}
+                      height={60}
+                      className="w-[60px] h-[60px]"
+                    />
+                  </div>
+                  <p className="text-blue-50">{item.text}</p>
                 </div>
-                <p className="text-blue-50">{features[0]}</p>
-              </div>
-              <div className="flex items-center font-medium gap-5 font-sans">
-                <div className="">
-                  <Image
-                    src={`/svg/about-2.svg`}
-                    alt="About Us"
-                    width={60}
-                    height={60}
-                    className="w-[60px] h-[60px]"
-                  />
-                </div>
-                <p className="text-blue-50">{features[1]}</p>
-              </div>
+              ))}
             </div>
             {/* border  */}
             <div className="bg-[#0632321A] h-[1px] w-full my-[34px]" />
             <ul className="flex flex-col gap-3">
-              <List>{features[2]}</List>
-              <List>{features[3]}</List>
+              {
+                data?.about_list?.map((item:any,idx:number)=>(
+                  <List key={idx}>{item?.text}</List>
+                ))
+              }
             </ul>
           </div>
         </div>

@@ -2,12 +2,15 @@
 import Button from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Label from "@/components/ui/label";
+import { fetchAPI } from "@/config/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-function FeatureTopics() {
-  const [activeCategory, setActiveCategory] = useState(categories?.[0].label);
-  console.log(activeCategory, "activeCategory");
+function FeatureTopics({categories}:any) {
+  const [activeCategory, setActiveCategory] = useState(categories?.[0].slug);
+  const router = useRouter()
+
   return (
     <div className="pt-14">
       <section className="container mx-auto px-4">
@@ -22,16 +25,19 @@ function FeatureTopics() {
 
           {/* Right Column: Filter Buttons */}
           <div className="flex flex-wrap gap-3 justify-start md:justify-end">
-            {categories.map((item, index) => (
+            {categories?.map((item:any, index:number) => (
               <button
                 key={index}
-                onClick={() => setActiveCategory(item.label)}
+                onClick={() => {
+                  setActiveCategory(item.slug);
+                  router.push(`?id=${item.id}`)
+                }}
                 className={`leading-[15px] font-medium bgwhite cursor-pointer border border-[#E4E4E4] px-4 py-3 rounded-[9px]
-                  ${item.label === activeCategory ? 
+                  ${item.slug === activeCategory ? 
                     "bg-[#486EC4] text-white" : 
                     "bg-[#F5F5F5] text-[#5F5F5F]"} 
                   `}>
-                {item.label}
+                {item.name}
               </button>
             ))}
           </div>
@@ -43,30 +49,3 @@ function FeatureTopics() {
 
 export default FeatureTopics;
 
-const categories = [
-  {
-    label: "Energy",
-    href: "",
-    styleType: "primary",
-  },
-  {
-    label: "Life style",
-    href: "",
-    styleType: "secondary",
-  },
-  {
-    label: "Broadband",
-    href: "",
-    styleType: "secondary",
-  },
-  {
-    label: "Insurance",
-    href: "",
-    styleType: "secondary",
-  },
-  {
-    label: "News",
-    href: "",
-    styleType: "secondary",
-  },
-];

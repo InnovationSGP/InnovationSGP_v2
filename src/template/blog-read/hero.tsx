@@ -29,7 +29,7 @@ function Hero() {
     return (
         <section className='bg-gradient-to-b from-[#EFF7FF] to-white pt-24'>
             <div className='container mx-auto px-4'>
-                <div className='flex flex-col lg:flex-row gap-10'>
+                <div className='flex flex-col lg:flex-row gap-10 mb-20  '>
                     {/* Left Content */}
                     <div className='w-full lg:w-2/3'>
                         <Image
@@ -62,7 +62,7 @@ function Hero() {
 
                     {/* Right Sidebar */}
                     <div className='w-full lg:w-1/3'>
-                        <Heading colorText='You Like' className="mt-10 text-black-20">
+                        <Heading colorText='You Like' className="mt-10 md:mt-0 text-black-20">
                             Maybe 
                         </Heading>
                         <div className="mt-6 flex flex-col gap-6">

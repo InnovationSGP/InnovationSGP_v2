@@ -6,40 +6,40 @@ import Image from "next/image";
 import React from "react";
 import { homeContent } from "./content";
 
-const WhyChoseUs = () => {
+const WhyChoseUs = ({data}:any) => {
+  console.log("🚀 ~ WhyChoseUs ~ data:", data)
   const content = homeContent.whyChooseUs;
 
   return (
     <>
       <section className="bg-white pt-10 pb-20 md:py-[100px] gap-8 md:gap-4 flex md:flex-row flex-col container mx-auto px-3">
         <div className="flex-1">
-          <Label>{content.label}</Label>
+          <Label>{data?.chose_us_label}</Label>
           <Heading
-            colorText={content.colorText}
+            colorText={data?.chose_us_color_title}
             secondColor="blue"
             className="mt-4 mb-3 !leading-10 md:!text-[36px]"
             style={{ lineHeight: "42px !important" }}
           >
-            {content.title}
+            {data?.chose_us_plain_title}
           </Heading>
-          {content.description.map((text, index) => (
-            <p key={index} className="text-text">
-              {text}
-            </p>
-          ))}
+            <div className="text-text">
+              {data?.chose_us_description}
+            </div>
+          
           <ul className="mt-10 text-lg text-black-20 flex flex-col gap-[11px]">
-            {content.list.map((item, index) => (
-              <List key={index}>{item}</List>
+            {data?.chose_us_list?.map((item:any, index:number) => (
+              <List key={index}>{item.text}</List>
             ))}
           </ul>
           <div className="flex mt-10">
-            <Button>{content.buttonText}</Button>
+            <Button href={data?.chose_us_button_link}>{content.buttonText}</Button>
           </div>
         </div>
 
         <div className="max-w-[350px] w-full order-last md:order-none">
           <Image
-            src={content.image}
+            src={data?.chose_us_image}
             alt="Choose Us Image"
             width={370}
             height={504}
@@ -55,17 +55,17 @@ const WhyChoseUs = () => {
               height={50}
             />
             <Heading
-              colorText={content.commitment.colorText}
+              colorText={data?.chose_us_sub_color_title}
               className="mt-4 mb-3 !leading-10 !text-2xl !md:leading-[30px]"
               style={{ lineHeight: "32px !important" }}
               secondColor="blue"
             >
-              {content.commitment.heading}
+              {data?.chose_us_sub_plain_title}
             </Heading>
           </div>
           <div className="h-[1px] bg-[#0632321A] w-full my-9" />
           <div className="flex flex-col gap-10">
-            {content.features.map((feature, index) => (
+            {data?.chose_us_icon_list?.map((feature:any, index:number) => (
               <div key={index} className="flex items-center gap-4">
                 <Image
                   src={feature.icon}
@@ -77,7 +77,7 @@ const WhyChoseUs = () => {
                   <h6 className="text-lg text-[#1F1F1F] font-semibold">
                     {feature.title}
                   </h6>
-                  <p className="text-sm text-text">{feature.description}</p>
+                  <p className="text-sm text-text">{feature.caption}</p>
                 </div>
               </div>
             ))}

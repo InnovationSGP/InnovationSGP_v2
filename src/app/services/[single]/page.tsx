@@ -1,15 +1,31 @@
 import WorkProcess from "@/template/services/work-process";
-import Hero from "../../template/services/hero";
+import Hero from "../../../template/services/hero";
 import Blogcard from "@/template/services/blog-card";
+import { fetchAPI } from "@/config/api";
 
+async function getData(slug: any) {
+  const pageData = await fetchAPI({
+    endpoint: `services?slug=${slug}`,
+  });
+  const latesPost = await fetchAPI({
+    endpoint: `posts?per_page=3`,
+  });
 
-export default function Home() {
+  return {
+    pageData,
+    latesPost
+  };
+}
+
+export default async function Home({params}:any) {
+  const {single} = await params
+  const {pageData, latesPost} = await getData(single)
+
   return (
     <>
       <Hero />
       <WorkProcess
         lists={[]}
-
         heading="We follow clear and simple steps to"
         colorText=" deliver the right solution"
         mainImage="/images/about.png"
@@ -66,11 +82,6 @@ export default function Home() {
         headingSub="Blog posts"
        
       />
-
-
-
-
     </>
-
   );
 }
