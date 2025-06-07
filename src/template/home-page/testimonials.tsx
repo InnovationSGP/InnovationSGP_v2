@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import Slider from "react-slick";
 
-const Testimonials = () => {
+const Testimonials = ({data}:any) => {
     const slider = React.useRef<any>(null);
 
   return (
@@ -51,7 +51,7 @@ const Testimonials = () => {
         </div>
         <div className="relative">
           <Slider {...settings} ref={slider}>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {data?.testimonials?.map((t:any, index:number) => (
               <div
                 key={index}
                 className="flex z-10 items-center gap-4 bg-[#2B4A91] rounded-[16px] px-[32px] py-[35px] text-white"
@@ -59,29 +59,27 @@ const Testimonials = () => {
                 <div className="flex items-center gap-2">
                   <Image src="/svg/qoute.svg" alt="" width={21} height={24} />
                   <h6 className="text- text-lg font-sora font-semibold">
-                    Creative Services!
+                    {t?.title?.rendered}
                   </h6>
                 </div>
                 <div className="flex items-center gap-1 mt-3">
                   <Image src={"/svg/star.svg"} width={92} alt="" height={16} />
-                  <span className="text-sm font-medium">4.5</span>
+                  <span className="text-sm font-medium">{t?.acf?.testimonial_rating}</span>
                 </div>
                 <p className="mt-5 text-[13px] text-gray-200 mb-[61px]">
-                  Dramatically enable resource sucking only user. Dynamically
-                  myocardinate into standards experiences had without make
-                  flexible best practices
+                  {t?.acf?.testimonial_review}
                 </p>
                 <div className="flex items-center gap-3">
                   <Image
-                    src={"/images/user.jpg"}
+                    src={t?.acf?.testimonial_image}
                     width={66}
                     alt=""
                     height={66}
                     className="rounded-full"
                   />
                   <div>
-                    <h6 className="font-sora font-semibold">Maisha Jakulin</h6>
-                    <p className="mb-2 text-sm text-gray-400">HR Manager</p>
+                    <h6 className="font-sora font-semibold">{t?.acf?.testimonial_name}</h6>
+                    <p className="mb-2 text-sm text-gray-400">{t?.acf?.testimonial_designation}</p>
                   </div>
                 </div>
               </div>

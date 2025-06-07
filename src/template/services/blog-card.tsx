@@ -1,8 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchAPI } from "@/config/api";
 
-function BlogCard({ post }: any) {
+
+async function BlogCard({ post }: any) {
+  const res = await fetchAPI({
+    endpoint: `users/${post?.author}`,
+  });
   return (
     <>
       <div
@@ -25,20 +30,20 @@ function BlogCard({ post }: any) {
               alt={post?.author}
               className="rounded-full h-10 w-10 object-cover"
             />
-            <h4 className="text-sm font-medium">
-              <span className="text-gray-400">By</span> {post?.author}
+            <h4 className="text-sm font-medium capitalize">
+              <span className="text-gray-400">By</span> {res?.name}
             </h4>
           </div>
           <div className="h-[1px] bg-[#0632321A] w-full my-[23px]" />
           <h2 className="text-2xl font-semibold pb-4 text-blue-30">
             <Link
-              href={`/blog/single`}
+              href={`/blog/${post?.slug}`}
               className="font-medium hover:underline font-dmsans"
             >
-              {post?.title}
+              {post?.title?.rendered}
             </Link>
           </h2>
-          <p className="text-gray-600">{post?.description}</p>
+          <div className="text-gray-600" dangerouslySetInnerHTML={{ __html: post?.excerpt?.rendered }}/>
           <div className="mt-6">
             <Link
               href={`/blog/single`}

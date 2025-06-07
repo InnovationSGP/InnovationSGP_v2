@@ -5,28 +5,30 @@ import React from "react";
 import ServiceList from "./service-list";
 import MobileServiceList from "./mobile-service-list";
 
-const OurServices = () => {
+const OurServices = ({data}:any) => {
+  console.log("🚀 ~ OurServices ~ data:", data)
+
   return (
     <>
       <section className="mb-[60px] container mx-auto px-3">
         <div className="flex flex-col md:flex-row items-center justify-start md:justify-between">
           <div>
-            <Label>{`Our Services`}</Label>
+            <Label>{data?.our_service_label}</Label>
             <Heading
-              colorText={`professional talents`}
+              colorText={data?.our_service_color_title}
               secondColor="blue"
               className="mt-4 mb-3 !leading-10 max-w-[817px]"
             >
-              Deliver efficiently and connect 
+              {data?.our_service_plain_title}
             </Heading>
           </div>
-          <Button className="hidden md:flex">Contact Us</Button>
+          <Button href={data?.our_service_button_url} className="hidden md:flex">Contact Us</Button>
         </div>
         <section className="hidden md:block">
-            <ServiceList/>
+            <ServiceList data={data?.our_service_service}/>
         </section>
         <section className="md:hidden">
-            <MobileServiceList/>
+            <MobileServiceList data={data?.our_service_service}/>
         </section>
       </section>
     </>

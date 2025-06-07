@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const Clients = () => {
+const Clients = ({data}:any) => {
   return (
     <section className="container mx-auto px-3 mb-[60px]">
       <div className="relative mb-[24px]">
@@ -11,18 +11,30 @@ const Clients = () => {
         </h2>
       </div>
       <div className="md:flex justify-around hidden mt-10 items-center">
-          <Image src="/images/logo-1.svg" alt="" className="" width={113} height={35}/>
-          <Image src="/images/logo-2.png" alt="" className="" width={204} height={35}/>
-          <Image src="/images/logo-3.svg" alt="" className="" width={136} height={91}/>
+          {
+            data?.home_client?.map((item:any,idx:number)=>{
+              return(
+                <img src={item} alt="" className="w-[113px]" key={idx} />
+              )
+            })
+          }
       </div>
       <div className="md:hidden logo-scroller mt-10">
-        <div className="logo-track">
-          <Image src="/images/logo-1.svg" alt="Logo 1" width={113} height={35} className="w-[90px]"/>
-          <Image src="/images/logo-2.png" alt="Logo 2" width={204} height={35} className="w-[90px]"/>
-          <Image src="/images/logo-3.svg" alt="Logo 3" width={136} height={91} className="w-[90px]"/>
-          <Image src="/images/logo-1.svg" alt="Logo 1" width={113} height={35} className="w-[90px]"/>
-          <Image src="/images/logo-2.png" alt="Logo 2" width={204} height={35} className="w-[90px]"/>
-          <Image src="/images/logo-3.svg" alt="Logo 3" width={136} height={91} className="w-[90px]"/>
+        <div className="logo-track flex">
+          {
+            data?.home_client?.map((item:any,idx:number)=>{
+              return(
+                <img src={item} alt="" className="w-[113px]" key={idx} />
+              )
+            })
+          }
+          {
+            data?.home_client?.map((item:any,idx:number)=>{
+              return(
+                <img src={item} alt="" className="w-[113px]" key={idx} />
+              )
+            })
+          }
         </div>
       </div>
 

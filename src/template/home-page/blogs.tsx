@@ -1,9 +1,11 @@
+"use client"
 import React from "react";
 import BlogCard from "../services/blog-card";
 import Label from "@/components/ui/label";
 import Heading from "@/components/ui/heading";
 
 const Blogs = ({ data, title, colorTitle, label }: any) => {
+  console.log("🚀 ~ Blogs ~ data:", data)
   return (
     <section className="home_page_blog_gradient">
       <div className="container mx-auto px-3 py-[117px]">

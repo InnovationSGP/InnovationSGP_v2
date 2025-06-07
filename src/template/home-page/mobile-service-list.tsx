@@ -1,17 +1,16 @@
 "use client"
 import Image from "next/image";
 import React from "react";
-import { services } from "./service-list";
 import Slider from "react-slick";
 
-const MobileServiceList = () => {
+const MobileServiceList = ({data}:any) => {
   return (
     <div className="container mx-auto mt-5 space-y-4 mb-24">
       <Slider {...settings}>
-        {services.map((service) => (
+        {data?.map((service:any, idx:number) => (
           <div
             className="border-[#06323226] group mb-0"
-            key={service.id}
+            key={idx}
           >
             <Image
               src={service.image}
@@ -35,7 +34,7 @@ const MobileServiceList = () => {
               </div>
             </div>
             <p className="text-[#515151] max-w-[400px] mt-3 mb-8">
-              {service.description}
+              {service.caption}
             </p>
           </div>
         ))}

@@ -13,12 +13,6 @@ import Blogs from "./blogs";
 import { blogPosts } from "../services/blogs";
 
 const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
-  console.log(
-    "🚀 ~ homepage, testimonials, blogs:",
-    homepage,
-    testimonials,
-    blogs
-  );
   const {
     about_caption,
     about_color_title,
@@ -86,14 +80,22 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
           chose_us_sub_plain_title,
         }}
       />
-      <OurServices />
-      <Clients />
-      <Testimonials />
+      <OurServices
+        data={{
+          our_service_button_url,
+          our_service_color_title,
+          our_service_label,
+          our_service_plain_title,
+          our_service_service,
+        }}
+      />
+      <Clients data={{ home_client }} />
+      <Testimonials data={{ testimonials }} />
       <Blogs
         title="Read our latest"
         colorTitle="Blog posts"
         label="Blogs"
-        data={blogPosts.slice(0, 3)}
+        data={blogs.slice(0, 3)}
       />
     </>
   );

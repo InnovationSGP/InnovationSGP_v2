@@ -1,40 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-export const services = [
-  {
-    id: 1,
-    title: "Deploy fast and safe",
-    description:
-      "Deploy your solutions quickly and securely without compromising quality. Our streamlined approach minimizes downtime, ensuring smooth and stable rollouts.",
-    icon: "/svg/service-icon.svg",
-    active: false,
-    image: "/images/service-image.jpg",
-  },
-  {
-    id: 2,
-    title: "Project Management & delivery",
-    description:
-      "We deliver end-to-end project management solutions to keep your initiatives on time and on budget. With strategic planning and agile execution, we turn ideas into results.",
-    image: "/images/service-image.jpg",
-    icon: "/svg/service-icon.svg",
-    active: true,
-  },
-  {
-    id: 3,
-    title: "Agile Product Delivery",
-    image: "/images/service-image.jpg",
-    description:
-      "We help you bring products to market faster with agile delivery methods. Our approach ensures continuous improvement, rapid iterations, and customer-focused outcomes.",
-    icon: "/svg/service-icon.svg",
-    active: false,
-  },
-];
-
-const ServiceList = () => {
+const ServiceList = ({ data }: any) => {
   return (
     <div className="container mx-auto border-t border-[#06323226] mt-[54px] space-y-4">
-      {services.map((service, idx) => (
+      {data?.map((service: any, idx: number) => (
         <div className="border-[#06323226] border-b group mb-0" key={idx}>
           <div
             key={service.id}
@@ -64,12 +35,14 @@ const ServiceList = () => {
             </div>
             <div className="flex items-center justify-between gap-10">
               <p className="text-sm text-[#515151] max-w-[400px] mt-1">
-                {service.description}
+                {service.caption}
               </p>
               <div className="pt-2">
-                <button className="p-2 rounded-full border border-blue-10 text-blue-30 text-2xl w-[32px] h-[32px] flex justify-center items-center">
+                <Link href={service?.link || "#"}>
+                  <button className="p-2 rounded-full border border-blue-10 text-blue-30 text-2xl w-[32px] h-[32px] flex justify-center items-center">
                     <span className="-mt-[5px]">›</span>
-                </button>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
