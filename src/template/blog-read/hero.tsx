@@ -1,4 +1,5 @@
 import Heading from '@/components/ui/heading'
+import { getMediaURL } from '@/utils'
 import Image from 'next/image'
 import React from 'react'
 
@@ -25,7 +26,8 @@ const suggestions = [
     }
 ]
 
-function Hero() {
+function Hero({latesposts, post}:any) {
+    console.log("🚀 ~ Hero ~ post:", post)
     return (
         <section className='bg-gradient-to-b from-[#EFF7FF] to-white pt-24'>
             <div className='container mx-auto px-4'>
@@ -33,31 +35,17 @@ function Hero() {
                     {/* Left Content */}
                     <div className='w-full lg:w-2/3'>
                         <Image
-                            src='/images/blog-read.png'
+                            src={getMediaURL(post)}
                             alt="Main Article"
                             width={500}
                             height={500}
                             className="w-full h-[300px] md:h-[400px] lg:h-[500px] object-cover rounded-[25px]"
                         />
-                        <Heading colorText='Internet For Business' className="mt-10 text-black-20">
-                            How To Make Money From
+                        <Heading className="mt-10 text-black-20">
+                            {post?.title?.rendered}
                         </Heading>
                         {/* Paragraphs */}
-                        {[
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-                            "Duis aute irure dolor in reprehenderit in voluptate velit esse...",
-                            "Sed ut perspiciatis unde omnis iste natus error...",
-                            "Nemo enim ipsam voluptatem quia voluptas sit aspernatur...",
-                            "Neque porro quisquam est, qui dolorem ipsum quia dolor...",
-                            "Ut enim ad minima veniam, quis nostrum exercitationem...",
-                            "But I must explain to you how all this mistaken idea...",
-                            "No one rejects, dislikes, or avoids pleasure itself...",
-                            "Nor again is there anyone who loves or pursues pain...",
-                        ].map((text, i) => (
-                            <p key={i} className={`text-[#2D2D2D] ${i % 2 === 0 ? 'py-3' : 'pb-3'}`}>
-                                {text}
-                            </p>
-                        ))}
+                        <div className='content' dangerouslySetInnerHTML={{ __html: post?.content?.rendered}}/>
                     </div>
 
                     {/* Right Sidebar */}
@@ -66,19 +54,19 @@ function Hero() {
                             Maybe 
                         </Heading>
                         <div className="mt-6 flex flex-col gap-6">
-                            {suggestions.map((item, index) => (
+                            {latesposts?.map((item:any, index:number) => (
                                 <div key={index} className="flex gap-4 items-start">
                                     <Image
-                                        src={item.image}
-                                        alt={item.title}
+                                        src={getMediaURL(item)}
+                                        alt={``}
                                         width={100}
                                         height={100}
                                         className="w-[100px] h-[80px] rounded-[12px] object-cover flex-shrink-0"
                                     />
                                     <div className='flex flex-col'>
-                                        <span className='text-sm text-gray-500'>{item.date}</span>
+                                        <span className='text-sm text-gray-500'>{item?.date_gmt}</span>
                                         <h4 className='text-md font-medium text-[#2D2D2D] leading-snug'>
-                                            {item.title}
+                                            {item?.title?.rendered}
                                         </h4>
                                     </div>
                                 </div>

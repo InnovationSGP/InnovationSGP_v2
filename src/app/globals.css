@@ -114,3 +114,17 @@ span {
     order: 2;
   }
 }
+
+
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h1{
+  font-size: 22px;
+  font-weight: 600;
+}
+.content h6{
+  font-size: 20px;
+  font-weight: 600;
+}
