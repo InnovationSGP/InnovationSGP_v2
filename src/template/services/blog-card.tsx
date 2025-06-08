@@ -1,13 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { fetchAPI } from "@/config/api";
-
+import { getMediaURL } from "@/utils";
 
 async function BlogCard({ post }: any) {
-  const res = await fetchAPI({
-    endpoint: `users/${post?.author}`,
-  });
   return (
     <>
       <div
@@ -15,7 +11,7 @@ async function BlogCard({ post }: any) {
         className="bg-white p-3 rounded-2xl border border-[#EDEDED] transition pb-4"
       >
         <Image
-          src={"/images/about.png"}
+          src={getMediaURL(post)}
           width={500}
           height={300}
           alt={post?.title}
@@ -31,7 +27,7 @@ async function BlogCard({ post }: any) {
               className="rounded-full h-10 w-10 object-cover"
             />
             <h4 className="text-sm font-medium capitalize">
-              <span className="text-gray-400">By</span> {res?.name}
+              <span className="text-gray-400">By</span> InnovationSGP
             </h4>
           </div>
           <div className="h-[1px] bg-[#0632321A] w-full my-[23px]" />

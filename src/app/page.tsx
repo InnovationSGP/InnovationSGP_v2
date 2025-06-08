@@ -9,7 +9,7 @@ async function getData() {
     endpoint: "testimonial",
   });
   const blogsRes = await fetchAPI({
-    endpoint: "posts",
+    endpoint: "posts?_embed",
   });
 
   return {

@@ -11,7 +11,8 @@ const logoList = [
     { name: 'walmart', image: '/images/walmart.png' },
 ];
 
-function Logo() {
+function Logo({data}:any) {
+    console.log("🚀 ~ Logo ~ data:", data)
     return (
         <section className='container mx-auto px-4 pb-16 mt-20'>
             {/* Heading with side borders */}
@@ -24,15 +25,15 @@ function Logo() {
             </div>
 
             {/* Logo Grid */}
-            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-10 items-center'>
-                {logoList.map((logo, index) => (
+            <div className='flex justify-center gap-x-12 gap-y-10 flex-wrap items-center'>
+                {data?.map((logo:any, index:number) => (
                     <div key={index} className="flex justify-center">
                         <Image
-                            src={logo.image}
-                            alt={logo.name}
+                            src={logo}
+                            alt={logo}
                             width={120}
                             height={60}
-                            className="object-contain w-auto h-12"
+                            className="object-contain w-[120px] max-h-12"
                         />
                     </div>
                 ))}

@@ -6,8 +6,8 @@ import React from "react";
 import Slider from "react-slick";
 
 const Testimonials = ({data}:any) => {
-    const slider = React.useRef<any>(null);
-
+  const slider = React.useRef<any>(null);
+  
   return (
     <section className="max-w-[1356px] mx-auto px-3">
       <div className="gradient rounded-[32px] py-[60px] px-3 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">

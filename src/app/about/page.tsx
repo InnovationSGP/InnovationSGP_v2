@@ -11,7 +11,7 @@ async function getData() {
     endpoint: "pages/91",
   });
   const memberRes = await fetchAPI({
-    endpoint: "members",
+    endpoint: "members?_embed",
   });
   const testimonialsRes = await fetchAPI({
     endpoint: "testimonial",
@@ -26,7 +26,24 @@ async function getData() {
 
 export default async function About() {
   const { aboutpage, members, testimonials } = await getData();
-  console.log("🚀 ~ About ~ aboutpage:", testimonials);
+
+  const {
+    about_us_label,
+    about_us_plain_title,
+    about_us_color_title,
+    about_us_discription,
+    about_us_button_link,
+    about_us_card,
+    about_label,
+    about_plain_title,
+    about_color_title,
+    about_caption,
+    about_icon_list,
+    about_list,
+    about_images,
+    about_section_button_url,
+    home_client
+  } = aboutpage.acf;
 
   return (
     <>
@@ -36,11 +53,31 @@ export default async function About() {
         headingText=" About Us"
         description=" Innovating with purpose, leading with strategy, and transforming at scale.."
       />
-      <AboutCompany />
-      <JustConsultancy />
-      <Team />
-      <Testimonials />
-      <Logo />
+      <AboutCompany
+        data={{
+          about_us_label,
+          about_us_plain_title,
+          about_us_color_title,
+          about_us_discription,
+          about_us_button_link,
+          about_us_card,
+        }}
+      />
+      <JustConsultancy
+        data={{
+          about_label,
+          about_plain_title,
+          about_color_title,
+          about_caption,
+          about_icon_list,
+          about_list,
+          about_images,
+          about_section_button_url
+        }}
+      />
+      <Team data={members} />
+      <Testimonials data={{testimonials}}/>
+      <Logo data={home_client}/>
     </>
   );
 }
