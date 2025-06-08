@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getMediaURL } from "@/utils";
 
 async function BlogCard({ post }: any) {
+  console.log("🚀 ~ BlogCard ~ post:", post)
   return (
     <>
       <div

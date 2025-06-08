@@ -3,31 +3,8 @@ import { getMediaURL } from '@/utils'
 import Image from 'next/image'
 import React from 'react'
 
-const suggestions = [
-    {
-        image: '/images/internet.png',
-        date: 'Nov 10, 2021',
-        title: 'How To Make Money From Internet'
-    },
-    {
-        image: '/images/internet.png',
-        date: 'Nov 10, 2021',
-        title: 'Tips To Saving Money In Pandemic'
-    },
-    {
-        image: '/images/internet.png',
-        date: 'Nov 10, 2021',
-        title: 'Tips Business For Make Saving'
-    },
-    {
-        image: '/images/internet.png',
-        date: 'Nov 10, 2021',
-        title: 'Tips Saving Money For Business'
-    }
-]
 
 function Hero({latesposts, post}:any) {
-    console.log("🚀 ~ Hero ~ post:", post)
     return (
         <section className='bg-gradient-to-b from-[#EFF7FF] to-white pt-24'>
             <div className='container mx-auto px-4'>

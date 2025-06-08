@@ -6,9 +6,9 @@ import Heading from "@/components/ui/heading";
 const Blogs = ({ data, title, colorTitle, label }: any) => {
   return (
     <section className="home_page_blog_gradient">
-      <div className="container mx-auto px-3 py-[117px]">
+      <div className="container mx-auto px-3 !pt-16 pb-[117px]">
         <div className="flex justify-between flex-col text-center items-center gap-4 mb-12">
-          <Label>{label}</Label>
+          {label && <Label>{label}</Label>}
           <Heading colorText={colorTitle} className="">
             {title}
           </Heading>

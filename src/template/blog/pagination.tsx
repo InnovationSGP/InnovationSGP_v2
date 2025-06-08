@@ -1,11 +1,16 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const Pagination = ({ totalPages = 10 }) => {
+const Pagination = ({ totalPages = 10, bg }:any) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
 
   const goToPage = (page: number) => {
     setCurrentPage(page);
+    const params = new URLSearchParams(window.location.search);
+  params.set("page", page.toString());
+  router.push(`?${params.toString()}`);
   };
 
   const pages = [];
@@ -26,7 +31,8 @@ const Pagination = ({ totalPages = 10 }) => {
   }
 
   return (
-    <div className="flex justify-between container mx-auto px-3 items-center gap-4 py-4 mt-[90px] mb-[70px]">
+    <section className={`pt-[90px] pb-[70px] ${bg && 'bg-[#EFF7FF]'}`}>
+      <div className={`flex justify-between container mx-auto px-3 items-center gap-4 py-4`}>
       {/* Previous */}
 
       <button
@@ -88,6 +94,7 @@ const Pagination = ({ totalPages = 10 }) => {
         </svg>
       </button>
     </div>
+    </section>
   );
 };
 
