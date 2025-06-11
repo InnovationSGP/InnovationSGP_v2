@@ -37,11 +37,11 @@ export const navItems = [
         subMenu: [
             {
                 label: 'Feature Collections',
-                href: '#',
+                href: '/blog',
             },
             {
                 label: "News and Highlights",
-                href: "#"
+                href: "/news-highlight"
             }
         ]
     },

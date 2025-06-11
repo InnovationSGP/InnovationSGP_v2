@@ -7,25 +7,43 @@ import Testimonials from "@/template/home-page/testimonials";
 import { fetchAPI } from "@/config/api";
 
 async function getData() {
-  const res = await fetchAPI({
-    endpoint: "pages/91",
-  });
-  const memberRes = await fetchAPI({
-    endpoint: "members?_embed",
-  });
-  const testimonialsRes = await fetchAPI({
-    endpoint: "testimonial",
-  });
+  try {
+    const res = await fetchAPI({
+      endpoint: "pages/91",
+    });
+    const memberRes = await fetchAPI({
+      endpoint: "members?_embed",
+    });
+    const testimonialsRes = await fetchAPI({
+      endpoint: "testimonial",
+    });
 
-  return {
-    aboutpage: res,
-    members: memberRes,
-    testimonials: testimonialsRes,
-  };
+    return {
+      aboutpage: res,
+      members: memberRes,
+      testimonials: testimonialsRes,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return {
+      aboutpage: null,
+      members: [],
+      testimonials: [],
+    };
+  }
 }
 
 export default async function About() {
   const { aboutpage, members, testimonials } = await getData();
+
+  // If the aboutpage data is missing, display a fallback message or error
+  if (!aboutpage) {
+    return (
+      <div className="h-screen flex justify-center items-center text-center">
+        Error loading About page data. Please try again later.
+      </div>
+    );
+  }
 
   const {
     about_us_label,
@@ -49,9 +67,9 @@ export default async function About() {
     <>
       <Banner
         bgImage="/images/about-hero.png"
-        labelText="Home / About "
-        headingText=" About Us"
-        description=" Innovating with purpose, leading with strategy, and transforming at scale.."
+        labelText="Home / About"
+        headingText="About Us"
+        description="Innovating with purpose, leading with strategy, and transforming at scale.."
       />
       <AboutCompany
         data={{
@@ -72,12 +90,12 @@ export default async function About() {
           about_icon_list,
           about_list,
           about_images,
-          about_section_button_url
+          about_section_button_url,
         }}
       />
       <Team data={members} />
-      <Testimonials data={{testimonials}}/>
-      <Logo data={home_client}/>
+      <Testimonials data={{ testimonials }} />
+      <Logo data={home_client} />
     </>
   );
 }
