@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+:root {
+  --blue-10: #7f9ad6f7;
+  --blue-20: #486ec4;
+  --blue-30: #2951ac;
+  --blue-40: #193881;
+  --blue-50: #050950;
+  --black-10: #858585;
+  --black-20: #2d2d2d;
+  --text: #515151;
+}
+
+@theme inline {
+  --color-blue-10: var(--blue-10);
+  --color-blue-20: var(--blue-20);
+  --color-blue-30: var(--blue-30);
+  --color-blue-40: var(--blue-40);
+  --color-blue-50: var(--blue-50);
+  --color-black-10: var(--black-10);
+  --color-black-20: var(--black-20);
+  --color-text: var(--text);
+  --font-sans: var(--font-dm-sans);
+  --font-sora: var(--font-sora);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sora);
+}
+
+p,
+a,
+li,
+span {
+  font-family: var(--font-sans);
+}
+
+.container {
+  max-width: 1260px !important;
+}
+
+.white_button_gradient {
+  background: linear-gradient(180deg, #ffffff 0%, #b4b4d1 100%);
+}
+
+.gradient {
+  background: linear-gradient(120deg, #3d60ad 21.65%, #153170 78.35%);
+}
+
+.slick-list {
+  margin: 0 -10px;
+  z-index: 2;
+}
+.slick-slide > div {
+  padding: 0 10px;
+}
+
+.blog_gradient {
+  background: linear-gradient(180deg, #eff7ff 54.73%, #ffffff 105.65%);
+}
+.home_page_blog_gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(239, 247, 255, 0) 0%,
+    #eff7ff 50%,
+    #eff7ff 100%
+  );
+}
+
+.logo-scroller {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+  gap: 40px; /* space between logos */
+  align-items: center;
+}
+.slick-dots button {
+  padding: 0 !important;
+}
+.slick-dots li button:before {
+  font-size: 15px !important;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Optional: Mobile only */
+@media (min-width: 768px) {
+  .logo-track {
+    animation: none;
+    justify-content: space-around;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-order {
+    order: 2;
+  }
+}
+
+
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h1{
+  font-size: 22px;
+  font-weight: 600;
+}
+.content h6{
+  font-size: 20px;
+  font-weight: 600;
+}
