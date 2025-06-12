@@ -32,7 +32,7 @@ function WordProcess({ data }: any) {
 
           {/* Text Content */}
           <div className="w-full lg:w-1/2 mx-auto">
-            <Label>Work Process</Label>
+            <Label>Tech Consulting</Label>
 
             <Heading
               colorText={data?.steps_color_title}
