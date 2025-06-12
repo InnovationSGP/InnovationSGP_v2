@@ -22,10 +22,8 @@ async function getData(slug: any) {
 export default async function Home({ params }: any) {
   const { single } = await params;
   const { pageData, latesPost } = await getData(single);
-  console.log("🚀 ~ Home ~ pageData:", pageData)
   const { steps_plain_title, steps_color_title, step, steps_images } =
     pageData.acf;
-
   return (
     <>
       <Hero title={pageData?.title.rendered} excerpt={pageData?.excerpt?.rendered}/>
