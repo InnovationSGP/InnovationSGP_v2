@@ -36,7 +36,7 @@ function AboutCompany({data}:any) {
               <div className="  mb-4">
                 <Image
                   src={card.icon_}
-                  alt={card.plain_title??"no alt title provided"}
+                  alt={card.plain_title}
                   width={50}
                   height={50}
                   className="p-2 border border-[#486EC4] rounded-full bg-[#DFE8FF] overflow-hidden"

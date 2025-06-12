@@ -10,7 +10,7 @@ import Testimonials from "./testimonials";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Blogs from "./blogs";
-// import { blogPosts } from "../services/blogs";
+import { blogPosts } from "../services/blogs";
 
 const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
   const {

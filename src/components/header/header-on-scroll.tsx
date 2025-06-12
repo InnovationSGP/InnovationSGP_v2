@@ -10,7 +10,7 @@ const ScrollHeader = () => {
   return (
     <>
       <header
-        className={`fixed p-4 bg-blue-50 z-[100] hidden md:block left-0 w-full transition-all duration-300 linear py-4 ${
+        className={`fixed bg-blue-50 z-[100] hidden md:block left-0 w-full transition-all duration-300 linear py-4 ${
           isScrolled ? "top-0" : "-top-[100px]"
         }`}
       >

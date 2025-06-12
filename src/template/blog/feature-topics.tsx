@@ -17,7 +17,7 @@ function FeatureTopics({categories}:any) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-8 justify-between">
           {/* Left Column: Label and Heading */}
           <div>
-            <Label>INTEL</Label>
+            <Label>BLOGS</Label>
             <Heading colorText="Topics" className="mt-5 text-black-20">
               Feature
             </Heading>

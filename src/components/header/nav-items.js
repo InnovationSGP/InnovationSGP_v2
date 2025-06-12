@@ -28,7 +28,7 @@ export const navItems = [
         ],
     },
     {
-        label: 'Sectors',
+        label: 'Sector',
         href: '/sector',
     },
     {
@@ -36,12 +36,12 @@ export const navItems = [
         href: '/blog',
         subMenu: [
             {
-                label: 'Trending Topics',
+                label: 'Feature Collections',
                 href: '/blog',
             },
             {
                 label: "News and Highlights",
-                href: "/blog"
+                href: "/news-highlight"
             }
         ]
     },

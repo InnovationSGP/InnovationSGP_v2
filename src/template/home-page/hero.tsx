@@ -6,6 +6,7 @@ import React from "react";
 const Hero = ({
   data, bg
 }: any) => {
+  console.log("🚀 ~ data:", data)
 
   return (
     <>
