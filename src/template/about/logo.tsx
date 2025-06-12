@@ -2,16 +2,17 @@ import Heading from '@/components/ui/heading';
 import Image from 'next/image';
 import React from 'react';
 
-// const logoList = [
-//     { name: 'paloalto', image: '/images/paloalto.png' },
-//     { name: 'kucoin', image: '/images/kucoin.png' },
-//     { name: 'mojo', image: '/images/mojo.png' },
-//     { name: 'Thomas-Wilson', image: '/images/paloalto.png' },
-//     { name: 'vivotek', image: '/images/vivotek.png' },
-//     { name: 'walmart', image: '/images/walmart.png' },
-// ];
+const logoList = [
+    { name: 'paloalto', image: '/images/paloalto.png' },
+    { name: 'kucoin', image: '/images/kucoin.png' },
+    { name: 'mojo', image: '/images/mojo.png' },
+    { name: 'Thomas-Wilson', image: '/images/paloalto.png' },
+    { name: 'vivotek', image: '/images/vivotek.png' },
+    { name: 'walmart', image: '/images/walmart.png' },
+];
 
 function Logo({data}:any) {
+    console.log("🚀 ~ Logo ~ data:", data)
     return (
         <section className='container mx-auto px-4 pb-16 mt-20'>
             {/* Heading with side borders */}

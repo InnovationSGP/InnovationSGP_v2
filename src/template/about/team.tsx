@@ -5,10 +5,11 @@ import React from 'react';
 
 
 function Team({data}:any) {
+    console.log("🚀 ~ Team ~ data:", data)
     return (
         <section className='container mx-auto px-4 py-20'>
             <div className='text-center mb-12'>
-                <Label>Innovation</Label>
+                <Label>Just A Consultancy</Label>
                 <Heading colorText='Members' className="mt-3 text-black-20">
                     Expert Team
                 </Heading>

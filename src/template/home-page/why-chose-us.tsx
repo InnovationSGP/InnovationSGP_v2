@@ -7,6 +7,7 @@ import React from "react";
 import { homeContent } from "./content";
 
 const WhyChoseUs = ({data}:any) => {
+  console.log("🚀 ~ WhyChoseUs ~ data:", data)
   const content = homeContent.whyChooseUs;
 
   return (

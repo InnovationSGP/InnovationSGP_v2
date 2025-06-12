@@ -6,6 +6,7 @@ import { navItems } from "./nav-items";
 
 const Nav = () => {
   const pathname = usePathname();
+
   return (
     <ul className="flex items-center justify-center gap-10 relative">
       {navItems?.map((item, index) => {

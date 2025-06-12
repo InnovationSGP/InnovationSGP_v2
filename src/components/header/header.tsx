@@ -8,7 +8,7 @@ import MobileHeader from './mobile-header'
 const Header = () => {
   return (
     <>
-      <header className={`absolute m-2 top-0 left-0 w-full hidden md:block`}>
+      <header className={`absolute top-0 left-0 w-full hidden md:block`}>
         <div className="container mx-auto flex items-center font-sans justify-between px-6 py-4 w-full mt-6 rounded-[16px] bg-[#85858526] backdrop-blur-[12px]">
             <div className="flex-1">
               <Logo/>

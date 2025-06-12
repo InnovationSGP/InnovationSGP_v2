@@ -17,8 +17,8 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Innovation Strategy",
-  description: "Innovation Strategy",
+  title: "InnovationSGP",
+  description: "InnovationSGP",
 };
 
 export default function RootLayout({
