@@ -5,6 +5,40 @@ import { fetchAPI } from "@/config/api";
 import WordProcess from "@/template/services/word-process";
 import Blogs from "@/template/home-page/blogs";
 
+export async function generateMetadata({ params }: any) {
+  const { single } = await params;
+  const res = await fetchAPI({
+    endpoint: `services?slug=${single}`,
+  });
+  const yoast = res[0]?.yoast_head_json;
+  return {
+    title: yoast?.title?.replace(/&#0*39;/g, "'") || "Services", // decode HTML entity
+    description: yoast?.og_description, // you can add more if available
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/services/${single}`,
+    },
+    openGraph: {
+      title: yoast?.og_title.replace(/&#0*39;/g, "'"),
+      url: yoast?.og_url,
+      siteName: yoast?.og_site_name.replace(/&#0*39;/g, "'"),
+      type: yoast?.og_type,
+      locale: yoast?.og_locale,
+    },
+    twitter: {
+      card: yoast?.twitter_card,
+    },
+    robots: {
+      index: yoast?.robots.index === "index",
+      follow: yoast?.robots.follow === "follow",
+      maxSnippet: parseInt(yoast?.robots["max-snippet"]?.split(":")[1] ?? "-1"),
+      maxImagePreview: yoast?.robots["max-image-preview"]?.split(":")[1],
+      maxVideoPreview: parseInt(
+        yoast?.robots["max-video-preview"]?.split(":")[1] ?? "-1"
+      ),
+    },
+  };
+}
+
 async function getData(slug: any) {
   try {
     const pageData = await fetchAPI({

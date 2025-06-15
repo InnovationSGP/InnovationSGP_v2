@@ -119,6 +119,7 @@ const AboutUs = ({ data }: any) => {
             <div className="bg-[#0632321A] h-[1px] w-full my-[34px]" />
             <ul className="flex flex-col gap-3">
               {
+                data?.about_list?.length > 0 &&
                 data?.about_list?.map((item:any,idx:number)=>(
                   <List key={idx}>{item?.text}</List>
                 ))
