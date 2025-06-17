@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "../header/logo";
+import EmailForm from "./email-form";
 
 const Footer = () => {
   return (
@@ -12,7 +13,7 @@ const Footer = () => {
             Do you need free Consultation?
           </h4>
           <div className="flex items-center gap-4 z-1">
-            <Link href="">
+            <Link href="mailto:sales@innovationsgp.com">
               <Image
                 src="/svg/envlop.svg"
                 alt=""
@@ -107,15 +108,7 @@ const Footer = () => {
               <p className="text-[#E9EEF8] font-sans mt-[30px]">
                 Don’t miss the latest news
               </p>
-              <div className="bg-white p-[11px] pl-6 flex items-center w-full mt-4 rounded-l-[4px] rounded-r-[30px]">
-                <input placeholder="#E9EEF8" className="w-full" />
-                <Image
-                  src={"/svg/email-button.svg"}
-                  alt=""
-                  width={38}
-                  height={38}
-                />
-              </div>
+              <EmailForm/>
               <div className="flex items-center gap-2 mt-8 text-blue-10">
                 <Image
                   src={"/svg/bell-button.svg"}
