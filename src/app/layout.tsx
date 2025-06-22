@@ -5,6 +5,7 @@ import Footer from "@/components/footer/footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchAPI } from "@/config/api";
+import type {Metadata} from "next"
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -15,6 +16,7 @@ const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
 });
+
 
 
 const parseYoastValue = (val: any) => {
@@ -54,6 +56,9 @@ export async function generateMetadata() {
       maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
       maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
     } as any ,
+    icons: {
+      icon: "/images/favicon.png", // 👈 Ensure this file exists in /public
+    },
   };
 }
 
