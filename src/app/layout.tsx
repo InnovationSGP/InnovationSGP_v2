@@ -17,9 +17,20 @@ const sora = Sora({
 });
 
 
+const parseYoastValue = (val: any) => {
+  if (typeof val === "string") {
+    const parts = val.split(":");
+    return parseInt(parts.length > 1 ? parts[1] : parts[0], 10);
+  } else if (typeof val === "number") {
+    return val;
+  }
+  return -1;
+};
+
 export async function generateMetadata() {
   const {yoast_head_json} = await fetchAPI({ endpoint: "pages/34" })
   const yoast = yoast_head_json
+
   return {
     title: yoast.title.replace(/&#0*39;/g, "'"), // decode HTML entity
     description: yoast.og_description, // you can add more if available
@@ -39,10 +50,10 @@ export async function generateMetadata() {
     robots: {
       index: yoast.robots.index === "index",
       follow: yoast.robots.follow === "follow",
-      maxSnippet: parseInt(yoast.robots["max-snippet"]?.split(":")[1] ?? "-1"),
+      maxSnippet: parseYoastValue(yoast.robots["max-snippet"]),
       maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
       maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
-    },
+    } as any ,
   };
 }
 

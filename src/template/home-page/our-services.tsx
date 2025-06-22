@@ -6,8 +6,6 @@ import ServiceList from "./service-list";
 import MobileServiceList from "./mobile-service-list";
 
 const OurServices = ({data}:any) => {
-  console.log("🚀 ~ OurServices ~ data:", data)
-
   return (
     <>
       <section className="mb-[60px] container mx-auto px-3">
