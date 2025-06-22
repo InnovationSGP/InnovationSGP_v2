@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "../header/logo";
+import { fixedUrls } from "../header/nav-items";
 import EmailForm from "./email-form";
 
 const Footer = () => {
@@ -12,19 +13,13 @@ const Footer = () => {
           <h4 className="font-bold text-[28px] z-[1]">
             Do you need free Consultation?
           </h4>
-          <div className="flex items-center gap-4 z-1">
-            <Link href="mailto:sales@innovationsgp.com">
-              <Image
-                src="/svg/envlop.svg"
-                alt=""
-                width={76}
-                height={76}
-                className="w-[76px]"
-              />
-            </Link>
+          <div className="flex items-center gap-4 z-1 p-2 ">
+
             <div>
-              <p>Send e-Mail</p>
-              <p className="text-2xl font-medium">sales@innovationsgp.com</p>
+              <div className="flex-1 flex justify-end">
+                <Link href={fixedUrls.letsTalk} className="transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
+                                     active:translate-y-0 border-[#E6E6EE] border py-[7px] leading-[30px] white_button_gradient text-blue-50 font-medium rounded-full px-[24px]">Contact Us</Link>
+              </div>
             </div>
           </div>
           <Image

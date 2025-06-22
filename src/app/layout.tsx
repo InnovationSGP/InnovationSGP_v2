@@ -30,12 +30,17 @@ const parseYoastValue = (val: any) => {
 };
 
 export async function generateMetadata() {
-  const {yoast_head_json} = await fetchAPI({ endpoint: "pages/34" })
-  const yoast = yoast_head_json
+  try {
+    const { yoast_head_json } = await fetchAPI({ endpoint: "pages/34" });
+    const yoast = yoast_head_json;
+
+    if (!yoast) {
+      return getDefaultMetadata();
+    }
 
   return {
-    title: yoast.title.replace(/&#0*39;/g, "'"), // decode HTML entity
-    description: yoast.og_description, // you can add more if available
+    title: yoast.title.replace(/&#0*39;/g, "'") || "Home - InnovationSGP", // decode HTML entity
+    description: yoast.og_description || "Home - InnovationSGP", // you can add more if available
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     },
@@ -60,8 +65,22 @@ export async function generateMetadata() {
       icon: "/images/favicon.png", // 👈 Ensure this file exists in /public
     },
   };
-}
 
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+    return getDefaultMetadata();
+  }
+}
+function getDefaultMetadata(): Metadata {
+  return {
+    title: "Innovation Strategy Group",
+    description: "Innovation Strategy Group",
+    // alternates: {
+    //   canonical: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+    // },
+    // ... other default metadata
+  };
+}
 
 export default function RootLayout({
   children,

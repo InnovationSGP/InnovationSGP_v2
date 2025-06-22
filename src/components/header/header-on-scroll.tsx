@@ -4,6 +4,7 @@ import React from "react";
 import Nav from "./nav";
 import useScrollTrigger from "@/hooks/useScrollTrigger";
 import Logo from "./logo";
+import {fixedUrls} from "./nav-items"
 
 const ScrollHeader = () => {
   const isScrolled = useScrollTrigger(200);
@@ -23,7 +24,7 @@ const ScrollHeader = () => {
           </div>
           <div className="flex-1 flex justify-end">
             <Link
-              href="#"
+              href={fixedUrls.letsTalk}
               className="border-[#E6E6EE] border py-[7px] leading-[30px] white_button_gradient text-blue-50 font-medium rounded-full px-[24px]"
             >
               Lets Talk

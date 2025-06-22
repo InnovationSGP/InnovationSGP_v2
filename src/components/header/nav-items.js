@@ -50,3 +50,8 @@ export const navItems = [
         href: '/about',
     }
 ]
+
+export const fixedUrls = {
+    letsTalk: "/contact",
+    getStarted: "/contact"
+}

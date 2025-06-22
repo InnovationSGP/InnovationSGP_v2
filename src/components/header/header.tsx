@@ -4,6 +4,7 @@ import Nav from "./nav";
 import ScrollHeader from "./header-on-scroll";
 import Logo from "./logo";
 import MobileHeader from './mobile-header'
+import {fixedUrls} from "./nav-items"
 
 const Header = () => {
   return (
@@ -17,7 +18,7 @@ const Header = () => {
               <Nav/>
             </div>
             <div className="flex-1 flex justify-end">
-              <Link href="#" className="border-[#E6E6EE] border py-[7px] leading-[30px] white_button_gradient text-blue-50 font-medium rounded-full px-[24px]">Lets Talk</Link>
+              <Link href={fixedUrls.letsTalk} className="border-[#E6E6EE] border py-[7px] leading-[30px] white_button_gradient text-blue-50 font-medium rounded-full px-[24px]">Lets Talk</Link>
             </div>
         </div>
       </header>
