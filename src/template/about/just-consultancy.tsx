@@ -4,6 +4,7 @@ import Heading from "@/components/ui/heading";
 import Image from "next/image";
 import List from "@/components/ui/list";
 import Button from "@/components/ui/button";
+import { fixedUrls } from "@/components/header/nav-items";
 
 function JustConsultancy({ data }: any) {
   return (
@@ -48,7 +49,7 @@ function JustConsultancy({ data }: any) {
 
           <div className="max-w-[190px] w-full mt-8">
             <Button
-              href={data?.about_section_button_url}
+              href={fixedUrls.letsTalk}
               className="hidden md:flex"
             >
               Contact Us

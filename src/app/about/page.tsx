@@ -31,7 +31,7 @@ export async function generateMetadata() {
       maxSnippet: parseInt(yoast.robots["max-snippet"]?.split(":")[1] ?? "-1"),
       maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
       maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
-    },
+    } as any,
   };
 }
 

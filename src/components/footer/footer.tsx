@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "../header/logo";
-import { fixedUrls } from "../header/nav-items";
+import { fixedUrls, footerLinks } from "../header/nav-items";
 import EmailForm from "./email-form";
 
 const Footer = () => {
@@ -25,7 +25,7 @@ const Footer = () => {
           <Image
             src={"/svg/half-circle-shape.svg"}
             alt=""
-            className="absolute hidden md:block top-0 left-0"
+            className="absolute hidden md:block top-0 left-0 h-auto w-auto"
             width={108}
             height={102}
           />
@@ -44,8 +44,7 @@ const Footer = () => {
           <div className="md:w-[30%] md:border-r border-white/10 pt-[178px] pr-[51px]">
             <Logo />
             <p className="text-[#FCFCFC] mt-4 max-w-[340px] md:pb-[113px]">
-              Credibly harness client-centric opportunities with prospective
-              bandwidth
+              Project Management as a Service. Built for Complexity. Focused on Results.
             </p>
           </div>
           <div className="pt-8 md:pt-[178px] flex md:w-[70%] gap-8 md:gap-[77px] pb-[113px] flex-wrap md:pl-[51px]">
@@ -55,21 +54,13 @@ const Footer = () => {
                 Company
               </h5>
               <ul className="font-sans text-blue-10 mt-[30px] flex flex-col gap-3">
-                <li className="hover:text-white">
-                  <Link href="#">Who We Are?</Link>
-                </li>
-                <li className="hover:text-white">
-                  <Link href="#">Our Services</Link>
-                </li>
-                <li className="hover:text-white">
-                  <Link href="#">Meet Our Team</Link>
-                </li>
-                <li className="hover:text-white">
-                  <Link href="#">Latest Blog</Link>
-                </li>
-                <li className="hover:text-white">
-                  <Link href="#">Contact</Link>
-                </li>
+                {footerLinks?.map((item, index) => {
+                  return ( <li key={index} className="hover:text-white">
+                        <Link  href={item.href} >{item.label}</Link>
+                      </li>)
+
+                })}
+
               </ul>
             </div>
             {/* Service Link */}
@@ -96,24 +87,24 @@ const Footer = () => {
               </ul>
             </div>
             {/* Newsletter */}
-            <div>
-              <h5 className="font-medium text-white text-sora text-xl">
-                Newsletter
-              </h5>
-              <p className="text-[#E9EEF8] font-sans mt-[30px]">
-                Don’t miss the latest news
-              </p>
-              <EmailForm/>
-              <div className="flex items-center gap-2 mt-8 text-blue-10">
-                <Image
-                  src={"/svg/bell-button.svg"}
-                  alt=""
-                  width={38}
-                  height={38}
-                />
-                <p>Please sign up for notify any updates</p>
-              </div>
-            </div>
+            {/*<div>*/}
+            {/*  <h5 className="font-medium text-white text-sora text-xl">*/}
+            {/*    Newsletter*/}
+            {/*  </h5>*/}
+            {/*  <p className="text-[#E9EEF8] font-sans mt-[30px]">*/}
+            {/*    Don’t miss the latest news*/}
+            {/*  </p>*/}
+            {/*  <EmailForm/>*/}
+            {/*  <div className="flex items-center gap-2 mt-8 text-blue-10">*/}
+            {/*    <Image*/}
+            {/*      src={"/svg/bell-button.svg"}*/}
+            {/*      alt=""*/}
+            {/*      width={38}*/}
+            {/*      height={38}*/}
+            {/*    />*/}
+            {/*    <p>Please sign up for notify any updates</p>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
 
           </div>
         </div>

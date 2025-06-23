@@ -130,14 +130,14 @@ const AboutUs = ({ data }: any) => {
         <Image
           src={"/svg/about-mask.svg"}
           alt=""
-          className="absolute top-0 right-0"
+          className="absolute h-auto w-auto top-0 right-0"
           width={108}
           height={102}
         />
         <Image
           src={"/svg/about-shape.svg"}
           alt=""
-          className="absolute bottom-0 right-0"
+          className="absolute h-auto w-auto bottom-0 right-0"
           width={210}
           height={160}
         />
