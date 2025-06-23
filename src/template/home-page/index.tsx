@@ -20,7 +20,8 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
     about_label,
     about_list,
     about_plain_title,
-    button_link,
+      about_customers_impacted,
+      button_link,
     chose_us_button_link,
     chose_us_color_title,
     chose_us_description,
@@ -63,6 +64,8 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
           about_label,
           about_list,
           about_plain_title,
+            about_customers_impacted
+
         }}
       />
       <WhyChoseUs

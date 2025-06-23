@@ -31,7 +31,7 @@ export async function generateMetadata() {
       maxSnippet: parseInt(yoast.robots["max-snippet"]?.split(":")[1] ?? "-1"),
       maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
       maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
-    },
+    } as any,
   };
 }
 
@@ -89,7 +89,9 @@ export default async function About() {
     about_list,
     about_images,
     about_section_button_url,
-    home_client
+    home_client,
+      about_customers_impacted
+
   } = aboutpage.acf;
 
   return (

@@ -5,7 +5,7 @@ export const navItems = [
     },
     {
         label: 'Services',
-        href: '/services',
+        href: "/services/business-consulting",
         subMenu: [
             {
                 label: "Business Consulting",
@@ -50,3 +50,36 @@ export const navItems = [
         href: '/about',
     }
 ]
+
+export const fixedUrls = {
+    letsTalk: "/contact",
+    getStarted: "/contact"
+}
+
+export const footerLinks = [
+    {
+        id: 1,
+        label: "Who We Are?",
+        href: "/about"
+    },
+    {
+        id: 2,
+        label: "Our Services",
+        href: "/services"
+    },
+    {
+        id: 3,
+        label: "Meet Our Team",
+        href: "/about"
+    },
+    {
+        id: 4,
+        label: "Latest Blog",
+        href: "/blog"
+    },
+    {
+        id: 5,
+        label: "Contact",
+        href: "/contact"
+    }
+];

@@ -4,6 +4,7 @@ import Label from "@/components/ui/label";
 import Heading from "@/components/ui/heading";
 import List from "@/components/ui/list";
 import Button from "@/components/ui/button";
+import { fixedUrls } from "@/components/header/nav-items";
 
 function LeftRightCard({ data, id }: any) {
   const points = data?.list;
@@ -34,7 +35,7 @@ function LeftRightCard({ data, id }: any) {
             </ul>
           )}
           <div className="max-w-[190px] w-full mt-8">
-            <Button href={data?.button_link} className="hidden md:flex">
+            <Button href={fixedUrls.letsTalk} className="hidden md:flex">
               Contact Us
             </Button>
           </div>

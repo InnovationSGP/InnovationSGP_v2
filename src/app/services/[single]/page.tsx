@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: any) {
       maxVideoPreview: parseInt(
         yoast?.robots["max-video-preview"]?.split(":")[1] ?? "-1"
       ),
-    },
+    } as any,
   };
 }
 

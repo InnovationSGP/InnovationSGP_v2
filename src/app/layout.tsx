@@ -29,39 +29,62 @@ const parseYoastValue = (val: any) => {
   return -1;
 };
 
-export async function generateMetadata() {
-  const {yoast_head_json} = await fetchAPI({ endpoint: "pages/34" })
-  const yoast = yoast_head_json
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const { yoast_head_json } = await fetchAPI({ endpoint: "pages/34" });
+    const yoast = yoast_head_json;
 
-  return {
-    title: yoast.title.replace(/&#0*39;/g, "'"), // decode HTML entity
-    description: yoast.og_description, // you can add more if available
-    alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_BASE_URL}`,
-    },
-    openGraph: {
-      title: yoast.og_title.replace(/&#0*39;/g, "'"),
-      url: yoast.og_url,
-      siteName: yoast.og_site_name.replace(/&#0*39;/g, "'"),
-      type: yoast.og_type,
-      locale: yoast.og_locale,
-    },
-    twitter: {
-      card: yoast.twitter_card,
-    },
-    robots: {
-      index: yoast.robots.index === "index",
-      follow: yoast.robots.follow === "follow",
-      maxSnippet: parseYoastValue(yoast.robots["max-snippet"]),
-      maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
-      maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
-    } as any ,
-    icons: {
-      icon: "/images/favicon.png", // 👈 Ensure this file exists in /public
-    },
-  };
+    if (!yoast) {
+      // Return default metadata directly instead of calling function
+      return {
+        title: "Innovation Strategy Group",
+        description: "Innovation Strategy Group",
+        icons: {
+          icon: "/images/favicon.png",
+        },
+      };
+    }
+
+    return {
+      title: yoast.title.replace(/&#0*39;/g, "'") || "Home - InnovationSGP", // decode HTML entity
+      description: yoast.og_description || "Home - InnovationSGP", // you can add more if available
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      },
+      openGraph: {
+        title: yoast.og_title.replace(/&#0*39;/g, "'"),
+        url: yoast.og_url,
+        siteName: yoast.og_site_name.replace(/&#0*39;/g, "'"),
+        type: yoast.og_type,
+        locale: yoast.og_locale,
+      },
+      twitter: {
+        card: yoast.twitter_card,
+      },
+      robots: {
+        index: yoast.robots.index === "index",
+        follow: yoast.robots.follow === "follow",
+        maxSnippet: parseYoastValue(yoast.robots["max-snippet"]),
+        maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
+        maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
+      } as any,
+      icons: {
+        icon: "/images/favicon.png", // 👈 Ensure this file exists in /public
+      },
+    };
+
+  } catch (error) {
+    console.error('Error fetching metadata:', error);
+    // Return default metadata directly instead of calling function
+    return {
+      title: "Innovation Strategy Group",
+      description: "Innovation Strategy Group",
+      icons: {
+        icon: "/images/favicon.png",
+      },
+    };
+  }
 }
-
 
 export default function RootLayout({
   children,
@@ -70,9 +93,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${dmSans.variable} ${sora.variable} antialiased`}
-      >
+      <body className={`${dmSans.variable} ${sora.variable} antialiased`}>
         <Header/>
         {children}
         <Footer/>
