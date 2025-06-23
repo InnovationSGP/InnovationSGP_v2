@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "automerge": "git add . && git commit -m 'automerge' && git push"
   },
   "dependencies": {
     "install": "^0.13.0",
