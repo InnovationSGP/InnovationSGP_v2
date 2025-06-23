@@ -9,9 +9,7 @@ import List from "@/components/ui/list";
 
 const AboutUs = ({ data }: any) => {
   const { about } = homeContent;
-  const {
-    happyCustomer,
-  } = about;
+
 
   var settings = {
     dots: false,
@@ -49,10 +47,10 @@ const AboutUs = ({ data }: any) => {
             </Slider>
             <div className="bg-blue-40 absolute top-[330px] right-5 md:right-10 p-5 md:px-[28px] md:py-[35px] max-w-[208px] z-10 rounded-[12px]">
               <h4 className="font-semibold text-5xl text-[#E9EEF8]">
-                {happyCustomer}
+                {data?.about_customers_impacted}
               </h4>
               <p className="font- leading-[26px] text-lg text-white font-sans mt-3">
-                Overall happy Customers
+                end users impacted
               </p>
             </div>
             {/* Nav buttons  */}

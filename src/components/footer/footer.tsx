@@ -28,13 +28,15 @@ const Footer = () => {
             className="absolute hidden md:block top-0 left-0 h-auto w-auto"
             width={108}
             height={102}
+
           />
           <Image
             src={"/svg/half-circle-right.svg"}
             alt=""
-            className="absolute top-0 right-0"
+            className="absolute h-auto w-auto top-0 right-0"
             width={108}
             height={102}
+
           />
         </div>
       </section>

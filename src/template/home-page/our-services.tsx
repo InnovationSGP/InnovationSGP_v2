@@ -4,6 +4,7 @@ import Label from "@/components/ui/label";
 import React from "react";
 import ServiceList from "./service-list";
 import MobileServiceList from "./mobile-service-list";
+import { fixedUrls } from "@/components/header/nav-items";
 
 const OurServices = ({data}:any) => {
   return (
@@ -20,7 +21,7 @@ const OurServices = ({data}:any) => {
               {data?.our_service_plain_title}
             </Heading>
           </div>
-          <Button href={data?.our_service_button_url} className="hidden md:flex">Contact Us</Button>
+          <Button href={fixedUrls.letsTalk} className="hidden md:flex">Contact Us</Button>
         </div>
         <section className="hidden md:block">
             <ServiceList data={data?.our_service_service}/>

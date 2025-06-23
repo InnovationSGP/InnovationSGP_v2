@@ -89,7 +89,9 @@ export default async function About() {
     about_list,
     about_images,
     about_section_button_url,
-    home_client
+    home_client,
+      about_customers_impacted
+
   } = aboutpage.acf;
 
   return (

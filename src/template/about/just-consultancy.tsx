@@ -29,10 +29,11 @@ function JustConsultancy({ data }: any) {
                 <div className="">
                   <Image
                     src={item?.icon?.url}
-                    alt={item?.text}
+                    alt={item?.text || "placeholder"}
                     width={60}
                     height={60}
-                    className="w-[60px] h-[60px]"
+                    className="h-auto w-auto"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                 </div>
                 <p className="text-blue-50">{item?.text}</p>
@@ -64,7 +65,7 @@ function JustConsultancy({ data }: any) {
                 width={500}
                 height={500}
                 alt="Main"
-                className="w-full object-cover min-h-[566px] rounded-2xl "
+                className="w-full h-auto object-cover min-h-[566px] rounded-2xl "
               />
             )}
             {data?.about_images?.[1] && (
@@ -73,7 +74,7 @@ function JustConsultancy({ data }: any) {
                 width={200}
                 height={300}
                 alt="Overlay"
-                className="absolute bottom-12 -left-8 object-cover h-72 rounded-2xl hidden sm:block"
+                className="absolute h-auto w-auto bottom-12 -left-8 object-cover h-72 w-auto rounded-2xl hidden sm:block"
               />
             )}
           </div>

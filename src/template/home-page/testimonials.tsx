@@ -17,10 +17,9 @@ const Testimonials = ({data}:any) => {
             Hear What Our Happy Clients
           </Heading>
           <div className="my-[32px] py-4 text-white flex items-center gap-3 border-t border-b border-[#FFFFFF26]">
-            <h6 className="text-[44px] font-sora font-semibold">4.9</h6>
+            <h6 className="text-[44px] font-sora font-semibold">100%</h6>
             <div>
-              <p className="mb-2">Rating (30 Reviews)</p>
-              <Image src={"/svg/star.svg"} width={92} alt="" height={16} />
+              <p className="mb-2">Satisfaction</p>
             </div>
           </div>
           <div className="items-center gap-3 hidden md:flex">
@@ -63,8 +62,6 @@ const Testimonials = ({data}:any) => {
                   </h6>
                 </div>
                 <div className="flex items-center gap-1 mt-3">
-                  <Image src={"/svg/star.svg"} width={92} alt="" height={16} />
-                  <span className="text-sm font-medium">{t?.acf?.testimonial_rating}</span>
                 </div>
                 <p className="mt-5 text-[13px] text-gray-200 mb-[61px]">
                   {t?.acf?.testimonial_review}
@@ -75,7 +72,9 @@ const Testimonials = ({data}:any) => {
                     width={66}
                     alt=""
                     height={66}
-                    className="rounded-full"
+                    className="rounded-full h-auto w-auto"
+                    style={{ width: 'auto', height: 'auto' }}
+
                   />
                   <div>
                     <h6 className="font-sora font-semibold">{t?.acf?.testimonial_name}</h6>

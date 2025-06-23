@@ -1,3 +1,4 @@
+import { fixedUrls } from "@/components/header/nav-items";
 import Button from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Label from "@/components/ui/label";
@@ -15,7 +16,7 @@ function Healthcare({ data }: any) {
               {data?.palin_title}
             </Heading>
             <div className="max-w-[190px] w-full mt-8">
-              <Button href={data?.button_link} className="hidden md:flex">
+              <Button href={fixedUrls.letsTalk} className="hidden md:flex">
                 Contact Us
               </Button>
             </div>

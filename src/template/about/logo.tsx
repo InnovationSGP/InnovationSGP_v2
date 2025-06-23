@@ -23,7 +23,7 @@ function Logo({data}:any) {
                             alt={logo}
                             width={120}
                             height={60}
-                            className="object-contain w-[120px] max-h-12"
+                            className="object-contain w-auto h-auto max-h-12"
                         />
                     </div>
                 ))}

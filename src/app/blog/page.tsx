@@ -65,33 +65,36 @@ async function getData(id: any, page: any) {
 }
 
 export default async function Home({ searchParams }: any) {
+  // Await searchParams before accessing its properties
+  const params = await searchParams;
+
   const { categories, blogs, totalPosts } = await getData(
-    searchParams?.id || 5, 
-    searchParams?.page || 1
+      params?.id || 5,
+      params?.page || 1
   );
 
   const totalPages = Math.ceil(totalPosts / 9); // Ensure no decimals in pages
 
   return (
-    <>
-      <Banner
-        bgImage="/images/about-hero.png"
-        labelText="Home / Intel / Feature Collections "
-        headingText="Feature Collections"
-        description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"
-      />
-      <section className="blog_gradient mb-20">
-        <FeatureTopics categories={categories} />
-        {blogs?.length > 0 ? (
-          <div className="">
-            <Blogs showLabel={false} showHeading={false} data={blogs} />
-          </div>
-        ) : (
-          <p className="container mx-auto px-4">Not Found!</p>
-        )}
-        {/* Only show pagination if totalPages > 1 */}
-        {totalPages > 1 && <Pagination totalPages={totalPages} />}
-      </section>
-    </>
+      <>
+        <Banner
+            bgImage="/images/about-hero.png"
+            labelText="Home / Intel / Feature Collections "
+            headingText="Feature Collections"
+            description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"
+        />
+        <section className="blog_gradient mb-20">
+          <FeatureTopics categories={categories} />
+          {blogs?.length > 0 ? (
+              <div className="">
+                <Blogs showLabel={false} showHeading={false} data={blogs} />
+              </div>
+          ) : (
+              <p className="container mx-auto px-4">Not Found!</p>
+          )}
+          {/* Only show pagination if totalPages > 1 */}
+          {totalPages > 1 && <Pagination totalPages={totalPages} />}
+        </section>
+      </>
   );
 }
