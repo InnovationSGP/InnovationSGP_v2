@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
    eslint: {
     ignoreDuringBuilds: true,
   },
+    webpack: (config, { dev, isServer }) => {
+        if (dev) {
+            config.cache = {
+                type: 'memory', // Use memory instead of filesystem
+            };
+        }
+        return config;
+    },
 };
 
 export default nextConfig;
