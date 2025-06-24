@@ -63,6 +63,7 @@ async function getData(slug: any) {
 export default async function Home({ params }: any) {
   const { single } = await params;
   const { post, latesPost } = await getData(single);
+  console.log(post)
 
   // Check if the post exists before rendering
   if (!post || post.length === 0) {

@@ -1,15 +1,16 @@
-import Button from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Label from "@/components/ui/label";
 import React from "react";
 import ServiceList from "./service-list";
 import MobileServiceList from "./mobile-service-list";
-import { fixedUrls } from "@/components/header/nav-items";
 
 const OurServices = ({data}:any) => {
   return (
     <>
-      <section className="mb-[60px] container mx-auto px-3">
+      <section className="mb-[60px] py-16 container mx-auto px-3" style={{
+          background:
+              "linear-gradient(180deg, #EFF7FF 54.73%, #FFFFFF 109.46%)",
+      }}>
         <div className="flex flex-col md:flex-row items-center justify-start md:justify-between">
           <div>
             <Label>{data?.our_service_label}</Label>
@@ -21,7 +22,6 @@ const OurServices = ({data}:any) => {
               {data?.our_service_plain_title}
             </Heading>
           </div>
-          <Button href={fixedUrls.letsTalk} className="hidden md:flex">Contact Us</Button>
         </div>
         <section className="hidden md:block">
             <ServiceList data={data?.our_service_service}/>

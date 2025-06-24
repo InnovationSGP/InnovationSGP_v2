@@ -11,7 +11,7 @@ const WhyChoseUs = ({data}:any) => {
 
   return (
     <>
-      <section className="bg-white pt-10 pb-20 md:py-[100px] gap-8 md:gap-4 flex md:flex-row flex-col container mx-auto px-3">
+      <section className="bg-white pt-10 pb-20 md:py-[50px] gap-8 md:gap-4 flex md:flex-row flex-col container mx-auto px-3">
         <div className="flex-1">
           <Label>{data?.chose_us_label}</Label>
           <Heading
@@ -31,9 +31,9 @@ const WhyChoseUs = ({data}:any) => {
               <List key={index}>{item.text}</List>
             ))}
           </ul>
-          <div className="flex mt-10">
-            <Button href={data?.chose_us_button_link}>{content.buttonText}</Button>
-          </div>
+          {/*<div className="flex mt-10">*/}
+          {/*  <Button href={data?.chose_us_button_link}>{content.buttonText}</Button>*/}
+          {/*</div>*/}
         </div>
 
         <div className="max-w-[350px] w-full order-last md:order-none">
@@ -82,6 +82,7 @@ const WhyChoseUs = ({data}:any) => {
             ))}
           </div>
         </div>
+
       </section>
     </>
   );

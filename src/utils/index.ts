@@ -1,11 +1,10 @@
-import placeholder from "../../public/images/placeholderMember.png"
-
-
 export const getMediaURL = (obj: any) => {
   const url = obj?._embedded?.['wp:featuredmedia']?.[0]?.source_url
   return url
 }
 
+// File: src/utils/getYear.ts
+export const getCurrentYear = (): number => { return new Date().getFullYear(); };
 
 // export const getMediaURL = (obj, fallbackImage) => {
 //   // Use provided fallbackImage or default to imported placeholder
