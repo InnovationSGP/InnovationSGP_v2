@@ -1,7 +1,7 @@
 import placeholder from "../../public/images/placeholderMember.png"
 
 
-export const getMediaURL = (obj) => {
+export const getMediaURL = (obj: any) => {
   const url = obj?._embedded?.['wp:featuredmedia']?.[0]?.source_url
   return url
 }
