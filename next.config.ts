@@ -6,11 +6,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: '3.147.83.251',
-            },
-            {
-                protocol: 'http',
-                hostname: '3.147.83.251',
+                hostname: 'api.innovationsgp.com',
             },
 
             // Add localhost for development
