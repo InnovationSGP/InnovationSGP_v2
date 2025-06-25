@@ -1,11 +1,10 @@
 "use client";
 import Label from "@/components/ui/label";
 import React from "react";
-import { homeContent } from "@/template/home-page/content";
+import {homeContent} from "@/template/home-page/content";
 import Heading from "@/components/ui/heading";
 import Image from "next/image";
 import Slider from "react-slick";
-import List from "@/components/ui/list";
 
 const AboutUs = ({ data }: any) => {
   const { about } = homeContent;
@@ -24,14 +23,14 @@ const AboutUs = ({ data }: any) => {
   return (
     <>
       <section
-        className="py-24 relative"
+        className="py-16 relative"
         style={{
           background:
             "linear-gradient(180deg, #EFF7FF 54.73%, #FFFFFF 109.46%)",
         }}
       >
         <div className="grid container mx-auto px-3 grid-cols-1 md:grid-cols-2 md:gap-10">
-          <div className="relative rounded-[16px] grid-order mt-10 md:mt-0">
+          <div className="relative rounded-[16px] grid-order mt-6 md:mt-0">
             <Slider {...settings} ref={slider}>
               {data?.about_images?.map((item:any, idx:number) => (
                 <figure key={idx}>
@@ -81,57 +80,55 @@ const AboutUs = ({ data }: any) => {
           </div>
 
           {/* Right Section  */}
-          <div className="flex flex-col items-start">
-            <Label>{data?.about_label}</Label>
-            <Heading
-              colorText={data?.about_color_title}
-              secondColor="blue"
-              className="mt-3 text-black-20"
-            >
-              {data?.about_plain_title}
-            </Heading>
-            <div className="text-text text-xl mt-3">
-              <div dangerouslySetInnerHTML={{ __html: data?.about_caption }} />
-            </div>
+          <div className="flex flex-col items-start ">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full mt-12">
-              {data?.about_icon_list?.map((item:any, idx:number) => (
-                <div
-                  key={idx}
-                  className="flex items-center font-medium gap-5 font-sans"
-                >
-                  <div className="">
-                    <Image
-                      src={item?.icon.url}
-                      alt="About Us"
-                      width={60}
-                      height={60}
-                      className="w-[60px] h-[60px]"
-                    />
-                  </div>
-                  <p className="text-blue-50">{item.text}</p>
-                </div>
-              ))}
-            </div>
-            {/* border  */}
+            <div className="">
+  <Label>{data?.about_label}</Label>
+  <Heading
+    colorText={data?.about_color_title}
+    secondColor="blue"
+    className="mt-3 text-black-20"
+  >
+    {data?.about_plain_title}
+  </Heading>
+  {/*<div className="text-text text-xl mt-3">*/}
+  {/*  <div dangerouslySetInnerHTML={{ __html: data?.about_caption }} />*/}
+  {/*</div>*/}
+</div>
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full mt-4">
+  {data?.about_icon_list?.map((item: any, idx: number) => (
+    <div
+      key={idx}
+      className="flex items-center font-medium gap-5 font-sans"
+    >
+      <div className="">
+        <Image
+          src={item?.icon.url}
+          alt="About Us"
+          width={60}
+          height={60}
+          className="w-[40px] h-[40px] md:w-[60px] md:h-[60px]"
+        />
+      </div>
+      <p className="text-blue-50">{item.text}</p>
+    </div>
+  ))}
+</div>
+
+              {/* border  */}
             <div className="bg-[#0632321A] h-[1px] w-full my-[34px]" />
-            <ul className="flex flex-col gap-3">
-              {
-                data?.about_list?.length > 0 &&
-                data?.about_list?.map((item:any,idx:number)=>(
-                  <List key={idx}>{item?.text}</List>
-                ))
-              }
-            </ul>
+            {/*<ul className="flex flex-col gap-3">*/}
+            {/*  {*/}
+            {/*    data?.about_list?.length > 0 &&*/}
+            {/*    data?.about_list?.map((item:any,idx:number)=>(*/}
+            {/*      <List key={idx}>{item?.text}</List>*/}
+            {/*    ))*/}
+            {/*  }*/}
+            {/*</ul>*/}
           </div>
         </div>
-        <Image
-          src={"/svg/about-mask.svg"}
-          alt=""
-          className="absolute h-auto w-auto top-0 right-0"
-          width={108}
-          height={102}
-        />
+
         <Image
           src={"/svg/about-shape.svg"}
           alt=""
@@ -145,3 +142,132 @@ const AboutUs = ({ data }: any) => {
 };
 
 export default AboutUs;
+
+
+
+
+// "use client";
+// import Label from "@/components/ui/label";
+// import React from "react";
+// import { homeContent } from "@/template/home-page/content";
+// import Heading from "@/components/ui/heading";
+// import Image from "next/image";
+// import Slider from "react-slick";
+// import List from "@/components/ui/list";
+//
+// const AboutUs = ({ data }: any) => {
+//   const { about } = homeContent;
+//
+//   const settings = {
+//     dots: true,
+//     infinite: true,
+//     arrows: false,
+//     speed: 500,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     autoplay: true,
+//     autoplaySpeed: 3000,
+//   };
+//
+//   const slider = React.useRef<any>(null);
+//
+//   return (
+//     <section
+//       className="py-16 relative bg-gradient-to-b from-blue-50 to-white"
+//     >
+//       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+//         {/* Left Section */}
+//         <div className="relative">
+//           <Slider {...settings} ref={slider}>
+//             {data?.about_images?.map((item: any, idx: number) => (
+//               <figure key={idx}>
+//                 <Image
+//                   src={item}
+//                   alt="About Us"
+//                   width={586}
+//                   height={448}
+//                   className="w-full h-[300px] md:h-[448px] object-cover rounded-lg shadow-lg"
+//                 />
+//               </figure>
+//             ))}
+//           </Slider>
+//           <div className="absolute top-[70%] right-5 md:right-10 p-5 bg-blue-600 text-white rounded-lg shadow-lg">
+//             <h4 className="text-4xl font-bold">{data?.about_customers_impacted}</h4>
+//             <p className="mt-2 text-sm">End users impacted</p>
+//           </div>
+//           <div className="absolute bottom-4 left-4 flex gap-3">
+//             <button
+//               onClick={() => slider?.current?.slickPrev()}
+//               className="bg-white p-2 rounded-full shadow-md hover:bg-blue-100"
+//             >
+//               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+//                 <path
+//                   d="M15 19L8 12L15 5"
+//                   stroke="#000"
+//                   strokeWidth="2"
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                 />
+//               </svg>
+//             </button>
+//             <button
+//               onClick={() => slider?.current?.slickNext()}
+//               className="bg-white p-2 rounded-full shadow-md hover:bg-blue-100"
+//             >
+//               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+//                 <path
+//                   d="M9 5L16 12L9 19"
+//                   stroke="#000"
+//                   strokeWidth="2"
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                 />
+//               </svg>
+//             </button>
+//           </div>
+//         </div>
+//
+//         {/* Right Section */}
+//         <div>
+//           <Label className="text-blue-600">{data?.about_label}</Label>
+//           <Heading
+//             colorText={data?.about_color_title}
+//             secondColor="blue"
+//             className="mt-3 text-gray-800"
+//           >
+//             {data?.about_plain_title}
+//           </Heading>
+//           <p className="mt-4 text-gray-600 text-lg leading-relaxed">
+//             {data?.about_caption}
+//           </p>
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+//             {data?.about_icon_list?.map((item: any, idx: number) => (
+//               <div
+//                 key={idx}
+//                 className="flex items-center gap-4 bg-white p-4 rounded-lg shadow-md"
+//               >
+//                 <Image
+//                   src={item?.icon.url}
+//                   alt="Icon"
+//                   width={50}
+//                   height={50}
+//                   className="w-12 h-12"
+//                 />
+//                 <p className="text-blue-600 font-medium">{item.text}</p>
+//               </div>
+//             ))}
+//           </div>
+//           <div className="mt-8 border-t border-gray-200 pt-6">
+//             <ul className="space-y-4">
+//               {data?.about_list?.map((item: any, idx: number) => (
+//                 <List key={idx}>{item?.text}</List>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+//
+// export default AboutUs;

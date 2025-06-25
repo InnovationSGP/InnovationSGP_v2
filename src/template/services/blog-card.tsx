@@ -43,7 +43,7 @@ function BlogCard({ post }: any) {
                 className="rounded-full h-10 w-10 object-cover"
             />
             <h4 className="text-sm font-medium capitalize">
-              <span className="text-gray-400">By</span> InnovationSGP
+              <span className="text-gray-400">By</span> {post?.yoast_head_json.author}
             </h4>
           </div>
           <div className="h-[1px] bg-[#0632321A] w-full my-[23px]" />

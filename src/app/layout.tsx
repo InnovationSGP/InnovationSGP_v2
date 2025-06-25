@@ -1,10 +1,10 @@
-import { DM_Sans, Sora } from "next/font/google";
+import {DM_Sans, Sora} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { fetchAPI } from "@/config/api";
+import {fetchAPI} from "@/config/api";
 import type {Metadata} from "next"
 
 const dmSans = DM_Sans({

@@ -12,7 +12,7 @@ const Testimonials = ({data}:any) => {
     <section className="max-w-[1356px] mx-auto px-3">
       <div className="gradient rounded-[32px] py-[60px] px-3 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
         <div>
-          <Label>TESTIMONIAL</Label>
+          <Label>Engagement Feedback</Label>
           <Heading colorText={"Say About US"} secondColor="gary" className="mt-4 !text-white">
             Hear What Our Happy Clients
           </Heading>
@@ -48,12 +48,12 @@ const Testimonials = ({data}:any) => {
             </button>
           </div>
         </div>
-        <div className="relative">
+        <div className="relative flex flex-col">
           <Slider {...settings} ref={slider}>
             {data?.testimonials?.map((t:any, index:number) => (
               <div
                 key={index}
-                className="flex z-10 items-center gap-4 bg-[#2B4A91] rounded-[16px] px-[32px] py-[35px] text-white"
+                className="flex z-10 items-center gap-2 bg-[#2B4A91] rounded-[16px] px-[20px] py-[20px] text-white"
               >
                 <div className="flex items-center gap-2">
                   <Image src="/svg/qoute.svg" alt="" width={21} height={24} />
@@ -61,29 +61,32 @@ const Testimonials = ({data}:any) => {
                     {t?.title?.rendered}
                   </h6>
                 </div>
-                <div className="flex items-center gap-1 mt-3">
+                <div className="flex items-center gap-1 mt-2">
                 </div>
-                <p className="mt-5 text-[13px] text-gray-200 mb-[61px]">
+                
+                <p className="mt-2 text-[13px] text-gray-200 mb-[20px]">
                   {t?.acf?.testimonial_review}
                 </p>
-                <div className="flex items-center gap-3">
-                  <Image
-                    src={t?.acf?.testimonial_image}
-                    width={66}
-                    alt=""
-                    height={66}
-                    className="rounded-full h-auto w-auto"
-                    style={{ width: 'auto', height: 'auto' }}
-
-                  />
-                  <div>
-                    <h6 className="font-sora font-semibold">{t?.acf?.testimonial_name}</h6>
-                    <p className="mb-2 text-sm text-gray-400">{t?.acf?.testimonial_designation}</p>
-                  </div>
-                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-16 h-16 rounded-full overflow-hidden">
+    <Image
+      src={t?.acf?.testimonial_image}
+      alt=""
+      width={66}
+      height={66}
+      className="object-cover rounded-full w-full h-full"
+    />
+  </div>
+  <div>
+    <h6 className="font-sora font-semibold">{t?.acf?.testimonial_name}</h6>
+    <p className="mb-2 text-sm text-gray-400">{t?.acf?.testimonial_designation}</p>
+  </div>
+</div>
               </div>
             ))}
           </Slider>
+          
+
           <Image src="/svg/shape.svg" alt="" width={146} height={66} className="absolute hidden md:block z-[1] -bottom-8 -left-10"/>
           <div className="flex items-center justify-center mt-10 md:hidden gap-3">
             <button onClick={() => slider?.current?.slickPrev()} className="group bg-blue-10 p-[13px] rounded-full hover:bg-white cursor-pointer">
