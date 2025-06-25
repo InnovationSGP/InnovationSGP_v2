@@ -10,8 +10,7 @@
     "automerge": "git add . && git commit -m 'automerge' && git push"
   },
   "dependencies": {
-    "@wordpress/block-library": "^9.25.0",
-    "@wordpress/block-serialization-default-parser": "^5.25.0",
+    "@wordpress/block-serialization-default-parser": "^5.26.0",
     "html-react-parser": "^5.2.5",
     "install": "^0.13.0",
     "isomorphic-dompurify": "^2.25.0",
