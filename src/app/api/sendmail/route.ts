@@ -61,7 +61,7 @@ export async function POST(req: any) {
     const transporter: nodemailer.Transporter = nodemailer.createTransport({
       host: process.env.NEXT_PUBLIC_EMAIL_HOST as string,
       port: parseInt(process.env.SMTP_PORT || "465"),
-      secure: true,
+      secure: false,
       tls: {
         rejectUnauthorized: false,
       },
