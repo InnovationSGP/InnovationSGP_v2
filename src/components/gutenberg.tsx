@@ -24,7 +24,7 @@ const GutenbergRenderer = ({ content }: any) => {
 };
 
 // Individual Block Renderer
-const BlockRenderer = ({ block }) => {
+const BlockRenderer = ({ block }: any) => {
   const { blockName, innerHTML, innerBlocks, attrs } = block;
 
   // Sanitize innerHTML before parsing
@@ -35,7 +35,7 @@ const BlockRenderer = ({ block }) => {
     return (
       <div className={`block-${blockName?.replace("core/", "")}`}>
         {sanitizedInnerHTML && <div>{parse(sanitizedInnerHTML)}</div>}
-        {innerBlocks.map((innerBlock, index) => (
+        {innerBlocks.map((innerBlock: any, index: any) => (
           <BlockRenderer key={index} block={innerBlock} />
         ))}
       </div>
@@ -105,7 +105,7 @@ const BlockRenderer = ({ block }) => {
     case "core/columns":
       return (
         <div className="wp-block-columns">
-          {innerBlocks?.map((column, index) => (
+          {innerBlocks?.map((column: any, index: any) => (
             <BlockRenderer key={index} block={column} />
           ))}
         </div>
@@ -114,7 +114,7 @@ const BlockRenderer = ({ block }) => {
     case "core/column":
       return (
         <div className="wp-block-column">
-          {innerBlocks?.map((block, index) => (
+          {innerBlocks?.map((block: any, index: any) => (
             <BlockRenderer key={index} block={block} />
           ))}
         </div>
@@ -123,7 +123,7 @@ const BlockRenderer = ({ block }) => {
     case "core/group":
       return (
         <div className="wp-block-group">
-          {innerBlocks?.map((block, index) => (
+          {innerBlocks?.map((block: any, index: any) => (
             <BlockRenderer key={index} block={block} />
           ))}
         </div>
@@ -167,7 +167,15 @@ const BlockRenderer = ({ block }) => {
 };
 
 // Usage Example
-const WordPressPost = ({ post }) => {
+type WordPressPostProps = {
+  post: {
+    title: { rendered: string };
+    content: { rendered: string };
+    [key: string]: any;
+  };
+};
+
+const WordPressPost = ({ post }: WordPressPostProps) => {
   return (
     <article className="wordpress-post">
       <header>
