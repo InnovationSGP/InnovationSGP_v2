@@ -3,15 +3,8 @@ import nodemailer from "nodemailer";
 
 export async function POST(req: any) {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      subject,
-      message,
-      recaptchaToken,
-    } = await req.json();
+    const { firstName, lastName, email, phone, subject, message } =
+      await req.json();
 
     // Validate required fields
     if (!firstName || !lastName || !email || !subject || !message) {
@@ -36,32 +29,10 @@ export async function POST(req: any) {
       );
     }
 
-    // Optional: Verify reCAPTCHA token
-    // if (recaptchaToken && process.env.GOOGLE_RECAPTCHA_SECRET) {
-    //     const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //         body: `secret=${process.env.GOOGLE_RECAPTCHA_SECRET}&response=${recaptchaToken}`
-    //     });
-    //
-    //     const recaptchaData = await recaptchaResponse.json();
-    //     if (!recaptchaData.success) {
-    //         return new NextResponse(
-    //             JSON.stringify({
-    //                 status: "error",
-    //                 message: "reCAPTCHA verification failed",
-    //             }),
-    //             { status: 400 }
-    //         );
-    //     }
-    // }
-
     const transporter: nodemailer.Transporter = nodemailer.createTransport({
       host: process.env.NEXT_PUBLIC_EMAIL_HOST as string,
       port: parseInt(process.env.SMTP_PORT || "465"),
-      secure: false,
+      secure: true,
       tls: {
         rejectUnauthorized: false,
       },
