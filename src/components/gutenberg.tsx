@@ -5,6 +5,7 @@ import { parse as parseBlocks } from "@wordpress/block-serialization-default-par
 import parse from "html-react-parser";
 import DOMPurify from "isomorphic-dompurify";
 import styles from "../styles/gutenberg.module.css"; // Adjust path as needed
+import React from "react";
 
 // Main Gutenberg Block Renderer Component
 const GutenbergRenderer = ({ content }: any) => {
