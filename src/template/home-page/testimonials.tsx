@@ -62,40 +62,8 @@ const Testimonials = ({data}:any) => {
                   </h6>
                 </div>
                 <div className="flex items-center gap-1 mt-2">
-                </div><Slider {...settings} ref={slider}>
-  {data?.testimonials?.map((t: any, index: number) => (
-    <div
-      key={index}
-      className="flex z-10 items-center gap-2 bg-[#2B4A91] rounded-[16px] px-[20px] py-[20px] text-white"
-    >
-      <div className="flex items-center gap-2">
-        <Image src="/svg/qoute.svg" alt="" width={21} height={24} />
-        <h6 className="text-lg font-sora font-semibold">
-          {t?.title?.rendered}
-        </h6>
-      </div>
-      <div className="flex items-center gap-1 mt-2"></div>
-      <p className="mt-2 text-[13px] text-gray-200 mb-[20px]">
-        {t?.acf?.testimonial_review}
-      </p>
-      <div className="flex items-center gap-2">
-        <div className="w-16 h-16 rounded-full overflow-hidden flex justify-center items-center">
-          <Image
-            src={t?.acf?.testimonial_image}
-            alt=""
-            width={66}
-            height={66}
-            className="object-cover rounded-full w-full h-full"
-          />
-        </div>
-        <div>
-          <h6 className="font-sora font-semibold">{t?.acf?.testimonial_name}</h6>
-          <p className="mb-2 text-sm text-gray-400">{t?.acf?.testimonial_designation}</p>
-        </div>
-      </div>
-    </div>
-  ))}
-</Slider>
+                </div>
+                
                 <p className="mt-2 text-[13px] text-gray-200 mb-[20px]">
                   {t?.acf?.testimonial_review}
                 </p>

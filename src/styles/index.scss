@@ -1,4 +1,57 @@
-@import "tailwindcss";
+@use "sass:math";
+//
+//// External fonts
+//@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+//// WordPress base styles
+@use "../../node_modules/@wordpress/base-styles/_colors.scss";
+@use "../../node_modules/@wordpress/base-styles/_variables.scss";
+@use "../../node_modules/@wordpress/base-styles/_mixins.scss";
+@use "../../node_modules/@wordpress/base-styles/_breakpoints.scss";
+@use "../../node_modules/@wordpress/base-styles/_animations.scss";
+@use "../../node_modules/@wordpress/base-styles/_z-index.scss";
+@use "../../node_modules/@wordpress/base-styles/_default-custom-properties.scss";
+
+ //WordPress block library styles
+//@use "../../node_modules/@wordpress/block-library/src/style.scss";
+@use "../../node_modules/@wordpress/block-library/src/theme.scss";
+
+ //WordPress block editor styles (for Gutenberg blocks)
+@use "../../node_modules/@wordpress/components/build-style/style.css";
+@use "../../node_modules/@wordpress/block-editor/build-style/style.css";
+
+// Tailwind base (this might reset some WordPress styles)
+//@tailwind base;
+//@tailwind components;
+//@tailwind utilities;
+//
+//// Your custom Gutenberg post styles (place these LAST)
+//.wp-block-post-content {
+//  // Custom styles for post content
+//  font-family: 'Inter', sans-serif;
+//  line-height: 1.6;
+//
+//  // Style specific Gutenberg blocks
+//  .wp-block-paragraph {
+//    margin-bottom: 1.5rem;
+//  }
+//
+//  .wp-block-heading {
+//    font-weight: 600;
+//    margin-bottom: 1rem;
+//  }
+//
+//  .wp-block-image {
+//    margin: 2rem 0;
+//  }
+//}
+
+//custom css
+
+//@tailwind base;
+//@tailwind components;
+//@tailwind utilities;
+
 
 :root {
   --blue-10: #7f9ad6f7;
@@ -65,10 +118,10 @@ span {
 }
 .home_page_blog_gradient {
   background: linear-gradient(
-          180deg,
-          rgba(239, 247, 255, 0) 0%,
-          #eff7ff 50%,
-          #eff7ff 100%
+                  180deg,
+                  rgba(239, 247, 255, 0) 0%,
+                  #eff7ff 50%,
+                  #eff7ff 100%
   );
 }
 
@@ -128,5 +181,3 @@ span {
   font-size: 20px;
   font-weight: 600;
 }
-
-/*"watch-css": "sass --watch src/styles/index.scss src/app/globals.css",*/

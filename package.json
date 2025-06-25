@@ -10,7 +10,11 @@
     "automerge": "git add . && git commit -m 'automerge' && git push"
   },
   "dependencies": {
+    "@wordpress/block-library": "^9.25.0",
+    "@wordpress/block-serialization-default-parser": "^5.25.0",
+    "html-react-parser": "^5.2.5",
     "install": "^0.13.0",
+    "isomorphic-dompurify": "^2.25.0",
     "next": "15.3.2",
     "nodemailer": "^7.0.3",
     "npm": "^10.9.2",
@@ -28,9 +32,13 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-slick": "^0.23.13",
+    "@wordpress/base-styles": "^6.1.0",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9.28.0",
     "eslint-config-next": "15.3.2",
-    "tailwindcss": "^4",
+    "postcss": "^8.5.6",
+    "sass": "^1.89.2",
+    "tailwindcss": "^4.1.10",
     "typescript": "^5"
   }
 }
