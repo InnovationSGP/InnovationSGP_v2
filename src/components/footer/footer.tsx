@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "../header/logo";
@@ -8,38 +7,19 @@ import {getCurrentYear} from "@/utils";
 const Footer = () => {
   return (
     <footer className="bg-[#EFF7FF]">
-      <section className="px-3">
-        <div className="bg-[#486ec4] z-[10] relative container text-white rounded-[10px] mx-auto flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 md:px-[56px] py-[73px] px-3 md:py-10">
-          <h4 className="font-bold text-[28px] z-[1]">
-            Do you need free Consultation?
-          </h4>
-          <div className="flex items-center gap-4 z-1 p-2 ">
-
-            <div>
-              <div className="flex-1 flex justify-end">
-                <Link href={fixedUrls.letsTalk} className="transition-all duration-300 hover:-translate-y-1 hover:shadow-xl
-                                     active:translate-y-0 border-[#E6E6EE] border py-[7px] leading-[30px] white_button_gradient text-blue-50 font-medium rounded-full px-[24px]">Contact Us</Link>
-              </div>
-            </div>
-          </div>
-          <Image
-            src={"/svg/half-circle-shape.svg"}
-            alt=""
-            className="absolute hidden md:block top-0 left-0 h-auto w-auto"
-            width={108}
-            height={102}
-
-          />
-          <Image
-            src={"/svg/half-circle-right.svg"}
-            alt=""
-            className="absolute h-auto w-auto top-0 right-0"
-            width={108}
-            height={102}
-
-          />
-        </div>
-      </section>
+      <section className="flex flex-col items-center justify-center text-center px-4 py-8 md:py-16">
+  <div className="flex flex-col bg-[#486ec4] text-white rounded-[10px] w-full max-w-md md:max-w-none justify-center items-center md:px-[56px] py-8">
+    <h4 className="font-bold text-[28px]">Chat with us</h4>
+    <div className="flex items-center p-2 gap-4 mt-4 md:mt-0 ">
+      <Link
+        href={fixedUrls.letsTalk}
+        className="transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:translate-y-0 border-[#E6E6EE] border py-[7px] leading-[30px] white_button_gradient text-blue-50 font-medium rounded-full px-[24px]"
+      >
+        Contact Us
+      </Link>
+    </div>
+  </div>
+</section>
 
 
       <section className="bg-blue-40 -mt-20">
