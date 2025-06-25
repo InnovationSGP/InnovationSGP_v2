@@ -1,7 +1,8 @@
 import Banner from "@/components/banner";
-import {fetchAPI} from "@/config/api";
+import { fetchAPI } from "@/config/api";
 import Hero from "@/template/blog-read/hero";
-import {getMediaURL} from "@/utils";
+import { getMediaURL } from "@/utils";
+// import { useBlockProps } from "@wordpress/block-editor";
 
 export async function generateMetadata({ params }: any) {
   const { single } = await params;
