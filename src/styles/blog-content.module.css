@@ -1,0 +1,65 @@
+/* Blog Content Custom Styles */
+.blogContent {
+  width: 100%;
+}
+
+.blogContent figure {
+  margin: 1.5rem 0;
+}
+
+.blogContent figure.wp-block-image {
+  text-align: center;
+}
+
+.blogContent figure.wp-block-image img {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 0 auto;
+}
+
+.blogContent figure figcaption {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.blogContent iframe {
+  max-width: 100%;
+  margin: 1.5rem 0;
+}
+
+.blogContent .wp-block-embed {
+  margin: 1.5rem 0;
+}
+
+.blogContent .wp-block-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.blogContent .wp-block-gallery .blocks-gallery-item {
+  margin: 0;
+}
+
+.blogContent .aligncenter {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blogContent .alignleft {
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.blogContent .alignright {
+  float: right;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}

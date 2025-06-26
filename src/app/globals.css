@@ -65,10 +65,10 @@ span {
 }
 .home_page_blog_gradient {
   background: linear-gradient(
-          180deg,
-          rgba(239, 247, 255, 0) 0%,
-          #eff7ff 50%,
-          #eff7ff 100%
+    180deg,
+    rgba(239, 247, 255, 0) 0%,
+    #eff7ff 50%,
+    #eff7ff 100%
   );
 }
 
@@ -115,16 +115,15 @@ span {
   }
 }
 
-
 .content h2,
 .content h3,
 .content h4,
 .content h5,
-.content h1{
+.content h1 {
   font-size: 22px;
   font-weight: 600;
 }
-.content h6{
+.content h6 {
   font-size: 20px;
   font-weight: 600;
 }

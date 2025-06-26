@@ -1,11 +1,12 @@
-import {DM_Sans, Sora} from "next/font/google";
+import { DM_Sans, Sora } from "next/font/google";
 import "./globals.css";
+import "@/styles/wordpress.css"; // Import WordPress global styles
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {fetchAPI} from "@/config/api";
-import type {Metadata} from "next"
+import { fetchAPI } from "@/config/api";
+import type { Metadata } from "next";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -16,8 +17,6 @@ const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
 });
-
-
 
 const parseYoastValue = (val: any) => {
   if (typeof val === "string") {
@@ -66,15 +65,16 @@ export async function generateMetadata(): Promise<Metadata> {
         follow: yoast.robots.follow === "follow",
         maxSnippet: parseYoastValue(yoast.robots["max-snippet"]),
         maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
-        maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
+        maxVideoPreview: parseInt(
+          yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"
+        ),
       } as any,
       icons: {
         icon: "/images/favicon.png", // 👈 Ensure this file exists in /public
       },
     };
-
   } catch (error) {
-    console.error('Error fetching metadata:', error);
+    console.error("Error fetching metadata:", error);
     // Return default metadata directly instead of calling function
     return {
       title: "Innovation Strategy Group",
@@ -94,9 +94,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${sora.variable} antialiased`}>
-        <Header/>
+        <Header />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
