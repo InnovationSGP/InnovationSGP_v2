@@ -34,7 +34,7 @@ const Heading = ({
             : secondColor === "cyan"
             ? "text-cyan-400"
             : secondColor === "teal"
-            ? "text-teal-400"
+            ? "text-blue-300"
             : "text-blue-30"
         }
       >
