@@ -4,6 +4,7 @@ import Blogcard from "@/template/services/blog-card";
 import { fetchAPI } from "@/config/api";
 import WordProcess from "@/template/services/word-process";
 import Blogs from "@/template/home-page/blogs";
+import TechServices from "@/template/home-page/tech-services";
 
 export async function generateMetadata({ params }: any) {
   const { single } = await params;
@@ -75,12 +76,16 @@ export default async function Home({ params }: any) {
     );
   }
 
-  const { steps_plain_title, steps_color_title, step, steps_images } = pageData.acf;
+  const { steps_plain_title, steps_color_title, step, steps_images } =
+    pageData.acf;
 
   return (
     <>
-      <Hero title={pageData?.title.rendered} excerpt={pageData?.excerpt?.rendered} />
-      
+      <Hero
+        title={pageData?.title.rendered}
+        excerpt={pageData?.excerpt?.rendered}
+      />
+      <TechServices />
       <WordProcess
         data={{
           steps_plain_title,
@@ -90,11 +95,9 @@ export default async function Home({ params }: any) {
         }}
       />
       <div className="mt-10" />
-      
       {pageData?.acf?.left_right_section?.map((item: any, idx: any) => (
         <LeftRightCard data={item} key={idx} id={idx + 1} />
       ))}
-
       {latesPost?.length > 0 && (
         <Blogs
           title="Read our latest"

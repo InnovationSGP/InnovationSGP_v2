@@ -22,7 +22,21 @@ const Heading = ({
     >
       {children}
       <span
-        className={secondColor === "gary" ? "text-gray-300/80" : "text-blue-30"}
+        className={
+          secondColor === "gray" || secondColor === "gary"
+            ? "text-gray-300/80"
+            : secondColor === "blue"
+            ? "text-blue-30"
+            : secondColor === "gradient"
+            ? "bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent"
+            : secondColor === "purple"
+            ? "text-purple-400"
+            : secondColor === "cyan"
+            ? "text-cyan-400"
+            : secondColor === "teal"
+            ? "text-teal-400"
+            : "text-blue-30"
+        }
       >
         {" "}
         {colorText}

@@ -1,49 +1,103 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
-const ServiceList = ({ data }: any) => {
+type ServiceType = {
+  id: string;
+  title: string;
+  caption: string;
+  icon: string;
+  image: string;
+  link?: string;
+};
+
+const ServiceList = ({ data }: { data?: ServiceType[] }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  if (!data || data.length === 0) {
+    return null;
+  }
+
   return (
-    <div className="container mx-auto border-t border-[#06323226] mt-[54px] space-y-4">
-      {data?.map((service: any, idx: number) => (
-        <div className="border-[#06323226] border-b group mb-0" key={idx}>
+    <div className="container mx-auto border-t border-blue-100/50 mt-[54px] space-y-1">
+      {data.map((service, idx) => (
+        <div
+          className="border-b border-blue-100/50 group mb-0 transition-all"
+          key={idx}
+          onMouseEnter={() => setHoveredIndex(idx)}
+          onMouseLeave={() => setHoveredIndex(null)}
+        >
           <div
-            key={service.id}
-            className={`flex items-center justify-between rounded-3xl gap-10 cursor-pointer group-hover:bg-blue-10/10 pr-6 py-7 group-hover:py-0 transition-all`}
+            className={`flex items-center justify-between rounded-xl gap-10 cursor-pointer pr-6 py-6 transition-all duration-300 ${
+              hoveredIndex === idx
+                ? "bg-white/70 backdrop-blur-sm shadow-sm"
+                : ""
+            }`}
           >
-            <div className="flex items-center gap-10">
-              <Image
-                src={service.image}
-                alt="Service"
-                className="w-[222px] h-[154px] rounded-lg object-cover hidden group-hover:block"
-                width={222}
-                height={154}
-              />
+            <div className="flex items-center gap-8">
+              <div
+                className={`ml-4 transition-all duration-300 overflow-hidden ${
+                  hoveredIndex === idx
+                    ? "w-[180px] opacity-100"
+                    : "w-0 opacity-0"
+                }`}
+              >
+                {hoveredIndex === idx && (
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    className="h-[130px] rounded-lg object-cover shadow-md"
+                    width={180}
+                    height={130}
+                  />
+                )}
+              </div>
 
-              <figure className="w-[64px] h-[64px] group-hover:bg-blue-20 flex justify-center items-center rounded-full bg-[#DFE8FF]">
+              <figure
+                className={`w-[64px] h-[64px] flex justify-center items-center rounded-full transition-all duration-300 ${
+                  hoveredIndex === idx ? "bg-teal-400 text-white" : "bg-blue-50"
+                }`}
+              >
                 <Image
                   src={service.icon}
-                  alt="Service"
-                  className="object-cover group-hover:invert group-hover:grayscale"
+                  alt={service.title}
+                  className={`object-cover transition-all duration-300 ${
+                    hoveredIndex === idx ? "invert brightness-0 filter" : ""
+                  }`}
                   width={28}
                   height={28}
                 />
               </figure>
+
               <div className="flex-1 max-w-[325px] w-full">
-                <h3 className="font-bold text-2xl">{service.title}</h3>
+                <h3 className="font-bold text-2xl text-gray-800">
+                  {service.title}
+                </h3>
               </div>
             </div>
+
             <div className="flex items-center justify-between gap-10">
-              <p className="text-sm text-[#515151] max-w-[400px] mt-1">
+              <p className="text-sm text-gray-700 max-w-[400px] mt-1 leading-relaxed">
                 {service.caption}
               </p>
-              <div className="pt-2">
-                <Link href={service?.link || "#"}>
-                  <button className="p-2 rounded-full border border-blue-10 text-blue-30 text-2xl w-[32px] h-[32px] flex justify-center items-center">
-                    <span className="-mt-[5px]">›</span>
-                  </button>
-                </Link>
-              </div>
+
+              <Link
+                href={service?.link || "#"}
+                className={`transition-all duration-300 ${
+                  hoveredIndex === idx
+                    ? "bg-teal-400 text-white p-3 rounded-full shadow-md hover:bg-teal-500"
+                    : "p-2 rounded-full border border-teal-300 text-teal-500"
+                }`}
+                aria-label={`Learn more about ${service.title}`}
+              >
+                {hoveredIndex === idx ? (
+                  <ArrowRight className="w-5 h-5" />
+                ) : (
+                  <span className="-mt-[5px] text-xl">›</span>
+                )}
+              </Link>
             </div>
           </div>
         </div>

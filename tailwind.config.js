@@ -16,6 +16,21 @@ module.exports = {
         secondaryPurpleLight: "#f4e6fa",
         secondaryBackground: "#dceee0",
       },
+      animation: {
+        "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      keyframes: {
+        ping: {
+          "75%, 100%": {
+            transform: "scale(2)",
+            opacity: "0",
+          },
+        },
+      },
+      animationDelay: {
+        2000: "2000ms",
+        4000: "4000ms",
+      },
       typography: {
         DEFAULT: {
           css: {
@@ -44,5 +59,17 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    function ({ addUtilities, theme }) {
+      const animationDelayUtilities = Object.entries(
+        theme("animationDelay")
+      ).map(([key, value]) => {
+        return {
+          [`.animation-delay-${key}`]: { animationDelay: value },
+        };
+      });
+      addUtilities(animationDelayUtilities);
+    },
+  ],
 };
