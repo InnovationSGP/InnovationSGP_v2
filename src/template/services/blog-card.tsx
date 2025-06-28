@@ -53,6 +53,11 @@ function BlogCard({ post }: any) {
       className="group relative bg-white rounded-2xl border border-slate-100 transition-all duration-300 hover:shadow-lg overflow-hidden h-full flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
+      tabIndex={0}
+      role="article"
+      aria-labelledby={`post-title-${post.id}`}
     >
       {/* Image container with overlay */}
       <div className="relative overflow-hidden h-[220px]">
@@ -86,10 +91,13 @@ function BlogCard({ post }: any) {
 
       {/* Content */}
       <div className="p-6 flex-grow flex flex-col">
-        <h2 className="text-xl font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+        <h2
+          className="text-xl font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors"
+          id={`post-title-${post.id}`}
+        >
           <Link
             href={`/blog/${post?.slug}`}
-            className="hover:underline decoration-2 decoration-blue-400 underline-offset-2"
+            className="hover:underline decoration-2 decoration-blue-400 underline-offset-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 rounded"
           >
             {post?.title?.rendered}
           </Link>
@@ -126,7 +134,7 @@ function BlogCard({ post }: any) {
 
           <Link
             href={`/blog/${post?.slug}`}
-            className="relative group flex items-center justify-center w-8 h-8 rounded-full bg-blue-50 text-white transition-all hover:bg-blue-100 hover:text-blue-700 border border-blue-200 hover:border-blue-300 shadow-sm"
+            className="relative group flex items-center justify-center w-8 h-8 rounded-full bg-blue-50 text-white transition-all hover:bg-blue-100 hover:text-blue-700 border border-blue-200 hover:border-blue-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
             aria-label={`Read more about "${post?.title?.rendered}"`}
           >
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />

@@ -118,18 +118,6 @@ export default async function SectorPage() {
   // Extract Healthcare data (first section)
   const healthcareData = data?.[0] || null;
 
-  // Log Healthcare data for debugging
-  if (healthcareData) {
-    console.log("Healthcare Data:", {
-      label: healthcareData.label,
-      title: healthcareData.palin_title,
-      colorTitle: healthcareData.color_title,
-      hasImages: !!healthcareData.images,
-      imageCount: healthcareData.images?.length || 0,
-      imageURLs: healthcareData.images || [],
-    });
-  }
-
   return (
     <>
       <SectorHero

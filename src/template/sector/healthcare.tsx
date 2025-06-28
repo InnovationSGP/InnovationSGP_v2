@@ -24,13 +24,6 @@ function Healthcare({ data }: any) {
       setIsVisible(true);
     }, 300);
 
-    // Log the available images for debugging
-    console.log("Healthcare component data:", {
-      hasImages: !!data?.images,
-      imageCount: data?.images?.length || 0,
-      imageURLs: data?.images || [],
-    });
-
     return () => clearTimeout(timer);
   }, [data]);
 

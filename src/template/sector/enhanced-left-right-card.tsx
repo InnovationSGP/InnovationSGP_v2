@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { fixedUrls } from "@/components/header/nav-items";
 import Heading from "@/components/ui/heading";
@@ -30,6 +30,17 @@ const EnhancedLeftRightCard: React.FC<EnhancedLeftRightCardProps> = ({
   data,
   id,
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Add animation on mount with a slight delay based on the card index
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300 + id * 150); // Stagger the animations
+
+    return () => clearTimeout(timer);
+  }, [id]);
+
   if (!data) {
     return null;
   }
@@ -49,7 +60,9 @@ const EnhancedLeftRightCard: React.FC<EnhancedLeftRightCardProps> = ({
             : id % 3 === 1
             ? "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
             : "bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900"
-        } rounded-[32px] py-[60px] px-6 md:px-12`}
+        } rounded-[32px] py-[60px] px-6 md:px-12 transition-all duration-1000 transform ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
       >
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -195,12 +208,13 @@ const EnhancedLeftRightCard: React.FC<EnhancedLeftRightCardProps> = ({
               {/* CTA Button */}
               <Link
                 href={fixedUrls.letsTalk}
-                className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-teal-600 text-white font-semibold px-6 py-3 rounded-xl inline-flex items-center gap-2"
+                className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-teal-600 text-white font-semibold px-6 py-3 rounded-xl inline-flex items-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Contact Us
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Link>
             </div>
 
@@ -210,12 +224,12 @@ const EnhancedLeftRightCard: React.FC<EnhancedLeftRightCardProps> = ({
                 !isEven ? "lg:col-start-1 lg:row-start-1" : ""
               } relative flex items-center justify-center`}
             >
-              <div className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-2xl border border-white/10">
+              <div className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-2xl border border-white/10 transition-all duration-500 hover:shadow-blue-500/20">
                 <Image
                   src={primaryImage}
                   alt={data?.palin_title || "Sector Image"}
                   fill
-                  className="object-cover object-center"
+                  className="object-cover object-center transition-transform duration-700 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-slate-900/30"></div>
               </div>
@@ -225,7 +239,7 @@ const EnhancedLeftRightCard: React.FC<EnhancedLeftRightCardProps> = ({
                 <div
                   className={`absolute ${
                     isEven ? "-bottom-6 -right-6" : "-bottom-6 -left-6"
-                  } w-1/2 h-2/5 rounded-xl overflow-hidden border-4 border-slate-800/90 shadow-lg z-10`}
+                  } w-1/2 h-2/5 rounded-xl overflow-hidden border-4 border-slate-800/90 shadow-lg z-10 transition-all duration-500 hover:scale-105`}
                 >
                   <Image
                     src={secondaryImage}

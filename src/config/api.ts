@@ -1,8 +1,13 @@
-export const fetchAPI = async ({ endpoint, method = 'GET', data = null }:any) => {
-  const options:any = {
+export const fetchAPI = async ({
+  endpoint,
+  method = "GET",
+  data = null,
+  includeHeaders = false,
+}: any) => {
+  const options: any = {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   };
 
@@ -11,15 +16,65 @@ export const fetchAPI = async ({ endpoint, method = 'GET', data = null }:any) =>
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`, options);
+    // More robust sanitization of the endpoint URL
+    let sanitizedEndpoint = endpoint.trim();
     
+    // Handle special characters properly using encodeURIComponent for query param values
+    if (sanitizedEndpoint.includes('?')) {
+      const [path, queryString] = sanitizedEndpoint.split('?');
+      const searchParams = new URLSearchParams();
+      
+      // Parse and properly encode each query parameter
+      queryString.split('&').forEach((param: string) => {
+        if (param.includes('=')) {
+          const [key, value] = param.split('=');
+          searchParams.append(key.trim(), value.trim());
+        }
+      });
+      
+      // Reconstruct with properly encoded parameters
+      sanitizedEndpoint = `${path}?${searchParams.toString()}`;
+    }
+    
+    // Ensure we don't have double slashes in the URL
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.endsWith('/') 
+      ? process.env.NEXT_PUBLIC_API_URL.slice(0, -1) 
+      : process.env.NEXT_PUBLIC_API_URL;
+      
+    const fullUrl = sanitizedEndpoint.startsWith('/') 
+      ? `${baseUrl}${sanitizedEndpoint}`
+      : `${baseUrl}/${sanitizedEndpoint}`;
+    
+    const response = await fetch(fullUrl, options);
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return await response.json(); // or response.text() if it's not JSON
+    const data = await response.json(); // or response.text() if it's not JSON
+
+    // If headers are requested, return both data and headers
+    if (includeHeaders) {
+      // Extract pagination info from headers
+      const totalPosts =
+        response.headers.get("X-WP-Total") ||
+        response.headers.get("x-wp-total");
+      const totalPages =
+        response.headers.get("X-WP-TotalPages") ||
+        response.headers.get("x-wp-totalpages");
+
+      return {
+        data,
+        pagination: {
+          totalPosts: totalPosts ? parseInt(totalPosts) : null,
+          totalPages: totalPages ? parseInt(totalPages) : null,
+        },
+      };
+    }
+
+    return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     throw error;
   }
 };
