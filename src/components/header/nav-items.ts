@@ -5,7 +5,7 @@ export const navItems = [
   },
   {
     label: "Services",
-    href: "/services/business-consulting",
+    href: "/services",
     subMenu: [
       {
         label: "Business Consulting",

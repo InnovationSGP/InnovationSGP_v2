@@ -1,41 +1,43 @@
-import Heading from "@/components/ui/heading";
+"use client";
 import React from "react";
+import Heading from "@/components/ui/heading";
 import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { getHighlightIndices } from "./title-formatter";
 
-interface HeroProps {
+interface ServicesHeroProps {
   title: string;
-  excerpt: string;
+  subtitle?: string;
+  description?: string;
   backgroundImage?: string;
+  ctaText?: string;
+  ctaLink?: string;
   highlightPattern?: "alternate" | "bookend" | "middle";
-  breadcrumb?: {
-    text: string;
-    href: string;
-  }[];
 }
 
-function Hero({
+function ServicesHero({
   title,
-  excerpt,
+  subtitle = "Professional Services",
+  description = "We offer a comprehensive range of professional services designed to help businesses grow, transform, and succeed in today's competitive landscape.",
   backgroundImage = "/images/services.avif",
+  ctaText = "Explore Our Services",
+  ctaLink = "#services-grid",
   highlightPattern = "alternate",
-  breadcrumb = [
-    { text: "Home", href: "/" },
-    { text: "Services", href: "/services" },
-  ],
-}: HeroProps) {
+}: ServicesHeroProps) {
   // Get the indices of words to highlight
-  const highlightIndices = getHighlightIndices(title, highlightPattern);
-  const words = title.split(" ");
+  const highlightIndices = getHighlightIndices(
+    title || "Our Professional Services",
+    highlightPattern
+  );
+  const words = (title || "Our Professional Services").split(" ");
 
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative overflow-hidden min-h-[75vh] flex items-center">
       {/* Background image with gradient overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `linear-gradient(270deg, rgba(0, 2, 44, 0.5), rgba(0, 2, 44, 0.9)), url(${backgroundImage})`,
+          backgroundImage: `linear-gradient(270deg, rgba(0, 2, 44, 0.6), rgba(0, 2, 44, 0.9)), url(${backgroundImage})`,
         }}
       >
         {/* Subtle background elements */}
@@ -68,28 +70,21 @@ function Hero({
         <div className="max-w-[800px] flex flex-col items-center text-center">
           {/* Breadcrumb with animation */}
           <div className="flex items-center space-x-1 mb-6 text-sm text-white/70">
-            {breadcrumb.map((item, index) => (
-              <React.Fragment key={index}>
-                <Link
-                  href={item.href}
-                  className="hover:text-white transition-colors duration-200"
-                >
-                  {item.text}
-                </Link>
-                {index < breadcrumb.length - 1 && (
-                  <ChevronRight className="w-4 h-4 text-white/50" />
-                )}
-              </React.Fragment>
-            ))}
+            <Link
+              href="/"
+              className="hover:text-white transition-colors duration-200"
+            >
+              Home
+            </Link>
             <ChevronRight className="w-4 h-4 text-white/50" />
-            <span className="text-white">{title}</span>
+            <span className="text-white">Services</span>
           </div>
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-8 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-blue-400" />
             <span className="text-blue-300 text-sm font-medium">
-              Professional Services
+              {subtitle}
             </span>
           </div>
 
@@ -114,16 +109,22 @@ function Hero({
 
           {/* Description with better typography */}
           <div className="mt-8 text-xl text-gray-100 leading-relaxed max-w-3xl mx-auto">
-            <div dangerouslySetInnerHTML={{ __html: excerpt }} />
+            {typeof description === "string" &&
+            description.includes("<") &&
+            description.includes(">") ? (
+              <div dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              <p>{description}</p>
+            )}
           </div>
 
           {/* CTA Button */}
           <Link
-            href="/contact"
+            href={ctaLink}
             className="mt-10 group relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-teal-500 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 hover:scale-105 flex items-center gap-2"
           >
             <span className="relative z-10 flex items-center gap-2">
-              Get Started
+              {ctaText}
               <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-teal-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -134,4 +135,4 @@ function Hero({
   );
 }
 
-export default Hero;
+export default ServicesHero;

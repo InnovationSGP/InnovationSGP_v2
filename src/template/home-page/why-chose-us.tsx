@@ -76,7 +76,7 @@ const WhyChoseUs = ({ data }: any) => {
   ];
 
   return (
-    <section className="max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 py-20">
+    <section className="max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 py-10">
       <div
         className={`relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-[32px] py-[60px] px-6 md:px-12 transition-all duration-1000 transform ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -84,7 +84,7 @@ const WhyChoseUs = ({ data }: any) => {
       >
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+          <div className="absolute -top-20 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
           <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-teal-400 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse animation-delay-3000"></div>
