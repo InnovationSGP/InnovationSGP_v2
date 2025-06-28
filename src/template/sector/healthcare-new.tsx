@@ -24,23 +24,12 @@ function Healthcare({ data }: any) {
       setIsVisible(true);
     }, 300);
 
-    // Log the available images for debugging
-    console.log("Healthcare component data:", {
-      hasImages: !!data?.images,
-      imageCount: data?.images?.length || 0,
-      imageURLs: data?.images || [],
-    });
-
     return () => clearTimeout(timer);
-  }, [data]);
+  }, []);
 
   if (!data) {
     return null;
   }
-
-  // Default fallback images if none are provided
-  const primaryImage = data?.images?.[0] || "/images/services.avif";
-  const secondaryImage = data?.images?.[1] || "/images/about-hero.png";
 
   return (
     <section className="max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 py-10">
@@ -152,21 +141,23 @@ function Healthcare({ data }: any) {
 
             {/* Right column - Image */}
             <div className="relative flex items-center justify-center">
-              <div className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-2xl shadow-blue-500/10 border border-white/10 transform transition-all duration-500 hover:scale-[1.02]">
-                <Image
-                  src={primaryImage}
-                  alt="Healthcare Sector"
-                  fill
-                  className="object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-slate-900/30"></div>
-              </div>
+              {data?.images?.[0] && (
+                <div className="relative w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-2xl shadow-blue-500/10 border border-white/10 transform transition-all duration-500 hover:scale-[1.02]">
+                  <Image
+                    src={data.images[0]}
+                    alt="Healthcare Sector"
+                    fill
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-slate-900/30"></div>
+                </div>
+              )}
 
               {/* Secondary image */}
-              {secondaryImage && (
+              {data?.images?.[1] && (
                 <div className="absolute -bottom-6 -right-6 w-1/2 h-2/5 rounded-xl overflow-hidden border-4 border-slate-800/90 shadow-lg transform transition-all duration-500 hover:scale-105 z-10">
                   <Image
-                    src={secondaryImage}
+                    src={data.images[1]}
                     alt="Healthcare Detail"
                     fill
                     className="object-cover"
