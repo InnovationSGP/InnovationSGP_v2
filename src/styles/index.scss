@@ -12,11 +12,11 @@
 @use "../../node_modules/@wordpress/base-styles/_z-index.scss";
 @use "../../node_modules/@wordpress/base-styles/_default-custom-properties.scss";
 
- //WordPress block library styles
+//WordPress block library styles
 //@use "../../node_modules/@wordpress/block-library/src/style.scss";
 @use "../../node_modules/@wordpress/block-library/src/theme.scss";
 
- //WordPress block editor styles (for Gutenberg blocks)
+//WordPress block editor styles (for Gutenberg blocks)
 @use "../../node_modules/@wordpress/components/build-style/style.css";
 @use "../../node_modules/@wordpress/block-editor/build-style/style.css";
 
@@ -51,7 +51,6 @@
 //@tailwind base;
 //@tailwind components;
 //@tailwind utilities;
-
 
 :root {
   --blue-10: #7f9ad6f7;
@@ -118,11 +117,32 @@ span {
 }
 .home_page_blog_gradient {
   background: linear-gradient(
-                  180deg,
-                  rgba(239, 247, 255, 0) 0%,
-                  #eff7ff 50%,
-                  #eff7ff 100%
+    180deg,
+    rgba(239, 247, 255, 0.3) 0%,
+    rgba(239, 247, 255, 0.8) 50%,
+    rgba(239, 247, 255, 1) 100%
   );
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: radial-gradient(
+        circle at 20% 20%,
+        rgba(59, 130, 246, 0.03) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(99, 102, 241, 0.03) 0%,
+        transparent 40%
+      );
+    z-index: 0;
+  }
 }
 
 .logo-scroller {
@@ -168,16 +188,15 @@ span {
   }
 }
 
-
 .content h2,
 .content h3,
 .content h4,
 .content h5,
-.content h1{
+.content h1 {
   font-size: 22px;
   font-weight: 600;
 }
-.content h6{
+.content h6 {
   font-size: 20px;
   font-weight: 600;
 }

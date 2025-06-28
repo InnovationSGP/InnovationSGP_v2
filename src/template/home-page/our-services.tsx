@@ -3,7 +3,22 @@ import Heading from "@/components/ui/heading";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronRight,
+  Sparkles,
+  BarChart3,
+  Server,
+  Briefcase,
+  Code,
+  Presentation,
+  Globe,
+  LineChart,
+  Database,
+  ShieldCheck,
+  Settings,
+  Layers,
+} from "lucide-react";
 
 type ServiceType = {
   id: string;
@@ -25,14 +40,68 @@ type OurServicesProps = {
   };
 };
 
+// Map of service icons using Lucide components
+const serviceIcons = {
+  business: <Briefcase className="w-5 h-5" />,
+  consulting: <Presentation className="w-5 h-5" />,
+  data: <Database className="w-5 h-5" />,
+  analytics: <BarChart3 className="w-5 h-5" />,
+  technology: <Server className="w-5 h-5" />,
+  software: <Code className="w-5 h-5" />,
+  global: <Globe className="w-5 h-5" />,
+  security: <ShieldCheck className="w-5 h-5" />,
+  performance: <LineChart className="w-5 h-5" />,
+  system: <Settings className="w-5 h-5" />,
+  default: <Layers className="w-5 h-5" />,
+};
+
+// Helper function to determine which icon to use based on service title or id
+const getServiceIcon = (service: ServiceType) => {
+  const title = service.title.toLowerCase();
+
+  if (title.includes("business") || title.includes("management"))
+    return serviceIcons.business;
+  if (title.includes("consult")) return serviceIcons.consulting;
+  if (title.includes("data")) return serviceIcons.data;
+  if (title.includes("analytics") || title.includes("intelligence"))
+    return serviceIcons.analytics;
+  if (title.includes("tech")) return serviceIcons.technology;
+  if (title.includes("software") || title.includes("develop"))
+    return serviceIcons.software;
+  if (title.includes("global") || title.includes("international"))
+    return serviceIcons.global;
+  if (title.includes("security") || title.includes("protect"))
+    return serviceIcons.security;
+  if (title.includes("performance") || title.includes("optimization"))
+    return serviceIcons.performance;
+  if (title.includes("system") || title.includes("infrastructure"))
+    return serviceIcons.system;
+
+  return serviceIcons.default;
+};
+
 const OurServices = ({ data }: OurServicesProps) => {
   const [activeService, setActiveService] = useState<number>(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Add animation on mount with a slight delay
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const services = data?.our_service_service || [];
 
   return (
     <section className="max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 py-20">
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-[32px] py-[60px] px-6 md:px-12">
+      <div
+        className={`relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-[32px] py-[60px] px-6 md:px-12 transition-all duration-1000 transform ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+      >
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -40,6 +109,9 @@ const OurServices = ({ data }: OurServicesProps) => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
           <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-teal-400 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse animation-delay-3000"></div>
         </div>
+
+        {/* Grid background overlay */}
+        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:20px_20px]"></div>
 
         {/* Floating particles */}
         <div className="absolute inset-0">
@@ -87,7 +159,7 @@ const OurServices = ({ data }: OurServicesProps) => {
             {data?.cta_url && (
               <Link
                 href={data.cta_url}
-                className="mt-8 md:mt-0 group flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full hover:bg-white hover:text-blue-900 transition-all duration-300"
+                className="mt-8 md:mt-0 group flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full hover:bg-white/15 transition-all duration-300"
               >
                 <span>View All Services</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
@@ -117,25 +189,15 @@ const OurServices = ({ data }: OurServicesProps) => {
                         onClick={() => setActiveService(idx)}
                       >
                         <div className="flex items-center gap-3">
-                          {service.icon && (
-                            <div
-                              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-                                activeService === idx
-                                  ? "bg-teal-400 text-white"
-                                  : "bg-white/10"
-                              }`}
-                            >
-                              <Image
-                                src={service.icon}
-                                alt=""
-                                width={16}
-                                height={16}
-                                className={`transition-all duration-300 ${
-                                  activeService === idx ? "invert" : "invert"
-                                }`}
-                              />
-                            </div>
-                          )}
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                              activeService === idx
+                                ? "bg-teal-400 text-white"
+                                : "bg-white/10 text-white"
+                            }`}
+                          >
+                            {getServiceIcon(service)}
+                          </div>
                           <span>{service.title}</span>
                         </div>
                         <ChevronRight
@@ -171,13 +233,7 @@ const OurServices = ({ data }: OurServicesProps) => {
 
                       <div className="absolute bottom-0 left-0 p-8">
                         <div className="inline-flex items-center justify-center p-3 bg-teal-400 rounded-full mb-4 shadow-lg transition-transform duration-300 hover:scale-105 hover:rotate-3">
-                          <Image
-                            src={services[activeService].icon}
-                            alt=""
-                            width={24}
-                            height={24}
-                            className="invert"
-                          />
+                          {getServiceIcon(services[activeService])}
                         </div>
                         <h2 className="text-white text-3xl md:text-4xl font-semibold drop-shadow-md">
                           {services[activeService].title}
@@ -221,13 +277,7 @@ const OurServices = ({ data }: OurServicesProps) => {
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400/0 via-teal-400/70 to-blue-400/0"></div>
                   <div className="absolute bottom-0 left-0 p-4">
                     <div className="inline-flex items-center justify-center p-2 bg-teal-400 rounded-full mb-2 shadow-lg transition-transform duration-300 hover:scale-105">
-                      <Image
-                        src={services[activeService].icon}
-                        alt=""
-                        width={16}
-                        height={16}
-                        className="invert"
-                      />
+                      {getServiceIcon(services[activeService])}
                     </div>
                   </div>
                 </div>
