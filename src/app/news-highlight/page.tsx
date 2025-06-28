@@ -1,86 +1,87 @@
-import Banner from "@/components/banner";
-import { fetchAPI } from "@/config/api";
-import Pagination from "@/template/blog/pagination";
-import Treding from "@/template/highlight/treding";
-import Blogs from "@/template/home-page/blogs";
+import React from "react";
+import { Suspense } from "react";
+import { generateMetadata } from "./metadata";
+import NewsHighlightClient from "./client";
 
-export async function generateMetadata() {
-  const {yoast_head_json} = await fetchAPI({ endpoint: "pages/240" })
-  const yoast = yoast_head_json
-  return {
-    title: yoast.title.replace(/&#0*39;/g, "'"), // decode HTML entity
-    description: yoast.og_description, // you can add more if available
-    alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/news-highlight`,
-    },
-    openGraph: {
-      title: yoast.og_title.replace(/&#0*39;/g, "'"),
-      url: yoast.og_url,
-      siteName: yoast.og_site_name.replace(/&#0*39;/g, "'"),
-      type: yoast.og_type,
-      locale: yoast.og_locale,
-    },
-    twitter: {
-      card: yoast.twitter_card,
-    },
-    robots: {
-      index: yoast.robots.index === "index",
-      follow: yoast.robots.follow === "follow",
-      maxSnippet: parseInt(yoast.robots["max-snippet"]?.split(":")[1] ?? "-1"),
-      maxImagePreview: yoast.robots["max-image-preview"]?.split(":")[1],
-      maxVideoPreview: parseInt(yoast.robots["max-video-preview"]?.split(":")[1] ?? "-1"),
-    } as any,
-  };
-}
+// Export metadata for SEO
+export { generateMetadata };
 
-async function getData() {
-  try {
-    const newsT = await fetchAPI({
-      endpoint: `posts?categories=1&per_page=6&page=1&_embed`,
-    });
-    
-    const news = await fetchAPI({
-      endpoint: `posts?categories=1&per_page=6&page=2&_embed`,
-    });
-
-    const totalPosts = await fetchAPI({
-      endpoint: `category-post-count/1`,
-    });
-
-    return {
-      newsT,
-      news,
-      totalPosts: totalPosts?.total_posts,
-    };
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return {
-      newsT: [],
-      news: [],
-      totalPosts: 0,
-    };
-  }
-}
-
-export default async function News() {
-  const { newsT, news, totalPosts } = await getData();
-  
-  // Calculate the number of pages for pagination (ensure no negative values)
-  const tPosts = Math.max(totalPosts - 6, 0);
-
+export default function NewsHighlightPage() {
   return (
-    <>
-      <Banner
-        bgImage="/images/about-hero.png"
-        labelText="Home / Intel / News and Highlights"
-        headingText="News and Highlights"
-        description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"
-      />
-      <Treding data={newsT} />
-      <Blogs title="Trending" colorTitle="News" label="Trending" data={news} />
-      
-      {/* Ensure that totalPages is a non-negative number */}
-      {totalPosts > 6 && <Pagination totalPages={tPosts / 6} bg />}
-    </>
+    <Suspense fallback={<NewsHighlightSkeleton />}>
+      <NewsHighlightClient />
+    </Suspense>
+  );
+}
+
+// Skeleton loader for the news highlight page
+function NewsHighlightSkeleton() {
+  return (
+    <div className="w-full min-h-screen">
+      {/* Hero Section Skeleton */}
+      <div className="w-full h-[500px] bg-gradient-to-r from-slate-200 to-slate-300 animate-pulse">
+        <div className="container mx-auto px-4 py-40">
+          <div className="h-10 bg-slate-400 w-1/3 rounded-md mb-4"></div>
+          <div className="h-6 bg-slate-400 w-1/2 rounded-md mb-8"></div>
+          <div className="h-4 bg-slate-400 w-2/3 rounded-md"></div>
+        </div>
+      </div>
+
+      {/* Featured News Section Skeleton */}
+      <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-4 mb-16">
+          <div className="flex items-center mb-10">
+            <div className="w-10 h-1 bg-slate-300 mr-4"></div>
+            <div className="h-8 bg-slate-200 w-1/4 rounded"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-xl shadow-sm overflow-hidden"
+              >
+                <div className="bg-slate-200 h-56 rounded-t-lg"></div>
+                <div className="p-6">
+                  <div className="h-6 bg-slate-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-4 bg-slate-200 rounded w-full mb-2"></div>
+                  <div className="h-4 bg-slate-200 rounded w-2/3 mb-4"></div>
+                  <div className="flex justify-between items-center">
+                    <div className="h-3 bg-slate-200 rounded w-1/4"></div>
+                    <div className="h-3 bg-slate-200 rounded w-1/5"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Latest News Skeleton */}
+        <div className="container mx-auto px-4">
+          <div className="flex items-center mb-10">
+            <div className="w-10 h-1 bg-slate-300 mr-4"></div>
+            <div className="h-8 bg-slate-200 w-1/4 rounded"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(9)].map((_, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-xl shadow-sm overflow-hidden"
+              >
+                <div className="bg-slate-200 h-56 rounded-t-lg"></div>
+                <div className="p-6">
+                  <div className="h-6 bg-slate-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-4 bg-slate-200 rounded w-full mb-2"></div>
+                  <div className="h-4 bg-slate-200 rounded w-2/3 mb-4"></div>
+                  <div className="flex justify-between items-center">
+                    <div className="h-3 bg-slate-200 rounded w-1/4"></div>
+                    <div className="h-3 bg-slate-200 rounded w-1/5"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

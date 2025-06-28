@@ -18,33 +18,33 @@ export const fetchAPI = async ({
   try {
     // More robust sanitization of the endpoint URL
     let sanitizedEndpoint = endpoint.trim();
-    
+
     // Handle special characters properly using encodeURIComponent for query param values
-    if (sanitizedEndpoint.includes('?')) {
-      const [path, queryString] = sanitizedEndpoint.split('?');
+    if (sanitizedEndpoint.includes("?")) {
+      const [path, queryString] = sanitizedEndpoint.split("?");
       const searchParams = new URLSearchParams();
-      
+
       // Parse and properly encode each query parameter
-      queryString.split('&').forEach((param: string) => {
-        if (param.includes('=')) {
-          const [key, value] = param.split('=');
+      queryString.split("&").forEach((param: string) => {
+        if (param.includes("=")) {
+          const [key, value] = param.split("=");
           searchParams.append(key.trim(), value.trim());
         }
       });
-      
+
       // Reconstruct with properly encoded parameters
       sanitizedEndpoint = `${path}?${searchParams.toString()}`;
     }
-    
+
     // Ensure we don't have double slashes in the URL
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.endsWith('/') 
-      ? process.env.NEXT_PUBLIC_API_URL.slice(0, -1) 
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL?.endsWith("/")
+      ? process.env.NEXT_PUBLIC_API_URL.slice(0, -1)
       : process.env.NEXT_PUBLIC_API_URL;
-      
-    const fullUrl = sanitizedEndpoint.startsWith('/') 
+
+    const fullUrl = sanitizedEndpoint.startsWith("/")
       ? `${baseUrl}${sanitizedEndpoint}`
       : `${baseUrl}/${sanitizedEndpoint}`;
-    
+
     const response = await fetch(fullUrl, options);
 
     if (!response.ok) {

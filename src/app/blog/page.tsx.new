@@ -104,54 +104,54 @@ export default function Home() {
         } catch (error) {
           // More specific error handling
           console.error(`Error fetching ${endpoint}:`, error);
-
+          
           // Special handling for pagination errors (HTTP 400)
           if (endpoint.includes("page=") && endpoint.includes("per_page=")) {
             console.warn("Pagination error, attempting fallback strategy...");
-
+            
             // Extract pagination parameters
             const params = new URLSearchParams();
             const baseEndpoint = endpoint.split("?")[0];
             const pageMatch = endpoint.match(/page=(\d+)/);
             const perPageMatch = endpoint.match(/per_page=(\d+)/);
             const categoryMatch = endpoint.match(/categories=(\d+)/);
-
+            
             // Default to page 1 with same per_page value
             params.append("page", "1");
-
+            
             if (perPageMatch && perPageMatch[1]) {
               params.append("per_page", perPageMatch[1]);
             } else {
               params.append("per_page", "9"); // Default
             }
-
+            
             // Preserve category filter if present
             if (categoryMatch && categoryMatch[1]) {
               params.append("categories", categoryMatch[1]);
             }
-
+            
             // Add _embed if it was in the original request
             if (endpoint.includes("_embed")) {
               params.append("_embed", "");
             }
-
+            
             // Create a safe fallback endpoint
             const fallbackEndpoint = `${baseEndpoint}?${params.toString()}`;
-
+            
             // Retry with the safer parameters
             try {
               const fallbackResult = await fetchAPI({
                 endpoint: fallbackEndpoint,
-                includeHeaders: true,
+                includeHeaders: true
               });
-
+              
               return fallbackResult;
             } catch (fallbackError) {
               console.error("Fallback fetch also failed:", fallbackError);
               return null;
             }
           }
-
+          
           return null;
         }
       } catch (error) {
@@ -192,7 +192,7 @@ export default function Home() {
             categoriesRes = [];
           }
         } catch (error) {
-          console.error("Failed to fetch categories:", error);
+          console.error('Failed to fetch categories:', error);
           categoriesRes = [];
         }
 
@@ -207,7 +207,7 @@ export default function Home() {
               countParams.append("categories", category.id.toString());
               countParams.append("per_page", "1");
               countParams.append("page", "1");
-
+              
               const countResponse = await fetchWithCache(
                 `posts?${countParams.toString()}`,
                 true
@@ -241,22 +241,22 @@ export default function Home() {
         params.append("page", safePageNum.toString());
         params.append("per_page", postsPerPage.toString());
         params.append("_embed", "");
-
+        
         // Add category filter if needed
         if (activeCategoryId !== null) {
           params.append("categories", activeCategoryId.toString());
         }
-
+        
         // Construct properly encoded endpoint
         const postsEndpoint = `posts?${params.toString()}`;
-
+        
         let blogsResponse;
         let postsData;
 
         try {
           // Get posts with pagination info
           blogsResponse = await fetchWithCache(postsEndpoint, true);
-
+          
           // Handle the response data structure
           if (blogsResponse?.data && Array.isArray(blogsResponse.data)) {
             postsData = blogsResponse.data;
@@ -267,27 +267,21 @@ export default function Home() {
             postsData = [];
           }
         } catch (error) {
-          console.error(
-            "Error with pagination, falling back to page 1:",
-            error
-          );
+          console.error("Error with pagination, falling back to page 1:", error);
           // If pagination fails, try fetching page 1
           try {
             const fallbackParams = new URLSearchParams();
             fallbackParams.append("page", "1");
             fallbackParams.append("per_page", postsPerPage.toString());
             fallbackParams.append("_embed", "");
-
+            
             // Keep the category filter if it exists
             if (activeCategoryId !== null) {
               fallbackParams.append("categories", activeCategoryId.toString());
             }
-
-            blogsResponse = await fetchWithCache(
-              `posts?${fallbackParams.toString()}`,
-              true
-            );
-
+            
+            blogsResponse = await fetchWithCache(`posts?${fallbackParams.toString()}`, true);
+            
             // Extract the posts data
             if (blogsResponse?.data && Array.isArray(blogsResponse.data)) {
               postsData = blogsResponse.data;
@@ -323,34 +317,32 @@ export default function Home() {
         // Determine total posts from pagination info or count endpoint
         try {
           // First try to get the total from pagination headers in the current response
-          if (
-            blogsResponse?.pagination?.totalPosts !== undefined &&
-            blogsResponse.pagination.totalPosts !== null
-          ) {
+          if (blogsResponse?.pagination?.totalPosts !== undefined && 
+              blogsResponse.pagination.totalPosts !== null) {
             // We have pagination info directly from the WP headers
             setTotalPosts(blogsResponse.pagination.totalPosts);
           } else {
             // If headers are not available, make a separate count request
             let totalCount;
             const safeId = parseCategoryId(categoryParam);
-
+            
             // Build a minimal request just to get the count
             const countParams = new URLSearchParams();
             countParams.append("per_page", "1");
             countParams.append("page", "1");
-
+            
             if (safeId !== null) {
               // Get count for specific category
               countParams.append("categories", safeId.toString());
               const categoryCountResponse = await fetchWithCache(
-                `posts?${countParams.toString()}`,
+                `posts?${countParams.toString()}`, 
                 true
               );
               totalCount = categoryCountResponse?.pagination?.totalPosts;
             } else {
               // Get count for all posts
               const allPostsCountResponse = await fetchWithCache(
-                `posts?${countParams.toString()}`,
+                `posts?${countParams.toString()}`, 
                 true
               );
               totalCount = allPostsCountResponse?.pagination?.totalPosts;
