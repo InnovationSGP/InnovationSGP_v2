@@ -7,6 +7,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import DOMPurify from "isomorphic-dompurify";
 import styles from "@/styles/blog-content.module.css";
+import { getMediaURL } from "@/utils";
+import Script from "next/script";
+import FallbackImage from "@/components/ui/fallback-image";
 
 interface PageProps {
   params: {
@@ -36,7 +39,7 @@ export async function generateMetadata({
     try {
       // Fetch the post data with strict error handling
       post = await fetchAPI({
-        endpoint: `posts/${articleId}?_embed`,
+        endpoint: `posts/${articleId}?_embed=1&_fields=id,title,content,excerpt,date,modified,_links,_embedded`,
       });
     } catch (error) {
       console.error("Error fetching article for metadata:", error);
@@ -70,10 +73,40 @@ export async function generateMetadata({
       if (description.length === 155) description += "...";
     }
 
-    // Get featured image for Open Graph
+    // Get featured image for Open Graph with size optimization
     let ogImage = null;
-    if (post._embedded?.["wp:featuredmedia"]?.[0]?.source_url) {
-      ogImage = post._embedded["wp:featuredmedia"][0].source_url;
+    let ogImageWidth = 1200;
+    let ogImageHeight = 630;
+
+    if (post._embedded?.["wp:featuredmedia"]?.[0]) {
+      const media = post._embedded["wp:featuredmedia"][0];
+
+      // Try to get the optimal image size for social sharing
+      if (media.media_details?.sizes) {
+        // First try to get a size close to 1200x630 which is ideal for OG images
+        if (media.media_details.sizes["large"]) {
+          ogImage = media.media_details.sizes["large"].source_url;
+          ogImageWidth = media.media_details.sizes["large"].width;
+          ogImageHeight = media.media_details.sizes["large"].height;
+        } else if (media.media_details.sizes["medium_large"]) {
+          ogImage = media.media_details.sizes["medium_large"].source_url;
+          ogImageWidth = media.media_details.sizes["medium_large"].width;
+          ogImageHeight = media.media_details.sizes["medium_large"].height;
+        } else if (media.media_details.sizes["medium"]) {
+          ogImage = media.media_details.sizes["medium"].source_url;
+          ogImageWidth = media.media_details.sizes["medium"].width;
+          ogImageHeight = media.media_details.sizes["medium"].height;
+        }
+      }
+
+      // Fallback to full size if no optimized sizes are available
+      if (!ogImage) {
+        ogImage = media.source_url;
+        if (media.media_details?.width)
+          ogImageWidth = media.media_details.width;
+        if (media.media_details?.height)
+          ogImageHeight = media.media_details.height;
+      }
     }
 
     // Get author
@@ -104,7 +137,14 @@ export async function generateMetadata({
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/news-highlight/${articleId}`,
         siteName: "InnovationSGP",
         images: ogImage
-          ? [{ url: ogImage, width: 1200, height: 630, alt: title }]
+          ? [
+              {
+                url: ogImage,
+                width: ogImageWidth,
+                height: ogImageHeight,
+                alt: title,
+              },
+            ]
           : undefined,
       },
       twitter: {
@@ -144,9 +184,9 @@ export default async function NewsArticlePage({ params }: PageProps) {
     // We've validated articleId is a string by this point
     let post;
     try {
-      // Fetch the post data
+      // Fetch the post data with full embedding to ensure we get media
       post = await fetchAPI({
-        endpoint: `posts/${articleId}?_embed`,
+        endpoint: `posts/${articleId}?_embed=1&_fields=id,title,content,excerpt,date,modified,_links,_embedded`,
       });
     } catch (error) {
       console.error("Error loading article:", error);
@@ -168,26 +208,101 @@ export default async function NewsArticlePage({ params }: PageProps) {
       day: "numeric",
     });
 
-    // Get featured image with proper fallback handling
+    // Decode HTML entities in title
+    const decodedTitle = post.title?.rendered
+      ? post.title.rendered.replace(/&#(\d+);/g, (match: string, dec: string) =>
+          String.fromCharCode(parseInt(dec, 10))
+        )
+      : "News Article";
+
+    // Get featured image with proper fallback and size optimization
+    const featuredImageData = post._embedded?.["wp:featuredmedia"]?.[0];
     let featuredImage = null;
-    if (post._embedded?.["wp:featuredmedia"]?.[0]?.source_url) {
-      featuredImage = post._embedded["wp:featuredmedia"][0].source_url;
+    let featuredImageAlt = decodedTitle;
+
+    // Debug the featuredImageData
+
+    if (featuredImageData) {
+      // Get the optimal image size if available
+      if (featuredImageData.media_details?.sizes) {
+        if (featuredImageData.media_details.sizes["full"]) {
+          featuredImage =
+            featuredImageData.media_details.sizes["full"].source_url;
+        } else if (featuredImageData.media_details.sizes["large"]) {
+          featuredImage =
+            featuredImageData.media_details.sizes["large"].source_url;
+        }
+      }
+
+      // Fallback to source_url if no sizes available
+      if (!featuredImage) {
+        featuredImage = featuredImageData.source_url;
+      }
+
+      // Get image alt text if available
+      if (featuredImageData.alt_text) {
+        featuredImageAlt = featuredImageData.alt_text;
+      } else if (featuredImageData.caption?.rendered) {
+        featuredImageAlt = featuredImageData.caption.rendered
+          .replace(/<\/?[^>]+(>|$)/g, "")
+          .trim();
+      }
+    }
+
+    // If we don't have a featured image from the embedding, try to fetch it directly
+    if (!featuredImage && post.featured_media) {
+      try {
+        console.log("Fetching featured media directly:", post.featured_media);
+
+        // Try to fetch the media directly
+        const mediaData = await fetchAPI({
+          endpoint: `media/${post.featured_media}`,
+        });
+
+        if (mediaData && mediaData.source_url) {
+          console.log("Direct media fetch success:", mediaData.source_url);
+          featuredImage = mediaData.source_url;
+
+          // Also update alt text if available
+          if (mediaData.alt_text) {
+            featuredImageAlt = mediaData.alt_text;
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching media directly:", error);
+      }
     }
 
     // Get author with proper fallback
     let author = "InnovationSGP";
     let authorAvatar = null;
+    let authorDescription = "";
+    let authorUrl = "";
 
     if (post._embedded?.["author"]?.[0]) {
-      if (post._embedded["author"][0].name) {
-        author = post._embedded["author"][0].name;
+      const authorData = post._embedded["author"][0];
+
+      if (authorData.name) {
+        author = authorData.name;
       }
 
-      // Get avatar if available
+      // Get avatar with optimal size
       authorAvatar =
-        post._embedded["author"][0]?.avatar_urls?.["96"] ||
-        post._embedded["author"][0]?.avatar_urls?.["48"] ||
-        post._embedded["author"][0]?.avatar_urls?.["24"];
+        authorData?.avatar_urls?.["96"] ||
+        authorData?.avatar_urls?.["48"] ||
+        authorData?.avatar_urls?.["24"];
+
+      // Get author description if available
+      if (authorData.description) {
+        authorDescription = authorData.description;
+      }
+
+      // Get author URL if available
+      if (authorData.url) {
+        authorUrl = authorData.url;
+      } else if (authorData.link) {
+        authorUrl = authorData.link;
+      }
     }
 
     // Get categories for breadcrumbs
@@ -210,20 +325,15 @@ export default async function NewsArticlePage({ params }: PageProps) {
     // Sanitize the content for security
     const sanitizedContent = DOMPurify.sanitize(post.content.rendered);
 
-    // Decode HTML entities in title
-    const decodedTitle = post.title?.rendered
-      ? post.title.rendered.replace(/&#(\d+);/g, (match: string, dec: string) =>
-          String.fromCharCode(parseInt(dec, 10))
-        )
-      : "News Article";
-
     return (
       <>
         <BlogHero
           title={decodedTitle}
-          subtitle="News Article"
+          subtitle={categories.length > 0 ? categories[0].name : "News Article"}
           description={`Published on ${date} by ${author}`}
-          backgroundImage={featuredImage || "/images/blog-read.png"}
+          backgroundImage={
+            featuredImage || getMediaURL(post) || "/images/blog-read.png"
+          }
           breadcrumbs={[
             { label: "Home", url: "/" },
             { label: "News", url: "/news-highlight" },
@@ -232,19 +342,59 @@ export default async function NewsArticlePage({ params }: PageProps) {
           highlightPattern="bookend"
         />
 
+        {/* JSON-LD structured data for SEO */}
+        <Script
+          id={`article-schema-${articleId}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "NewsArticle",
+              headline: decodedTitle,
+              image: [
+                featuredImage || getMediaURL(post) || "/images/blog-read.png",
+              ],
+              datePublished: post.date,
+              dateModified: post.modified,
+              author: {
+                "@type": "Person",
+                name: author,
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "InnovationSGP",
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.svg`,
+                  width: 112,
+                  height: 32,
+                },
+              },
+              description: post.excerpt?.rendered
+                ? post.excerpt.rendered.replace(/<\/?[^>]+(>|$)/g, "").trim()
+                : "",
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `${process.env.NEXT_PUBLIC_BASE_URL}/news-highlight/${articleId}`,
+              },
+            }),
+          }}
+        />
+
         <div className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               {/* Author info */}
               <div className="flex items-center mb-8">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-100 flex items-center justify-center mr-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-100 flex items-center justify-center mr-4 shadow-md">
                   {authorAvatar ? (
-                    <Image
+                    <FallbackImage
                       src={authorAvatar}
                       alt={author}
                       width={48}
                       height={48}
                       className="w-full h-full object-cover"
+                      fallbackSrc="/images/placeholderMember.png"
                     />
                   ) : (
                     <span className="text-blue-600 font-bold text-lg">
@@ -253,8 +403,24 @@ export default async function NewsArticlePage({ params }: PageProps) {
                   )}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">{author}</p>
+                  {authorUrl ? (
+                    <a
+                      href={authorUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-gray-900 hover:text-blue-600 transition-colors"
+                    >
+                      {author}
+                    </a>
+                  ) : (
+                    <p className="font-medium text-gray-900">{author}</p>
+                  )}
                   <p className="text-sm text-gray-500">{date}</p>
+                  {authorDescription && (
+                    <p className="text-xs text-gray-600 mt-1 max-w-md line-clamp-2">
+                      {authorDescription}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -265,7 +431,7 @@ export default async function NewsArticlePage({ params }: PageProps) {
                     <Link
                       key={category.id}
                       href={`/news-highlight?category=${category.id}`}
-                      className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm hover:bg-blue-100 transition-colors"
+                      className="px-3 py-1 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-100 transition-colors border border-blue-100 shadow-sm hover:shadow-md"
                     >
                       {category.name}
                     </Link>
@@ -274,20 +440,25 @@ export default async function NewsArticlePage({ params }: PageProps) {
               )}
 
               {/* Featured image for the article body */}
-              {featuredImage && (
-                <div className="mb-10 rounded-xl overflow-hidden shadow-lg">
-                  <Image
-                    src={featuredImage}
-                    alt={decodedTitle}
-                    width={1200}
-                    height={630}
-                    className="w-full h-auto"
-                  />
-                </div>
-              )}
+              <div className="mb-10 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <FallbackImage
+                  src={
+                    featuredImage ||
+                    getMediaURL(post) ||
+                    "/images/blog-read.png"
+                  }
+                  alt={featuredImageAlt}
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  fallbackSrc="/images/blog-read.png"
+                />
+              </div>
 
               {/* Article content with WordPress styling */}
-              <article className="prose prose-lg max-w-none">
+              <article className="prose prose-lg max-w-none prose-headings:text-blue-900 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-md">
                 <div
                   dangerouslySetInnerHTML={{
                     __html: sanitizedContent || "<p>No content available.</p>",
@@ -303,26 +474,63 @@ export default async function NewsArticlePage({ params }: PageProps) {
                     <h4 className="text-sm text-gray-500">Published on</h4>
                     <p className="text-lg font-medium">{date}</p>
                   </div>
-                  <Link
-                    href="/news-highlight"
-                    className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    <svg
-                      className="w-4 h-4 mr-2 rotate-180"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
+                  <div className="flex gap-3">
+                    {/* Social Share Links */}
+                    <a
+                      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                        `${process.env.NEXT_PUBLIC_BASE_URL}/news-highlight/${articleId}`
+                      )}&text=${encodeURIComponent(decodedTitle)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors"
+                      aria-label="Share on Twitter"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                      />
-                    </svg>
-                    Back to News
-                  </Link>
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                      </svg>
+                    </a>
+                    <a
+                      href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+                        `${process.env.NEXT_PUBLIC_BASE_URL}/news-highlight/${articleId}`
+                      )}&title=${encodeURIComponent(decodedTitle)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-colors"
+                      aria-label="Share on LinkedIn"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                      </svg>
+                    </a>
+                    <Link
+                      href="/news-highlight"
+                      className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+                    >
+                      <svg
+                        className="w-4 h-4 mr-2 rotate-180"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                      </svg>
+                      Back to News
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
