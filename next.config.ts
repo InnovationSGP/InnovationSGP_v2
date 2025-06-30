@@ -8,6 +8,24 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.innovationsgp.com",
       },
+      // Add WordPress.com and wp.com domains for media
+      {
+        protocol: "https",
+        hostname: "**.wordpress.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.wp.com",
+      },
+      {
+        protocol: "https",
+        hostname: "innovationsgp.com",
+      },
+      // Allow images from any domain during development
+      {
+        protocol: "https",
+        hostname: "**",
+      },
       // Add Gravatar for author avatars
       {
         protocol: "https",

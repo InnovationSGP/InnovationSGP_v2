@@ -1,8 +1,8 @@
 import AboutCompany from "@/template/about/about-company";
 import JustConsultancy from "@/template/about/just-consultancy";
-import Team from "@/template/about/team";
 import Logo from "@/template/about/logo";
 import Testimonials from "@/template/home-page/testimonials";
+import SimpleTeam from "@/components/simple-team";
 import { fetchAPI } from "@/config/api";
 import dynamic from "next/dynamic";
 import { ArrowUpCircle } from "lucide-react";
@@ -62,6 +62,25 @@ async function getData() {
         endpoint: "members?_embed",
       });
       console.log(`Fetched ${members.length} team members successfully`);
+
+      // Debug the structure and check for member_picture field
+      if (members.length > 0) {
+        const sampleMember = members[0];
+        console.log(
+          "Sample member data structure:",
+          JSON.stringify(
+            {
+              title: sampleMember.title,
+              member_designation: sampleMember.acf?.member_designation,
+              member_picture: sampleMember.acf?.member_picture,
+              has_featured_media:
+                !!sampleMember._embedded?.["wp:featuredmedia"],
+            },
+            null,
+            2
+          )
+        );
+      }
     } catch (error) {
       console.error("Error fetching team members:", error);
     }
@@ -88,6 +107,48 @@ async function getData() {
       members: [],
       testimonials: [],
     };
+  }
+}
+
+// Create a standalone error-safe Team section component that is guaranteed to render
+function SafeTeamSection({ members }: { members: any[] }) {
+  try {
+    return (
+      <div className="relative overflow-hidden">
+        {/* Top gradient transition */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent z-10"></div>
+
+        {/* Background decorative elements */}
+        <div className="absolute top-20 -left-48 w-96 h-96 rounded-full bg-blue-50/30 blur-3xl"></div>
+        <div className="absolute -bottom-48 -right-48 w-96 h-96 rounded-full bg-purple-50/20 blur-3xl"></div>
+
+        {/* Team component */}
+        <SimpleTeam data={members} />
+
+        {/* Bottom gradient transition */}
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+      </div>
+    );
+  } catch (error) {
+    console.error("Fatal error in SafeTeamSection:", error);
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Meet Our Team
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Our team information is temporarily unavailable.
+          </p>
+          <div className="p-8 bg-gray-50 rounded-xl shadow-sm">
+            <p className="text-sm text-gray-500">
+              We're experiencing technical difficulties loading our team data.
+              Please try again later.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -141,9 +202,9 @@ export default async function About() {
     <>
       {/* Hero Section using BlogHero */}
       <BlogHero
-        title="About Innovation Strategy Group"
+        title="About Innovations Group"
         subtitle="Our Story"
-        description="Innovating with purpose, leading with strategy, and transforming at scale. Discover the team behind Innovation Strategy Group and our mission to deliver excellence."
+        description="Innovating with purpose, leading with strategy, and transforming at scale. Discover the team behind Innovations Group and our mission to deliver excellence."
         backgroundImage="/images/about-hero.png"
         ctaText="Learn More About Us"
         ctaLink="#about-company"
@@ -186,18 +247,15 @@ export default async function About() {
       </div>
 
       {/* Team section with improved styling */}
-      <div className="relative">
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-gray-50 to-transparent"></div>
-        <Team data={members} />
-      </div>
+      <SafeTeamSection members={members} />
 
       {/* Testimonials section with gradient background */}
       <div className="bg-gradient-to-b from-white to-gray-50">
         <Testimonials data={{ testimonials }} />
       </div>
 
-      {/* Client Logo Section with subtle animation */}
-      <div className="py-16 relative overflow-hidden">
+      {/* Client Logo Section with continuous scrolling animation */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white">
         {/* Decorative elements */}
         <div className="absolute -right-40 -bottom-40 w-96 h-96 bg-blue-50 rounded-full opacity-30"></div>
         <div className="absolute -left-40 top-20 w-72 h-72 bg-teal-50 rounded-full opacity-30"></div>
