@@ -1,41 +1,30 @@
 import Link from "next/link";
 import React from "react";
+import { MoveRight } from "lucide-react";
 
 const Button = ({ variant, children, className, href }: any) => {
   return (
     <Link href={href || "#"} className="group">
       <div
-        className={`button_gradient sora-font flex items-center gap-3 rounded-full font-sans md:text-xl px-[11px] py-[8px] cursor-pointer pr-4 font-semibold capitalize
-        ${variant === "white" ? "bg-white text-blue-50 group-hover:bg-blue-20 group-hover:text-white" : "bg-blue-20 text-white group-hover:bg-blue-50"}
+        className={`button_gradient sora-font flex items-center gap-3 rounded-xl font-sans md:text-xl px-5 py-3 cursor-pointer font-semibold capitalize transition-all duration-300 overflow-hidden
+        ${
+          variant === "white"
+            ? "bg-white text-blue-50 group-hover:bg-blue-20 group-hover:text-white shadow-md"
+            : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white group-hover:from-indigo-600 group-hover:to-blue-600 shadow-lg hover:shadow-blue-300/20"
+        }
         ${className}
-      `}>
-        <div
-          className={`p-2 rounded-full transition-colors duration-300 ${
-            variant === "white"
-              ? "bg-blue-20 group-hover:bg-white"
-              : "bg-white"
-          }`}
-        >
-          <svg
-            width="20px"
-            height="20px"
-            viewBox="0 0 24 24"
-            fill="none"
-            className={`transition-colors duration-300 ${
-              variant === "white"
-                ? "stroke-white group-hover:stroke-[#486EC4]"
-                : "stroke-[#486EC4]"
-            }`}
-          >
-            <path
-              d="M6 18L18 6M18 6H9M18 6V15"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+      `}
+      >
+        <span className="flex items-center gap-2 relative z-10">
+          {children}
+          <div className="w-6 h-6 flex items-center justify-center rounded-full bg-white/20 transform transition-transform duration-300 group-hover:translate-x-1">
+            <MoveRight
+              size={16}
+              className="text-white transition-colors duration-300"
+              strokeWidth={2.5}
             />
-          </svg>
-        </div>
-        {children}
+          </div>
+        </span>
       </div>
     </Link>
   );

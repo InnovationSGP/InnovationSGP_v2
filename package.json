@@ -12,6 +12,7 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@wordpress/block-serialization-default-parser": "^5.26.0",
+    "framer-motion": "^12.19.2",
     "html-react-parser": "^5.2.5",
     "install": "^0.13.0",
     "isomorphic-dompurify": "^2.25.0",
