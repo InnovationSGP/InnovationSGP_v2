@@ -45,7 +45,7 @@ interface BlogHeroProps {
 
 function BlogHero({
   title,
-  subtitle = "Feature Collections",
+  subtitle = "Intel & Insights",
   description = "Strategic solutions tailored to disrupt, adapt, and lead across key industries",
   backgroundImage = "/images/about-hero.png",
   ctaText,
@@ -53,16 +53,16 @@ function BlogHero({
   breadcrumbs = [
     { label: "Home", url: "/" },
     { label: "Intel", url: "/blog" },
-    { label: "Feature Collections", url: "" },
+    { label: "Intel & Insights", url: "" },
   ],
   highlightPattern = "bookend",
 }: BlogHeroProps) {
   // Get the indices of words to highlight
   const highlightIndices = getHighlightIndices(
-    title || "Feature Collections",
+    title || "Intel & Insights",
     highlightPattern
   );
-  const words = (title || "Feature Collections").split(" ");
+  const words = (title || "Intel & Insights").split(" ");
 
   return (
     <main className="relative overflow-hidden min-h-[65vh] flex items-center">

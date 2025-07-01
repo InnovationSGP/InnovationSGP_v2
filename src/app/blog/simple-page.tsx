@@ -26,16 +26,13 @@ export default function BlogPage() {
       try {
         setLoading(true);
 
-        // Log the WordPress API URL to verify it's correct
+        // Get the WordPress API URL
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL ||
           "https://innovationsgp.com/wp-json/wp/v2";
-        console.log("WordPress API URL:", apiUrl);
 
         // Important: Always include _embed=true to get featured media data
         const postsUrl = `${apiUrl}/posts?_embed=true&per_page=9`;
-
-        console.log("Fetching posts from:", postsUrl);
 
         const response = await fetch(postsUrl);
 
@@ -44,32 +41,6 @@ export default function BlogPage() {
         }
 
         const data = await response.json();
-
-        // Log detailed information about the response
-        console.log("Fetched posts data:", {
-          count: data.length,
-          totalPosts: response.headers.get("X-WP-Total"),
-          totalPages: response.headers.get("X-WP-TotalPages"),
-          first: data[0]
-            ? {
-                id: data[0].id,
-                title: data[0].title?.rendered,
-                hasEmbedded: !!data[0]._embedded,
-                hasMedia: !!data[0].featured_media,
-                mediaEmbedded: !!data[0]._embedded?.["wp:featuredmedia"],
-              }
-            : "No posts",
-        });
-
-        // If we have posts and the first one has featured media, log details
-        if (data.length > 0 && data[0]._embedded?.["wp:featuredmedia"]?.[0]) {
-          console.log("First post featured media:", {
-            mediaId: data[0]._embedded["wp:featuredmedia"][0].id,
-            mediaUrl:
-              data[0]._embedded["wp:featuredmedia"][0].source_url || "None",
-          });
-        }
-
         setPosts(data);
       } catch (err: any) {
         console.error("Error fetching posts:", err);
@@ -85,14 +56,14 @@ export default function BlogPage() {
   return (
     <>
       <BlogHero
-        title="Feature Collections"
+        title="Intel & Insights"
         subtitle="Intel & Insights"
         description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"
         backgroundImage="/images/about-hero.png"
         breadcrumbs={[
           { label: "Home", url: "/" },
           { label: "Intel", url: "/blog" },
-          { label: "Feature Collections", url: "" },
+          { label: "Intel & Insights", url: "" },
         ]}
         highlightPattern="bookend"
         ctaText="Contact Us"

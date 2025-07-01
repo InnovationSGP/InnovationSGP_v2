@@ -61,39 +61,14 @@ export const fetchAPI = async ({
       ? `${baseUrl}${sanitizedEndpoint}`
       : `${baseUrl}/${sanitizedEndpoint}`;
 
-    console.log(`Fetching API: ${fullUrl}`);
-
     const response = await fetch(fullUrl, options);
 
     if (!response.ok) {
       console.error(`HTTP error ${response.status} for URL: ${fullUrl}`);
-      const errorText = await response.text();
-      console.error(`Response text: ${errorText.substring(0, 200)}...`);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const responseData = await response.json(); // or response.text() if it's not JSON
-
-    // Log a preview of the response for debugging
-    console.log(`API response for ${endpoint}:`, {
-      isArray: Array.isArray(responseData),
-      count: Array.isArray(responseData) ? responseData.length : "Not an array",
-      sample:
-        Array.isArray(responseData) && responseData.length > 0
-          ? {
-              id: responseData[0].id,
-              title: responseData[0].title?.rendered,
-              hasEmbedded: !!responseData[0]._embedded,
-              mediaInfo: responseData[0]._embedded?.["wp:featuredmedia"]?.[0]
-                ? {
-                    id: responseData[0]._embedded["wp:featuredmedia"][0].id,
-                    url: responseData[0]._embedded["wp:featuredmedia"][0]
-                      .source_url,
-                  }
-                : "No media",
-            }
-          : "No items",
-    });
 
     // If headers are requested, return both data and headers
     if (includeHeaders) {
@@ -104,10 +79,6 @@ export const fetchAPI = async ({
       const totalPages =
         response.headers.get("X-WP-TotalPages") ||
         response.headers.get("x-wp-totalpages");
-
-      console.log(
-        `Pagination headers: Total posts: ${totalPosts}, Total pages: ${totalPages}`
-      );
 
       return {
         data: responseData,

@@ -53,7 +53,6 @@ export default function BlogPage() {
 
   // Handle category changes from the FeatureTopics component
   const handleCategoryChange = (categoryId: number | null, posts: Post[]) => {
-    console.log(`Category changed to: ${categoryId}`);
     setActiveCategory(categoryId);
     setFilteredPosts(posts);
   };
@@ -72,14 +71,10 @@ export default function BlogPage() {
         setError(null);
 
         // Get the base URL from environment or fallback
-        const apiBaseUrl =
-          process.env.NEXT_PUBLIC_API_URL ||
-          "https://innovationsgp.com/wp-json/wp/v2";
-        console.log("WordPress API URL:", apiBaseUrl);
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
         // 1. Fetch categories with a higher per_page limit to get all of them
         const categoriesUrl = `${apiBaseUrl}/categories?per_page=100`;
-        console.log("Fetching categories from:", categoriesUrl);
 
         const catResponse = await fetch(categoriesUrl);
         if (!catResponse.ok) {
@@ -89,14 +84,12 @@ export default function BlogPage() {
         }
 
         const categoriesData = await catResponse.json();
-        console.log(`Fetched ${categoriesData.length} categories`);
 
         // Filter out empty categories and uncategorized
         const validCategories = categoriesData.filter(
           (cat: Category) =>
             cat.count && cat.count > 0 && cat.slug !== "uncategorized"
         );
-        console.log(`Using ${validCategories.length} non-empty categories`);
 
         setCategories(validCategories);
 
@@ -108,8 +101,6 @@ export default function BlogPage() {
         if (activeCategory) {
           postsUrl += `&categories=${activeCategory}`;
         }
-
-        console.log("Fetching posts from:", postsUrl);
 
         // 3. Fetch posts
         const postsResponse = await fetch(postsUrl);
@@ -132,32 +123,7 @@ export default function BlogPage() {
           postsResponse.headers.get("x-wp-totalpages");
         const totalPagesNum = totalPagesHeader ? parseInt(totalPagesHeader) : 1;
 
-        console.log(
-          `Fetched ${postsData.length} posts of ${totalPosts} total, ${totalPagesNum} pages`
-        );
-        setTotalPages(totalPagesNum);
-
-        // 5. Validate and log posts for debugging
-        if (postsData.length > 0) {
-          console.log("First post structure:", {
-            id: postsData[0].id,
-            title: postsData[0].title?.rendered,
-            hasEmbedded: !!postsData[0]._embedded,
-            featuredMedia: postsData[0].featured_media,
-            mediaEmbedded: !!postsData[0]._embedded?.["wp:featuredmedia"],
-          });
-
-          if (postsData[0]._embedded?.["wp:featuredmedia"]?.[0]) {
-            console.log("First post featured media:", {
-              mediaId: postsData[0]._embedded["wp:featuredmedia"][0].id,
-              mediaUrl:
-                postsData[0]._embedded["wp:featuredmedia"][0].source_url ||
-                "None",
-            });
-          }
-        }
-
-        // 6. Update state with fetched posts
+        setTotalPages(totalPagesNum); // 6. Update state with fetched posts
         setPosts(postsData);
 
         // 7. Apply category filtering
@@ -201,14 +167,14 @@ export default function BlogPage() {
   return (
     <>
       <BlogHero
-        title="Feature Collections"
+        title="Intel & Insights"
         subtitle="Intel & Insights"
         description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"
         backgroundImage="/images/about-hero.png"
         breadcrumbs={[
           { label: "Home", url: "/" },
           { label: "Intel", url: "/blog" },
-          { label: "Feature Collections", url: "" },
+          { label: "Intel & Insights", url: "" },
         ]}
         highlightPattern="bookend"
         ctaText="Contact Us"

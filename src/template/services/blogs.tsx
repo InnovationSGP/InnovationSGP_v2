@@ -20,32 +20,10 @@ interface BlogsProps {
 }
 
 function Blogs({ data, showLabel = true, showHeading = true }: BlogsProps) {
-  // Log incoming data for debugging
-  console.log(`Blogs component received ${data?.length || 0} posts`);
-
-  if (data?.length > 0) {
-    console.log("Sample post structure:", {
-      id: data[0]?.id,
-      title:
-        typeof data[0]?.title === "object"
-          ? data[0]?.title?.rendered
-          : data[0]?.title,
-      hasEmbedded: !!data[0]?._embedded,
-      hasMedia: !!data[0]?.featured_media,
-      mediaInfo: data[0]?._embedded?.["wp:featuredmedia"]?.[0]
-        ? {
-            id: data[0]._embedded["wp:featuredmedia"][0].id,
-            url: data[0]._embedded["wp:featuredmedia"][0].source_url,
-          }
-        : "No media",
-    });
-  }
-
   // Validate posts and ensure they have required fields
   const validPosts =
     data?.filter((post) => {
       if (!post || !post.id) {
-        console.log("Invalid post: Missing ID");
         return false;
       }
 
@@ -55,15 +33,11 @@ function Blogs({ data, showLabel = true, showHeading = true }: BlogsProps) {
         (post.title && typeof post.title === "string");
 
       if (!hasTitle) {
-        console.log(`Post ${post.id} missing title`);
         return false;
       }
 
       return true;
     }) || [];
-
-  // Log validation results
-  console.log(`Valid posts: ${validPosts.length} of ${data?.length || 0}`);
 
   // If no valid posts, return message
   if (validPosts.length === 0) {

@@ -36,7 +36,7 @@ export const navItems = [
     href: "/blog",
     subMenu: [
       {
-        label: "Feature Collections",
+        label: "Intel & Insights",
         href: "/blog",
       },
       {
