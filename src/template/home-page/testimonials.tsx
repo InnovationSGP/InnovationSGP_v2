@@ -6,6 +6,36 @@ import React from "react";
 import Slider from "react-slick";
 import { Sparkles } from "lucide-react";
 
+// Generate deterministic particles outside the component
+const generateParticles = (count: number) => {
+  // Use a seed-based approach to ensure consistent values
+  const seed = 42; // Using a fixed seed for deterministic output
+  const particles = [];
+
+  // Simple pseudo-random generator with seed
+  const seededRandom = (min: number, max: number, index: number) => {
+    const seedValue = (seed + index * 137) % 2147483647;
+    // Simple PRNG formula
+    const randomValue = ((seedValue * 16807) % 2147483647) / 2147483647;
+    return min + randomValue * (max - min);
+  };
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      id: i,
+      left: seededRandom(0, 100, i),
+      top: seededRandom(0, 100, i + count),
+      animationDelay: seededRandom(0, 3, i + 2 * count),
+      animationDuration: seededRandom(2, 4, i + 3 * count),
+    });
+  }
+
+  return particles;
+};
+
+// Generate particles once outside the component
+const particles = generateParticles(15);
+
 const Testimonials = ({ data }: any) => {
   const slider = React.useRef<any>(null);
 
@@ -21,15 +51,15 @@ const Testimonials = ({ data }: any) => {
 
         {/* Floating particles */}
         <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
+          {particles.map((particle) => (
             <div
-              key={i}
+              key={particle.id}
               className="absolute w-1 h-1 bg-white rounded-full opacity-30 animate-ping"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.animationDelay}s`,
+                animationDuration: `${particle.animationDuration}s`,
               }}
             />
           ))}

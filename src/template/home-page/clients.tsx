@@ -1,43 +1,185 @@
-import Image from "next/image";
-import React from "react";
+"use client";
 
-const Clients = ({data}:any) => {
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import Heading from "@/components/ui/heading";
+import Label from "@/components/ui/label";
+import { Users } from "lucide-react";
+
+const Clients = ({ data }: any) => {
+  // Create two refs for the scrolling containers
+  const scrollRef1 = useRef<HTMLDivElement>(null);
+  const scrollRef2 = useRef<HTMLDivElement>(null);
+
+  // Ensure we have data to display
+  const clients = Array.isArray(data?.home_client) ? data?.home_client : [];
+
+  // If we don't have enough clients, duplicate them to ensure smooth scrolling
+  const extendedClients =
+    clients.length < 10 ? [...clients, ...clients, ...clients] : clients;
+
+  // Handle the auto-scrolling animation
+  useEffect(() => {
+    if (!scrollRef1.current || !scrollRef2.current) return;
+
+    // Animation timing
+    let animationFrameId: number;
+    let lastTimestamp = 0;
+    const scrollSpeed = 0.12; // pixels per millisecond - slightly slower for smoother effect
+
+    // Get width measurements
+    const scrollWidth = scrollRef1.current.scrollWidth;
+
+    // Set initial positions
+    let scroll1Position = 0;
+    let scroll2Position = scrollWidth;
+
+    // Apply initial positions
+    scrollRef1.current.style.transform = `translateX(${scroll1Position}px)`;
+    scrollRef2.current.style.transform = `translateX(${scroll2Position}px)`;
+
+    const animate = (timestamp: number) => {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const deltaTime = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      // Update scroll positions at identical rate
+      scroll1Position -= scrollSpeed * deltaTime;
+      scroll2Position -= scrollSpeed * deltaTime;
+
+      // Reset positions when scrolled out of view
+      // When the first container goes completely off-screen to the left
+      if (scroll1Position <= -scrollWidth) {
+        scroll1Position = scrollWidth; // Reset to right side of view
+      }
+
+      // When the second container goes completely off-screen to the left
+      if (scroll2Position <= -scrollWidth) {
+        scroll2Position = scrollWidth; // Reset to right side of view
+      }
+
+      // Apply scroll positions
+      if (scrollRef1.current) {
+        scrollRef1.current.style.transform = `translateX(${scroll1Position}px)`;
+      }
+      if (scrollRef2.current) {
+        scrollRef2.current.style.transform = `translateX(${scroll2Position}px)`;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [data]);
+
+  // If no clients, show a placeholder
+  if (clients.length === 0) {
+    return (
+      <section className="container mx-auto px-4 py-12">
+        <div className="text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
+            <Users className="w-4 h-4 text-blue-500" />
+            <span className="text-blue-600 text-sm font-medium">Partners</span>
+          </div>
+          <Heading
+            colorText="Clients"
+            className="mt-3 text-black-20"
+            secondColor="blue"
+          >
+            Our Trusted
+          </Heading>
+          <p className="mt-4 text-gray-500">Client logos coming soon</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="container mx-auto px-3 mb-[60px]">
-      <div className="relative mb-[24px]">
-        <div className="h-[2px] bg-[#20282D33] w-full" />
-        <h2 className="bg-white inline px-5 uppercase font-bold absolute justify-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-sora py-1 text-center">
-          Our Trusted <span className="text-blue-30">Clients</span>
-        </h2>
-      </div>
-      <div className="md:flex justify-around hidden mt-10 items-center">
-          {
-            data?.home_client?.map((item:any,idx:number)=>{
-              return(
-                <img src={item} alt="" className="w-[113px]" key={idx} />
-              )
-            })
-          }
-      </div>
-      <div className="md:hidden logo-scroller mt-10">
-        <div className="logo-track flex">
-          {
-            data?.home_client?.map((item:any,idx:number)=>{
-              return(
-                <img src={item} alt="" className="w-[113px]" key={idx} />
-              )
-            })
-          }
-          {
-            data?.home_client?.map((item:any,idx:number)=>{
-              return(
-                <img src={item} alt="" className="w-[113px]" key={idx} />
-              )
-            })
-          }
+    <section className="py-16 relative overflow-hidden">
+      {/* Header with gradient line and text */}
+      <div className="container mx-auto px-4 mb-10">
+        <div className="text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
+            <Users className="w-4 h-4 text-blue-500" />
+            <span className="text-blue-600 text-sm font-medium">
+              Partnerships
+            </span>
+          </div>
+          <Heading
+            colorText="Clients"
+            className="mt-3 text-black-20"
+            secondColor="blue"
+          >
+            Our Trusted
+          </Heading>
+          <p className="mt-4 max-w-2xl mx-auto text-gray-600">
+            Collaborating with leading organizations to deliver exceptional
+            solutions
+          </p>
         </div>
       </div>
 
+      {/* Gradient overlays for smooth fade effect on edges */}
+      <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+
+      {/* Logos scroll container */}
+      <div className="relative overflow-hidden w-full py-12">
+        {/* Container for consistent height */}
+        <div className="h-24 relative">
+          {/* Single row of scrolling logos */}
+          <div
+            className="flex items-center justify-center whitespace-nowrap absolute left-0 right-0 top-0 bottom-0"
+            ref={scrollRef1}
+          >
+            {extendedClients.map((logo: any, index: number) => (
+              <div
+                key={`logo1-${index}`}
+                className="inline-flex items-center justify-center mx-8"
+              >
+                <div className="p-4 bg-white/50 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300 transform hover:scale-105 h-16 w-[160px] flex items-center justify-center">
+                  <img
+                    src={logo}
+                    alt={`Client logo ${index + 1}`}
+                    className="object-contain w-auto h-auto max-h-10 max-w-[120px] filter grayscale hover:grayscale-0 transition-all duration-500"
+                    style={{ opacity: 0.75 }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Duplicate row that follows immediately after */}
+          <div
+            className="flex items-center justify-center whitespace-nowrap absolute left-0 right-0 top-0 bottom-0"
+            ref={scrollRef2}
+          >
+            {extendedClients.map((logo: any, index: number) => (
+              <div
+                key={`logo2-${index}`}
+                className="inline-flex items-center justify-center mx-8"
+              >
+                <div className="p-4 bg-white/50 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300 transform hover:scale-105 h-16 w-[160px] flex items-center justify-center">
+                  <img
+                    src={logo}
+                    alt={`Client logo ${index + 1}`}
+                    className="object-contain w-auto h-auto max-h-10 max-w-[120px] filter grayscale hover:grayscale-0 transition-all duration-500"
+                    style={{ opacity: 0.75 }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

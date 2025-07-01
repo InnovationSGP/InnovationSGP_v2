@@ -41,17 +41,59 @@ export const fetchAPI = async ({
       ? process.env.NEXT_PUBLIC_API_URL.slice(0, -1)
       : process.env.NEXT_PUBLIC_API_URL;
 
+    if (!baseUrl) {
+      console.error("Missing NEXT_PUBLIC_API_URL environment variable");
+      throw new Error("API URL configuration is missing");
+    }
+
+    // Add _embed=true parameter if it's a WordPress API endpoint accessing posts
+    // and doesn't already have it
+    if (
+      sanitizedEndpoint.includes("/posts") &&
+      !sanitizedEndpoint.includes("_embed")
+    ) {
+      sanitizedEndpoint += sanitizedEndpoint.includes("?")
+        ? "&_embed=true"
+        : "?_embed=true";
+    }
+
     const fullUrl = sanitizedEndpoint.startsWith("/")
       ? `${baseUrl}${sanitizedEndpoint}`
       : `${baseUrl}/${sanitizedEndpoint}`;
 
+    console.log(`Fetching API: ${fullUrl}`);
+
     const response = await fetch(fullUrl, options);
 
     if (!response.ok) {
+      console.error(`HTTP error ${response.status} for URL: ${fullUrl}`);
+      const errorText = await response.text();
+      console.error(`Response text: ${errorText.substring(0, 200)}...`);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json(); // or response.text() if it's not JSON
+    const responseData = await response.json(); // or response.text() if it's not JSON
+
+    // Log a preview of the response for debugging
+    console.log(`API response for ${endpoint}:`, {
+      isArray: Array.isArray(responseData),
+      count: Array.isArray(responseData) ? responseData.length : "Not an array",
+      sample:
+        Array.isArray(responseData) && responseData.length > 0
+          ? {
+              id: responseData[0].id,
+              title: responseData[0].title?.rendered,
+              hasEmbedded: !!responseData[0]._embedded,
+              mediaInfo: responseData[0]._embedded?.["wp:featuredmedia"]?.[0]
+                ? {
+                    id: responseData[0]._embedded["wp:featuredmedia"][0].id,
+                    url: responseData[0]._embedded["wp:featuredmedia"][0]
+                      .source_url,
+                  }
+                : "No media",
+            }
+          : "No items",
+    });
 
     // If headers are requested, return both data and headers
     if (includeHeaders) {
@@ -63,8 +105,12 @@ export const fetchAPI = async ({
         response.headers.get("X-WP-TotalPages") ||
         response.headers.get("x-wp-totalpages");
 
+      console.log(
+        `Pagination headers: Total posts: ${totalPosts}, Total pages: ${totalPages}`
+      );
+
       return {
-        data,
+        data: responseData,
         pagination: {
           totalPosts: totalPosts ? parseInt(totalPosts) : null,
           totalPages: totalPages ? parseInt(totalPages) : null,
@@ -72,9 +118,9 @@ export const fetchAPI = async ({
       };
     }
 
-    return data;
+    return responseData;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error(`Error fetching data from ${endpoint}:`, error);
     throw error;
   }
 };

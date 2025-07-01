@@ -2,8 +2,84 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getMediaURL } from "@/utils"; // Adjust path as needed
+import { getMediaURL, sanitizeImageUrl } from "@/utils"; // Import the new utility
 import { ArrowRight, Calendar, User } from "lucide-react";
+
+// More robust function to extract image URL from WordPress post
+const getPostImageURL = (post: any): string => {
+  try {
+    // Check different paths for featured image in WordPress REST API response
+
+    // 1. Check embedded media (most common)
+    if (post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url) {
+      return sanitizeImageUrl(post._embedded["wp:featuredmedia"][0].source_url);
+    }
+
+    // 2. Check for different sizes in media_details
+    if (post?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes) {
+      const sizes = post._embedded["wp:featuredmedia"][0].media_details.sizes;
+      return sanitizeImageUrl(
+        sizes.full?.source_url ||
+          sizes.large?.source_url ||
+          sizes.medium_large?.source_url ||
+          sizes.medium?.source_url ||
+          sizes.thumbnail?.source_url
+      );
+    }
+
+    // 3. Check for Yoast SEO og:image
+    if (post?.yoast_head_json?.og_image?.[0]?.url) {
+      return sanitizeImageUrl(post.yoast_head_json.og_image[0].url);
+    }
+
+    // 4. Check ACF fields
+    if (post?.acf?.featured_image) {
+      return sanitizeImageUrl(post.acf.featured_image);
+    }
+
+    // 5. Check for jetpack_featured_media_url
+    if (post?.jetpack_featured_media_url) {
+      return sanitizeImageUrl(post.jetpack_featured_media_url);
+    }
+
+    // 6. Check for guid rendered (sometimes used as fallback)
+    if (post?._embedded?.["wp:featuredmedia"]?.[0]?.guid?.rendered) {
+      return sanitizeImageUrl(
+        post._embedded["wp:featuredmedia"][0].guid.rendered
+      );
+    }
+
+    // 7. Try to construct URL from featured_media ID if available
+    if (post?.featured_media && typeof post.featured_media === "number") {
+      // Try to determine WordPress URL from available information
+      let wpBaseUrl = "";
+
+      // Try to extract domain from _links
+      if (post?._links?.self?.[0]?.href) {
+        const urlMatch = post._links.self[0].href.match(/(https?:\/\/[^\/]+)/);
+        if (urlMatch && urlMatch[1]) {
+          wpBaseUrl = urlMatch[1];
+          return sanitizeImageUrl(
+            `${wpBaseUrl}/wp-json/wp/v2/media/${post.featured_media}?_fields=source_url`
+          );
+        }
+      }
+    }
+
+    // 8. Fall back to the existing getMediaURL utility
+    const fallback = getMediaURL(post);
+    if (fallback) return sanitizeImageUrl(fallback);
+
+    // If all else fails, use default image
+    console.log(
+      `No image found for post ${post.id} - ${post?.title?.rendered}`
+    );
+    return "/images/blog-read.png";
+  } catch (error) {
+    console.error("Error getting post image URL:", error);
+    return "/images/blog-read.png";
+  }
+};
 
 function BlogCard({ post }: any) {
   const [mediaURL, setMediaURL] = useState<string>("");
@@ -37,13 +113,44 @@ function BlogCard({ post }: any) {
   const formattedDate = formatDate(post?.date);
 
   useEffect(() => {
-    const fetchMedia = async () => {
-      if (post) {
-        const url = await getMediaURL(post);
-        setMediaURL(url);
+    if (post) {
+      try {
+        // First try the direct approach
+        const url = getPostImageURL(post);
+        if (url) {
+          console.log(`BlogCard: Image URL found for post ${post.id}: ${url}`);
+          setMediaURL(url);
+          return;
+        }
+
+        // If direct approach fails, try the existing async approach
+        const fetchMedia = async () => {
+          try {
+            console.log(`BlogCard: Fetching media async for post ${post.id}`);
+            const url = await getMediaURL(post);
+            // Make sure the URL is sanitized
+            if (url) {
+              console.log(`BlogCard: Async media URL found: ${url}`);
+              setMediaURL(sanitizeImageUrl(url));
+            } else {
+              console.log(`BlogCard: No async media URL found, using fallback`);
+              setMediaURL("/images/blog-read.png");
+            }
+          } catch (error) {
+            console.error("Error fetching media for blog post:", error);
+            // Set to fallback image in case of error
+            setMediaURL("/images/blog-read.png");
+          }
+        };
+        fetchMedia();
+      } catch (error) {
+        console.error("Error in blog card image loading:", error);
+        setMediaURL("/images/blog-read.png");
       }
-    };
-    fetchMedia();
+    } else {
+      // No post provided, use fallback
+      setMediaURL("/images/blog-read.png");
+    }
   }, [post]);
 
   if (!post) return null;
@@ -71,12 +178,33 @@ function BlogCard({ post }: any) {
               className={`object-cover transition-transform duration-700 ${
                 isHovered ? "scale-105" : "scale-100"
               }`}
+              onError={(e) => {
+                // If image fails to load, try a placeholder
+                const target = e.target as HTMLImageElement;
+                target.onerror = null; // Prevent infinite loop
+                target.src = "/images/blog-read.png"; // Default blog image from public folder
+
+                // Also update state to prevent future errors with this image
+                setMediaURL("/images/blog-read.png");
+                console.log(
+                  "Using fallback image for post:",
+                  post?.title?.rendered || "Unknown post"
+                );
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-70"></div>
           </>
         ) : (
-          <div className="w-full h-full bg-slate-100 flex items-center justify-center">
-            <span className="text-slate-400">No image available</span>
+          <div className="w-full h-full bg-gradient-to-br from-slate-200 to-blue-100 flex items-center justify-center">
+            <Image
+              src="/images/blog-read.png"
+              alt="Blog placeholder"
+              fill
+              className="object-cover opacity-50"
+            />
+            <span className="relative z-10 text-slate-600 font-medium px-4 py-2 bg-white/80 rounded-md shadow-sm">
+              Loading image...
+            </span>
           </div>
         )}
 

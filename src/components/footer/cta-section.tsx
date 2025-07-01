@@ -106,23 +106,31 @@ function CTASection({ footerData }: { footerData: any }) {
     }
   };
 
-  // Pre-calculate particle positions for better performance
+  // Pre-calculate particle positions for better performance with deterministic values
   const particles = useMemo(() => {
-    return Array.from({ length: 10 }, (_, i) => ({
-      left: `${10 + i * 8}%`,
-      top: `${15 + i * 7}%`,
-      delay: `${0.5 * i}s`,
-      duration: `${2 + i * 0.3}s`,
-    }));
+    // Use fixed values to ensure server/client match
+    const positions = [
+      { left: "10%", top: "15%", delay: "0.5s", duration: "2s" },
+      { left: "18%", top: "22%", delay: "1.0s", duration: "2.3s" },
+      { left: "26%", top: "29%", delay: "1.5s", duration: "2.6s" },
+      { left: "34%", top: "36%", delay: "2.0s", duration: "2.9s" },
+      { left: "42%", top: "43%", delay: "2.5s", duration: "3.2s" },
+      { left: "50%", top: "50%", delay: "3.0s", duration: "3.5s" },
+      { left: "58%", top: "57%", delay: "3.5s", duration: "3.8s" },
+      { left: "66%", top: "64%", delay: "4.0s", duration: "4.1s" },
+      { left: "74%", top: "71%", delay: "4.5s", duration: "4.4s" },
+      { left: "82%", top: "78%", delay: "5.0s", duration: "4.7s" },
+    ];
+    return positions;
   }, []);
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-24 px-4 sm:px-6 lg:px-8">
-      {/* Animated background elements */}
+      {/* Animated background elements - fixed positions for SSR/CSR consistency */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
+        <div className="absolute top-[-160px] right-[-160px] w-[320px] h-[320px] bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-[-160px] left-[-160px] w-[320px] h-[320px] bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <div className="absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] w-[384px] h-[384px] bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
       </div>
 
       {/* Simplified particles with fixed positions for better performance */}

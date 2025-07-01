@@ -40,6 +40,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "localhost",
       },
+      // Add WordPress server IP address
+      {
+        protocol: "http",
+        hostname: "3.147.83.251",
+      },
     ],
   },
   eslint: {

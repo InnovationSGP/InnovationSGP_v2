@@ -1,5 +1,4 @@
 import AboutCompany from "@/template/about/about-company";
-import JustConsultancy from "@/template/about/just-consultancy";
 import Logo from "@/template/about/logo";
 import Testimonials from "@/template/home-page/testimonials";
 import SimpleTeam from "@/components/simple-team";
@@ -45,61 +44,36 @@ export async function generateMetadata() {
 
 async function getData() {
   try {
-    // Fetch core about page data
-    let aboutpage = null;
-    try {
-      aboutpage = await fetchAPI({
-        endpoint: "pages/91",
-      });
-    } catch (error) {
-      console.error("Error fetching about page data:", error);
+    // Run these fetches in parallel for better performance
+    const [aboutpageResponse, membersResponse, testimonialsResponse] =
+      await Promise.allSettled([
+        fetchAPI({ endpoint: "pages/91" }),
+        fetchAPI({ endpoint: "members?_embed" }),
+        fetchAPI({ endpoint: "testimonial" }),
+      ]);
+
+    // Process responses with proper type checking
+    const aboutpage =
+      aboutpageResponse.status === "fulfilled" ? aboutpageResponse.value : null;
+    const members =
+      membersResponse.status === "fulfilled"
+        ? Array.isArray(membersResponse.value)
+          ? membersResponse.value
+          : []
+        : [];
+    const testimonials =
+      testimonialsResponse.status === "fulfilled"
+        ? Array.isArray(testimonialsResponse.value)
+          ? testimonialsResponse.value
+          : []
+        : [];
+
+    // If we couldn't get the about page data, log the error
+    if (!aboutpage) {
+      console.error("Failed to fetch about page data");
     }
 
-    // Fetch team members with error handling
-    let members = [];
-    try {
-      members = await fetchAPI({
-        endpoint: "members?_embed",
-      });
-      console.log(`Fetched ${members.length} team members successfully`);
-
-      // Debug the structure and check for member_picture field
-      if (members.length > 0) {
-        const sampleMember = members[0];
-        console.log(
-          "Sample member data structure:",
-          JSON.stringify(
-            {
-              title: sampleMember.title,
-              member_designation: sampleMember.acf?.member_designation,
-              member_picture: sampleMember.acf?.member_picture,
-              has_featured_media:
-                !!sampleMember._embedded?.["wp:featuredmedia"],
-            },
-            null,
-            2
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching team members:", error);
-    }
-
-    // Fetch testimonials with error handling
-    let testimonials = [];
-    try {
-      testimonials = await fetchAPI({
-        endpoint: "testimonial",
-      });
-    } catch (error) {
-      console.error("Error fetching testimonials:", error);
-    }
-
-    return {
-      aboutpage,
-      members: Array.isArray(members) ? members : [],
-      testimonials: Array.isArray(testimonials) ? testimonials : [],
-    };
+    return { aboutpage, members, testimonials };
   } catch (error) {
     console.error("Error in getData function:", error);
     return {
@@ -132,20 +106,14 @@ function SafeTeamSection({ members }: { members: any[] }) {
   } catch (error) {
     console.error("Fatal error in SafeTeamSection:", error);
     return (
-      <div className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-2xl mx-auto">
+      <div className="container mx-auto px-4 py-16 text-center">
+        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8">
           <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Meet Our Team
           </h2>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-6">
             Our team information is temporarily unavailable.
           </p>
-          <div className="p-8 bg-gray-50 rounded-xl shadow-sm">
-            <p className="text-sm text-gray-500">
-              We're experiencing technical difficulties loading our team data.
-              Please try again later.
-            </p>
-          </div>
         </div>
       </div>
     );
@@ -155,21 +123,20 @@ function SafeTeamSection({ members }: { members: any[] }) {
 export default async function About() {
   const { aboutpage, members, testimonials } = await getData();
 
-  // If the aboutpage data is missing, display a fallback message or error
+  // If the aboutpage data is missing, display a fallback message
   if (!aboutpage) {
-    console.error("About page data is missing");
     return (
-      <div className="min-h-screen flex justify-center items-center text-center p-8">
-        <div>
-          <h1 className="text-2xl font-bold mb-4">
-            Unable to load About page content
+      <div className="min-h-screen flex justify-center items-center p-8">
+        <div className="max-w-md bg-white rounded-xl shadow-lg p-8 text-center">
+          <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Unable to load About page
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-6">
             We're experiencing technical difficulties. Please try again later.
           </p>
           <a
             href="/"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors"
           >
             Return to Home
           </a>
@@ -180,31 +147,25 @@ export default async function About() {
 
   // Safely extract fields from aboutpage with fallbacks
   const {
+    // About section fields
     about_us_label = "",
     about_us_plain_title = "",
     about_us_color_title = "",
     about_us_discription = "",
     about_us_button_link = "",
     about_us_card = [],
-    about_label = "",
-    about_plain_title = "",
-    about_color_title = "",
-    about_caption = "",
-    about_icon_list = [],
-    about_list = [],
-    about_images = [],
-    about_section_button_url = "",
+
+    // Client/partners logo array
     home_client = [],
-    about_customers_impacted = "",
   } = aboutpage.acf || {};
 
   return (
     <>
       {/* Hero Section using BlogHero */}
       <BlogHero
-        title="About Innovations Group"
+        title="About Innovation Strategy Group"
         subtitle="Our Story"
-        description="Innovating with purpose, leading with strategy, and transforming at scale. Discover the team behind Innovations Group and our mission to deliver excellence."
+        description="Innovating with purpose, leading with strategy, and transforming at scale. Discover the team behind Innovation Strategy Group and our mission to deliver excellence."
         backgroundImage="/images/about-hero.png"
         ctaText="Learn More About Us"
         ctaLink="#about-company"

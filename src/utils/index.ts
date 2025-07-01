@@ -1,40 +1,68 @@
 export const getMediaURL = (obj: any) => {
   try {
-    // Debug logging to diagnose issues
-    const hasEmbedded = !!obj?._embedded;
-    const hasFeaturedMedia = !!obj?._embedded?.["wp:featuredmedia"];
-    const mediaCount = obj?._embedded?.["wp:featuredmedia"]?.length || 0;
+    // First check embedded media (most common and reliable when _embed is used)
+    if (obj?._embedded?.["wp:featuredmedia"]?.[0]?.source_url) {
+      return sanitizeImageUrl(obj._embedded["wp:featuredmedia"][0].source_url);
+    }
 
-    // First try to get the URL from embedded media
-    let url = obj?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-
-    // If that fails, try to get from specific sizes in media details
-    if (
-      !url &&
-      obj?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes
-    ) {
+    // Check for media in different sizes
+    if (obj?._embedded?.["wp:featuredmedia"]?.[0]?.media_details?.sizes) {
       const sizes = obj._embedded["wp:featuredmedia"][0].media_details.sizes;
-      url =
+      const url =
         sizes.full?.source_url ||
         sizes.large?.source_url ||
-        sizes.medium?.source_url;
+        sizes.medium_large?.source_url ||
+        sizes.medium?.source_url ||
+        sizes.thumbnail?.source_url;
+
+      if (url) return sanitizeImageUrl(url);
     }
 
-    // If featured media is missing, check for fallback fields
-    if (!url && obj?.acf?.featured_image) {
-      return obj.acf.featured_image;
+    // Check for Yoast SEO og:image
+    if (obj?.yoast_head_json?.og_image?.[0]?.url) {
+      return sanitizeImageUrl(obj.yoast_head_json.og_image[0].url);
     }
 
-    // Fallback for direct media_url property
-    if (!url && obj?.media_url) {
-      return obj.media_url;
+    // Check for ACF fields (common in WordPress)
+    if (obj?.acf?.featured_image) {
+      return sanitizeImageUrl(obj.acf.featured_image);
     }
 
-    // Final fallback
-    return url || "";
+    // Check for direct featured_media URL
+    if (obj?.jetpack_featured_media_url) {
+      return sanitizeImageUrl(obj.jetpack_featured_media_url);
+    }
+
+    // Try to construct URL from featured_media ID and site URL
+    if (obj?.featured_media && typeof obj.featured_media === "number") {
+      // Try to determine WordPress URL from available information
+      let wpBaseUrl = "";
+
+      // Try to extract domain from _links
+      if (obj?._links?.self?.[0]?.href) {
+        const urlMatch = obj._links.self[0].href.match(/(https?:\/\/[^\/]+)/);
+        if (urlMatch && urlMatch[1]) {
+          wpBaseUrl = urlMatch[1];
+        }
+      }
+
+      // If we found a URL, construct a path
+      if (wpBaseUrl) {
+        return sanitizeImageUrl(
+          `${wpBaseUrl}/wp-json/wp/v2/media/${obj.featured_media}?_fields=source_url`
+        );
+      }
+    }
+
+    // If no image was found
+    console.log(
+      "No featured image found for post:",
+      obj?.title?.rendered || obj?.id || "Unknown post"
+    );
+    return "/images/blog-read.png"; // Fallback image
   } catch (error) {
     console.error("Error getting media URL:", error);
-    return "";
+    return "/images/blog-read.png"; // Fallback on error
   }
 };
 
@@ -235,5 +263,72 @@ export const getTeamMediaAsync = async (obj: any): Promise<string> => {
   } catch (error) {
     console.error("Error getting team media URL async:", error);
     return "";
+  }
+};
+
+/**
+ * Utility function to sanitize image URLs for Next.js Image component
+ * @param url The image URL to sanitize
+ * @param fallbackUrl Optional fallback URL if the provided URL is invalid
+ * @returns A sanitized URL that's safe to use with Next.js Image component
+ */
+export const sanitizeImageUrl = (
+  url: string | undefined,
+  fallbackUrl: string = "/images/blog-read.png"
+): string => {
+  if (!url) return fallbackUrl;
+
+  try {
+    // Remove HTML entities if present
+    url = url.replace(/&amp;/g, "&");
+
+    // Check if URL is relative and needs to be made absolute
+    if (url.startsWith("/")) {
+      // Attempt to use NEXT_PUBLIC_WORDPRESS_URL if available
+      const wpBaseUrl =
+        process.env.NEXT_PUBLIC_WORDPRESS_URL || "https://innovationsgp.com";
+      url = `${wpBaseUrl}${url}`;
+    }
+
+    // Handle protocol-relative URLs (//example.com/image.jpg)
+    if (url.startsWith("//")) {
+      url = `https:${url}`;
+    }
+
+    // Parse the URL to check if it's valid
+    const parsedUrl = new URL(url);
+
+    // Check for IP addresses - can't use includes() since IP may be part of hostname
+    const isIpAddress = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(
+      parsedUrl.hostname
+    );
+
+    // Check local hostnames
+    const isLocalHost =
+      parsedUrl.hostname === "localhost" ||
+      parsedUrl.hostname.includes("local.") ||
+      parsedUrl.hostname.includes(".local");
+
+    // Known WordPress development hostnames that need handling
+    const devHosts = ["3.147.83.251", "localhost", "127.0.0.1"];
+
+    // If IP address or problematic host, provide a local fallback
+    // For production, you'd handle IP addresses differently
+    if (isIpAddress || isLocalHost || devHosts.includes(parsedUrl.hostname)) {
+      console.log(`Using local image for ${url} (${parsedUrl.hostname})`);
+
+      // For testing/development only:
+      // Return the IP address URL but note in production we'd use fallback
+      // This allows us to see if your WordPress server is properly returning images
+      return url;
+
+      // For production, you'd uncomment this to use fallbacks:
+      // return fallbackUrl;
+    }
+
+    return url;
+  } catch (e) {
+    console.error("Error sanitizing image URL:", url, e);
+    return fallbackUrl;
   }
 };

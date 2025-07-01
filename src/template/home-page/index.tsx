@@ -84,7 +84,7 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
       />
       <OurServices
         data={{
-          our_service_button_url,
+          cta_url: our_service_button_url,
           our_service_color_title,
           our_service_label,
           our_service_plain_title,
@@ -97,7 +97,7 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
         title="Read our latest"
         colorTitle="Blog posts"
         label="Blogs"
-        data={blogs.slice(0, 3)}
+        data={Array.isArray(blogs) ? blogs.slice(0, 3) : []}
       />
     </>
   );

@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { fetchAPI } from "@/config/api";
 import type { Metadata } from "next";
+import ClientOnlyLayout from "@/components/client-only-layout";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -94,9 +95,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${sora.variable} antialiased`}>
-        <Header />
-        {children}
-        <Footer />
+        <ClientOnlyLayout>
+          <Header />
+          {children}
+          <Footer />
+        </ClientOnlyLayout>
       </body>
     </html>
   );

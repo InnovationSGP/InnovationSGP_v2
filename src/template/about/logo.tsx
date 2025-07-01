@@ -4,6 +4,7 @@ import Heading from "@/components/ui/heading";
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 import Label from "@/components/ui/label";
+import { Building2 } from "lucide-react";
 
 function Logo({ data }: any) {
   // Create two refs for the scrolling containers
@@ -82,11 +83,17 @@ function Logo({ data }: any) {
     return (
       <section className="container mx-auto px-4 py-12">
         <div className="text-center">
-          <Label>Partnerships</Label>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
+            <Building2 className="w-4 h-4 text-blue-500" />
+            <span className="text-blue-600 text-sm font-medium">
+              Partnerships
+            </span>
+          </div>
           <Heading
             colorText="Partners"
             className="mt-3 text-black-20"
-            secondColor="gradient"
+            secondColor="blue"
           >
             Our Trusted
           </Heading>
@@ -100,11 +107,17 @@ function Logo({ data }: any) {
     <section className="py-20 relative overflow-hidden">
       <div className="container mx-auto px-4 mb-12">
         <div className="text-center">
-          <Label>Partnerships</Label>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
+            <Building2 className="w-4 h-4 text-blue-500" />
+            <span className="text-blue-600 text-sm font-medium">
+              Partnerships
+            </span>
+          </div>
           <Heading
             colorText="Partners"
             className="mt-3 text-black-20"
-            secondColor="gradient"
+            secondColor="blue"
           >
             Our Trusted
           </Heading>

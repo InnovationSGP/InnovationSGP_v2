@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import {
@@ -12,6 +12,35 @@ import {
   Globe,
 } from "lucide-react";
 import Link from "next/link";
+
+const generateDeterministicValue = (
+  index: number,
+  min: number,
+  max: number,
+  offset = 0
+) => {
+  const value = ((index * 9301 + 49297) % 233280) / 233280;
+  return min + (value + offset) * (max - min);
+};
+
+const generateParticles = (count: number) => {
+  return Array.from({ length: count }, (_, i) => ({
+    left: generateDeterministicValue(i, 0, 100),
+    top: generateDeterministicValue(i + 100, 0, 100),
+    animationDelay: generateDeterministicValue(i + 200, 0, 3),
+    animationDuration: generateDeterministicValue(i + 300, 2, 4),
+  }));
+};
+
+// Generate particles data
+// IMPORTANT: Define the particles array OUTSIDE the component to ensure
+// the same values are used during both server and client rendering
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  left: generateDeterministicValue(i, 0, 100),
+  top: generateDeterministicValue(i + 100, 0, 100),
+  animationDelay: generateDeterministicValue(i + 200, 0, 3),
+  animationDuration: generateDeterministicValue(i + 300, 2, 4),
+}));
 
 const AboutUs = ({ data }: any) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -51,15 +80,15 @@ const AboutUs = ({ data }: any) => {
 
       {/* Floating particles */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {PARTICLES.map((particle, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-white rounded-full opacity-30 animate-ping"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
+              animationDelay: `${particle.animationDelay}s`,
+              animationDuration: `${particle.animationDuration}s`,
             }}
           />
         ))}

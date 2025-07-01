@@ -1,6 +1,6 @@
 "use client";
 import Heading from "@/components/ui/heading";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -19,6 +19,28 @@ import {
   Settings,
   Layers,
 } from "lucide-react";
+
+// Function to generate deterministic "random" numbers based on index
+const generateDeterministicValue = (
+  index: number,
+  min: number,
+  max: number,
+  offset = 0
+) => {
+  // Use a simple but deterministic algorithm
+  const value = ((index * 9301 + 49297) % 233280) / 233280;
+  return min + (value + offset) * (max - min);
+};
+
+// Generate particles data once, not on every render
+const generateParticles = (count: number) => {
+  return Array.from({ length: count }, (_, i) => ({
+    left: generateDeterministicValue(i, 0, 100),
+    top: generateDeterministicValue(i + 100, 0, 100),
+    animationDelay: generateDeterministicValue(i + 200, 0, 3),
+    animationDuration: generateDeterministicValue(i + 300, 2, 4),
+  }));
+};
 
 type ServiceType = {
   id: string;
@@ -80,6 +102,16 @@ const getServiceIcon = (service: ServiceType) => {
   return serviceIcons.default;
 };
 
+// Generate particles data
+// IMPORTANT: Define the particles array OUTSIDE the component to ensure
+// the same values are used during both server and client rendering
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  left: generateDeterministicValue(i, 0, 100),
+  top: generateDeterministicValue(i + 100, 0, 100),
+  animationDelay: generateDeterministicValue(i + 200, 0, 3),
+  animationDuration: generateDeterministicValue(i + 300, 2, 4),
+}));
+
 const OurServices = ({ data }: OurServicesProps) => {
   const [activeService, setActiveService] = useState<number>(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -94,6 +126,9 @@ const OurServices = ({ data }: OurServicesProps) => {
   }, []);
 
   const services = data?.our_service_service || [];
+
+  // Memoized particle data to avoid recalculating on every render
+  const particles = useMemo(() => generateParticles(20), []);
 
   return (
     <section className="max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 py-20">
@@ -115,15 +150,15 @@ const OurServices = ({ data }: OurServicesProps) => {
 
         {/* Floating particles */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {PARTICLES.map((particle, i) => (
             <div
               key={i}
               className="absolute w-1 h-1 bg-white rounded-full opacity-30 animate-ping"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.animationDelay}s`,
+                animationDuration: `${particle.animationDuration}s`,
               }}
             />
           ))}
