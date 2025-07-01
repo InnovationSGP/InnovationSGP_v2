@@ -8,6 +8,10 @@ export const navItems = [
     href: "/services",
     subMenu: [
       {
+        label: "Offshore IT Services",
+        href: "/services/offshore-it-professional-services",
+      },
+      {
         label: "Business Consulting",
         href: "/services/business-consulting",
       },

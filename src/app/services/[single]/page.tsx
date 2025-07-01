@@ -85,7 +85,7 @@ export default async function Home({ params }: any) {
         title={pageData?.title.rendered}
         excerpt={pageData?.excerpt?.rendered}
       />
-      <TechServices />
+      {/* <TechServices /> */}
       <WordProcess
         data={{
           steps_plain_title,
