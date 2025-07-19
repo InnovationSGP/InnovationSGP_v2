@@ -6,6 +6,7 @@ import WhyChoseUs from "./why-chose-us";
 import OurServices from "./our-services";
 import Clients from "./clients";
 import Testimonials from "./testimonials";
+import TechServices from "./tech-services";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -20,8 +21,8 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
     about_label,
     about_list,
     about_plain_title,
-      about_customers_impacted,
-      button_link,
+    about_customers_impacted,
+    button_link,
     chose_us_button_link,
     chose_us_color_title,
     chose_us_description,
@@ -64,8 +65,7 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
           about_label,
           about_list,
           about_plain_title,
-            about_customers_impacted
-
+          about_customers_impacted,
         }}
       />
       <WhyChoseUs
@@ -84,7 +84,7 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
       />
       <OurServices
         data={{
-          our_service_button_url,
+          cta_url: our_service_button_url,
           our_service_color_title,
           our_service_label,
           our_service_plain_title,
@@ -97,7 +97,7 @@ const HomePageTemplate = ({ homepage, testimonials, blogs }: any) => {
         title="Read our latest"
         colorTitle="Blog posts"
         label="Blogs"
-        data={blogs.slice(0, 3)}
+        data={Array.isArray(blogs) ? blogs.slice(0, 3) : []}
       />
     </>
   );

@@ -1,0 +1,143 @@
+/* WordPress Content Global Styles */
+.wp-content figure {
+  margin: 1.5rem 0;
+}
+
+.wp-content figure.wp-block-image {
+  text-align: center;
+}
+
+.wp-content figure.wp-block-image img {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 0 auto;
+}
+
+.wp-content figure figcaption {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.wp-content iframe {
+  max-width: 100%;
+  margin: 1.5rem 0;
+}
+
+.wp-content .wp-block-embed {
+  margin: 1.5rem 0;
+}
+
+.wp-content .wp-block-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.wp-content .wp-block-gallery .blocks-gallery-item {
+  margin: 0;
+}
+
+.wp-content .aligncenter {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-content .alignleft {
+  float: left;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wp-content .alignright {
+  float: right;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Additional WordPress Specific Styles */
+.wp-content p {
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+}
+
+.wp-content h1,
+.wp-content h2,
+.wp-content h3,
+.wp-content h4,
+.wp-content h5,
+.wp-content h6 {
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.wp-content ul,
+.wp-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.wp-content ul {
+  list-style-type: disc;
+}
+
+.wp-content ol {
+  list-style-type: decimal;
+}
+
+.wp-content blockquote {
+  border-left: 4px solid #3b82f6;
+  background-color: #eff6ff;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+}
+
+.wp-content pre {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.wp-content code {
+  background-color: #f3f4f6;
+  color: #ef4444;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+.wp-content a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.wp-content a:hover {
+  text-decoration: underline;
+}
+
+.wp-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.wp-content th,
+.wp-content td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem;
+}
+
+.wp-content th {
+  background-color: #f9fafb;
+}

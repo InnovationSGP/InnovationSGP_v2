@@ -9,6 +9,7 @@
   --black-10: #858585;
   --black-20: #2d2d2d;
   --text: #515151;
+  --blue-70: #7f9ad6;
 }
 
 @theme inline {
@@ -65,10 +66,10 @@ span {
 }
 .home_page_blog_gradient {
   background: linear-gradient(
-          180deg,
-          rgba(239, 247, 255, 0) 0%,
-          #eff7ff 50%,
-          #eff7ff 100%
+    180deg,
+    rgba(239, 247, 255, 0) 0%,
+    #eff7ff 50%,
+    #eff7ff 100%
   );
 }
 
@@ -115,18 +116,50 @@ span {
   }
 }
 
-
 .content h2,
 .content h3,
 .content h4,
 .content h5,
-.content h1{
+.content h1 {
   font-size: 22px;
   font-weight: 600;
 }
-.content h6{
+.content h6 {
   font-size: 20px;
   font-weight: 600;
 }
 
-/*"watch-css": "sass --watch src/styles/index.scss src/app/globals.css",*/
+/* Animation Utilities */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animation-delay-2000 {
+  animation-delay: 2000ms;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4000ms;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
