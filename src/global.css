@@ -1,0 +1,57 @@
+.gutenberg-content {
+    line-height: 1.6;
+}
+
+.wp-block-paragraph {
+    margin-bottom: 1em;
+}
+
+.wp-block-heading {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+.wp-block-image {
+    margin: 1em 0;
+}
+
+.wp-block-quote {
+    border-left: 4px solid #ddd;
+    padding-left: 1em;
+    margin: 1em 0;
+    font-style: italic;
+}
+
+.wp-block-code {
+    background: #f4f4f4;
+    padding: 1em;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.wp-block-separator {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 2em 0;
+}
+
+.wp-block-columns {
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+
+.wp-block-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.wp-block-group {
+    margin: 1em 0;
+}
+
+@media (max-width: 768px) {
+    .wp-block-columns {
+        flex-direction: column;
+    } }

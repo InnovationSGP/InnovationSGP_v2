@@ -30,9 +30,9 @@ function Logo({ data }: any) {
     // Get width measurements
     const scrollWidth = scrollRef1.current.scrollWidth;
 
-    // Set initial positions
+    // Set initial positions to prevent overlap
     let scroll1Position = 0;
-    let scroll2Position = scrollWidth;
+    let scroll2Position = scrollWidth / 2;
 
     // Apply initial positions
     scrollRef1.current.style.transform = `translateX(${scroll1Position}px)`;
@@ -50,12 +50,12 @@ function Logo({ data }: any) {
       // Reset positions when scrolled out of view
       // When the first container goes completely off-screen to the left
       if (scroll1Position <= -scrollWidth) {
-        scroll1Position = scrollWidth; // Reset to right side of view
+        scroll1Position = scrollWidth / 2; // Reset to right side maintaining spacing
       }
 
       // When the second container goes completely off-screen to the left
       if (scroll2Position <= -scrollWidth) {
-        scroll2Position = scrollWidth; // Reset to right side of view
+        scroll2Position = scrollWidth / 2; // Reset to right side maintaining spacing
       }
 
       // Apply scroll positions

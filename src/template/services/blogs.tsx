@@ -59,4 +59,15 @@ function Blogs({ data, showLabel = true, showHeading = true }: BlogsProps) {
   );
 }
 
+// Sample blog posts data for fallback
+export const blogPosts = [
+  {
+    id: 1,
+    title: { rendered: "Sample Blog Post" },
+    slug: "sample-blog-post",
+    date: new Date().toISOString(),
+    excerpt: { rendered: "This is a sample blog post." }
+  }
+];
+
 export default Blogs;

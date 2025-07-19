@@ -4,14 +4,14 @@ import Hero from "@/template/blog-read/hero";
 import { getMediaURL } from "@/utils";
 import { Metadata } from "next";
 
-type Params = {
-  params: {
+type PageProps = {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const { id } = params;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
 
   try {
     const post = await fetchAPI({
@@ -90,8 +90,8 @@ async function getNewsData(id: string) {
   }
 }
 
-export default async function NewsHighlightPage({ params }: Params) {
-  const { id } = params;
+export default async function NewsHighlightPage({ params }: PageProps) {
+  const { id } = await params;
   const { post, relatedPosts } = await getNewsData(id);
 
   // Check if the post exists before rendering
