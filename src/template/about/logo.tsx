@@ -1,189 +1,130 @@
 "use client";
 
-import Heading from "@/components/ui/heading";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
-import Label from "@/components/ui/label";
+import React from "react";
 import { Building2 } from "lucide-react";
 
 function Logo({ data }: any) {
-  // Create two refs for the scrolling containers
-  const scrollRef1 = useRef<HTMLDivElement>(null);
-  const scrollRef2 = useRef<HTMLDivElement>(null);
-
   // Ensure we have data to display
   const logos = Array.isArray(data) ? data : [];
-
-  // If we don't have enough logos, duplicate them to ensure smooth scrolling
-  const extendedLogos =
-    logos.length < 10 ? [...logos, ...logos, ...logos] : logos;
-
-  // Handle the auto-scrolling animation
-  useEffect(() => {
-    if (!scrollRef1.current || !scrollRef2.current) return;
-
-    // Animation timing
-    let animationFrameId: number;
-    let lastTimestamp = 0;
-    const scrollSpeed = 0.12; // pixels per millisecond - slightly slower for smoother effect
-
-    // Get width measurements
-    const scrollWidth = scrollRef1.current.scrollWidth;
-
-    // Set initial positions to prevent overlap
-    let scroll1Position = 0;
-    let scroll2Position = scrollWidth / 2;
-
-    // Apply initial positions
-    scrollRef1.current.style.transform = `translateX(${scroll1Position}px)`;
-    scrollRef2.current.style.transform = `translateX(${scroll2Position}px)`;
-
-    const animate = (timestamp: number) => {
-      if (!lastTimestamp) lastTimestamp = timestamp;
-      const deltaTime = timestamp - lastTimestamp;
-      lastTimestamp = timestamp;
-
-      // Update scroll positions at identical rate
-      scroll1Position -= scrollSpeed * deltaTime;
-      scroll2Position -= scrollSpeed * deltaTime;
-
-      // Reset positions when scrolled out of view
-      // When the first container goes completely off-screen to the left
-      if (scroll1Position <= -scrollWidth) {
-        scroll1Position = scrollWidth / 2; // Reset to right side maintaining spacing
-      }
-
-      // When the second container goes completely off-screen to the left
-      if (scroll2Position <= -scrollWidth) {
-        scroll2Position = scrollWidth / 2; // Reset to right side maintaining spacing
-      }
-
-      // Apply scroll positions
-      if (scrollRef1.current) {
-        scrollRef1.current.style.transform = `translateX(${scroll1Position}px)`;
-      }
-      if (scrollRef2.current) {
-        scrollRef2.current.style.transform = `translateX(${scroll2Position}px)`;
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animationFrameId = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-    };
-  }, [data]);
 
   // If no logos, show a placeholder
   if (logos.length === 0) {
     return (
-      <section className="container mx-auto px-4 py-12">
-        <div className="text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
-            <Building2 className="w-4 h-4 text-blue-500" />
-            <span className="text-blue-600 text-sm font-medium">
-              Partnerships
-            </span>
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 transition-colors duration-300" style={{
+              backgroundColor: 'var(--brand-purple-50)',
+              border: `1px solid var(--brand-border-accent)`
+            }}>
+              <Building2 className="w-4 h-4" style={{ color: 'var(--brand-primary-purple)' }} />
+              <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--brand-text-brand)' }}>
+                Partnerships
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto" style={{ color: 'var(--brand-text-dark)' }}>
+              Our Trusted{" "}
+              <span style={{ 
+                background: 'var(--brand-gradient-accent)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                Partners
+              </span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-lg md:text-xl" style={{ color: 'var(--brand-text-secondary)' }}>Partner logos coming soon</p>
           </div>
-          <Heading
-            colorText="Partners"
-            className="mt-3 text-black-20"
-            secondColor="blue"
-          >
-            Our Trusted
-          </Heading>
-          <p className="mt-4 text-gray-500">Partner logos coming soon</p>
         </div>
       </section>
     );
   }
 
+  // Duplicate logos for seamless scrolling
+  const duplicatedLogos = [...logos, ...logos, ...logos];
+
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden" style={{ backgroundColor: 'var(--brand-bg-secondary)' }}>
       <div className="container mx-auto px-4 mb-12">
         <div className="text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
-            <Building2 className="w-4 h-4 text-blue-500" />
-            <span className="text-blue-600 text-sm font-medium">
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 transition-colors duration-300" style={{
+            backgroundColor: 'var(--brand-purple-50)',
+            border: `1px solid var(--brand-border-accent)`
+          }}>
+            <Building2 className="w-4 h-4" style={{ color: 'var(--brand-primary-purple)' }} />
+            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--brand-text-brand)' }}>
               Partnerships
             </span>
           </div>
-          <Heading
-            colorText="Partners"
-            className="mt-3 text-black-20"
-            secondColor="blue"
-          >
-            Our Trusted
-          </Heading>
-          <p className="mt-4 max-w-2xl mx-auto text-gray-600">
+          <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto" style={{ color: 'var(--brand-text-dark)' }}>
+            Our Trusted{" "}
+            <span style={{ 
+              background: 'var(--brand-gradient-accent)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
+              Partners
+            </span>
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg md:text-xl" style={{ color: 'var(--brand-text-secondary)' }}>
             Collaborating with industry leaders to deliver exceptional solutions
           </p>
         </div>
       </div>
 
-      {/* Gradient overlays for smooth fade effect on edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
-
-      {/* Logos scroll container */}
-      <div className="relative overflow-hidden w-full py-12">
-        {/* Container for consistent height */}
-        <div className="h-24 relative">
-          {/* Single row of scrolling logos */}
-          <div
-            className="flex items-center justify-center whitespace-nowrap absolute left-0 right-0 top-0 bottom-0"
-            ref={scrollRef1}
+      {/* Modern scrolling logos with CSS animation */}
+      <div className="relative overflow-hidden">
+        {/* Fade overlays */}
+        <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" style={{ background: 'linear-gradient(to right, var(--brand-bg-secondary), transparent)' }}></div>
+        <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" style={{ background: 'linear-gradient(to left, var(--brand-bg-secondary), transparent)' }}></div>
+        
+        <div className="flex items-center justify-center py-8">
+          <div 
+            className="flex gap-12 animate-scroll"
+            style={{
+              animation: 'scroll 30s linear infinite',
+            }}
           >
-            {extendedLogos.map((logo: any, index: number) => (
+            {duplicatedLogos.map((logo: any, index: number) => (
               <div
-                key={`logo1-${index}`}
-                className="inline-flex items-center justify-center mx-8"
+                key={index}
+                className="flex-shrink-0 flex items-center justify-center w-32 h-16 p-3 rounded-lg transition-all duration-300 hover:scale-105"
+                style={{
+                  backgroundColor: 'var(--white)',
+                  border: `1px solid var(--brand-border-light)`,
+                  boxShadow: 'var(--shadow-sm)'
+                }}
               >
-                <div className="p-4 bg-white/50 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300 transform hover:scale-105 h-16 w-[160px] flex items-center justify-center">
-                  <Image
-                    src={logo}
-                    alt={`Partner logo ${index + 1}`}
-                    width={120}
-                    height={60}
-                    className="object-contain w-auto h-auto max-h-10 max-w-[120px] filter grayscale hover:grayscale-0 transition-all duration-500"
-                    style={{ opacity: 0.75 }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Duplicate row that follows immediately after */}
-          <div
-            className="flex items-center justify-center whitespace-nowrap absolute left-0 right-0 top-0 bottom-0"
-            ref={scrollRef2}
-          >
-            {extendedLogos.map((logo: any, index: number) => (
-              <div
-                key={`logo2-${index}`}
-                className="inline-flex items-center justify-center mx-8"
-              >
-                <div className="p-4 bg-white/50 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300 transform hover:scale-105 h-16 w-[160px] flex items-center justify-center">
-                  <Image
-                    src={logo}
-                    alt={`Partner logo ${index + 1}`}
-                    width={120}
-                    height={60}
-                    className="object-contain w-auto h-auto max-h-10 max-w-[120px] filter grayscale hover:grayscale-0 transition-all duration-500"
-                    style={{ opacity: 0.75 }}
-                  />
-                </div>
+                <Image
+                  src={logo}
+                  alt={`Partner logo ${index + 1}`}
+                  width={100}
+                  height={50}
+                  className="object-contain w-auto h-auto max-h-8 max-w-[100px] filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                />
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Add CSS keyframes */}
+      <style jsx>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
+        }
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 }

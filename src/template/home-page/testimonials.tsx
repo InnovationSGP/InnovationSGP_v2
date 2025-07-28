@@ -1,203 +1,127 @@
 "use client";
-import Heading from "@/components/ui/heading";
-import Label from "@/components/ui/label";
 import Image from "next/image";
 import React from "react";
 import Slider from "react-slick";
-import { Sparkles } from "lucide-react";
-
-// Generate deterministic particles outside the component
-const generateParticles = (count: number) => {
-  // Use a seed-based approach to ensure consistent values
-  const seed = 42; // Using a fixed seed for deterministic output
-  const particles = [];
-
-  // Simple pseudo-random generator with seed
-  const seededRandom = (min: number, max: number, index: number) => {
-    const seedValue = (seed + index * 137) % 2147483647;
-    // Simple PRNG formula
-    const randomValue = ((seedValue * 16807) % 2147483647) / 2147483647;
-    return min + randomValue * (max - min);
-  };
-
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      id: i,
-      left: seededRandom(0, 100, i),
-      top: seededRandom(0, 100, i + count),
-      animationDelay: seededRandom(0, 3, i + 2 * count),
-      animationDuration: seededRandom(2, 4, i + 3 * count),
-    });
-  }
-
-  return particles;
-};
-
-// Generate particles once outside the component
-const particles = generateParticles(15);
+import { Sparkles, ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 
 const Testimonials = ({ data }: any) => {
   const slider = React.useRef<any>(null);
 
   return (
-    <section className="max-w-[1356px] mx-auto px-3 py-12">
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 rounded-[32px] py-[60px] px-3 md:px-12">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
-        </div>
-
-        {/* Floating particles */}
-        <div className="absolute inset-0">
-          {particles.map((particle) => (
-            <div
-              key={particle.id}
-              className="absolute w-1 h-1 bg-white rounded-full opacity-30 animate-ping"
-              style={{
-                left: `${particle.left}%`,
-                top: `${particle.top}%`,
-                animationDelay: `${particle.animationDelay}s`,
-                animationDuration: `${particle.animationDuration}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
-          <div>
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-8">
-              <Sparkles className="w-4 h-4 text-blue-400" />
-              <span className="text-blue-300 text-sm font-medium">
-                Client Testimonials
-              </span>
-            </div>
-
-            <Heading
-              colorText={"Say About US"}
-              secondColor="teal"
-              className="mt-4 !text-white"
-            >
-              Hear What Our Happy Clients
-            </Heading>
-
-            <div className="items-center gap-3 hidden md:flex">
-              <button
-                onClick={() => slider?.current?.slickPrev()}
-                className="group bg-white/5 backdrop-blur-sm border border-white/10 p-[13px] rounded-full hover:bg-white cursor-pointer transition-all duration-300"
-              >
-                <svg
-                  width="15"
-                  height="16"
-                  viewBox="0 0 15 16"
-                  fill="none"
-                  className="transition-all duration-200"
-                >
-                  <path
-                    d="M0.179353 7.65033C-0.0116072 7.86039 -0.0116072 8.07045 0.179353 8.2805L4.30409 12.4052C4.51415 12.5962 4.7242 12.5962 4.93426 12.4052C5.12522 12.1952 5.12522 11.9851 4.93426 11.7751L1.61155 8.42372H14.2436C14.53 8.40463 14.6828 8.25186 14.7019 7.96542C14.6828 7.67898 14.53 7.52621 14.2436 7.50711H1.61155L4.93426 4.15576C5.12522 3.94571 5.12522 3.73565 4.93426 3.52559C4.7242 3.33463 4.51415 3.33463 4.30409 3.52559L0.179353 7.65033Z"
-                    className="fill-[#ffffff] group-hover:fill-black"
-                  />
-                </svg>
-              </button>
-
-              <button
-                onClick={() => slider?.current?.slickNext()}
-                className="group bg-white/5 backdrop-blur-sm border border-white/10 p-[13px] rounded-full hover:bg-white cursor-pointer transition-all duration-300"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M15.2969 8.2805C15.4879 8.07045 15.4879 7.86039 15.2969 7.65033L11.1722 3.52559C10.9621 3.33463 10.7521 3.33463 10.542 3.52559C10.3511 3.73565 10.3511 3.94571 10.542 4.15576L13.8647 7.50711H1.23272C0.946278 7.52621 0.79351 7.67898 0.774414 7.96542C0.79351 8.25186 0.946278 8.40463 1.23272 8.42372H13.8647L10.542 11.7751C10.3511 11.9851 10.3511 12.1952 10.542 12.4052C10.7521 12.5962 10.9621 12.5962 11.1722 12.4052L15.2969 8.2805Z"
-                    className="fill-[#ffffff] group-hover:fill-black"
-                  />
-                </svg>
-              </button>
-            </div>
+    <section className="py-16 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)' }}>
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.15) 1px, transparent 0)`,
+          backgroundSize: "24px 24px",
+        }}></div>
+      </div>
+      
+      {/* Floating elements */}
+      <div className="absolute top-10 left-10 w-12 h-12 rounded-full bg-purple-500/10 animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-16 h-16 rounded-full bg-blue-500/10 animate-pulse" style={{ animationDelay: '1s' }}></div>
+      
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-4 transition-colors duration-300" style={{
+            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+            border: `1px solid rgba(139, 92, 246, 0.2)`
+          }}>
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span className="text-sm font-medium uppercase tracking-wider text-purple-300">
+              Client Testimonials
+            </span>
           </div>
-          <div className="relative flex flex-col">
-            <Slider {...settings} ref={slider}>
-              {data?.testimonials?.map((t: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex flex-col z-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-[16px] px-[20px] py-[20px] text-white mx-2 hover:bg-white/10 transition-all duration-300"
-                >
-                  <div className="flex items-center gap-2">
-                    <Image src="/svg/qoute.svg" alt="" width={21} height={24} />
-                    <h6 className="text-lg font-sora font-semibold">
-                      {t?.title?.rendered}
-                    </h6>
+          <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold mb-4 leading-tight max-w-4xl mx-auto text-white">
+            What Our Clients{" "}
+            <span style={{ 
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
+              Say About Us
+            </span>
+          </h2>
+          <p className="max-w-xl mx-auto text-base text-gray-300">
+            Discover how we've helped businesses achieve their goals
+          </p>
+        </div>
+
+        {/* Testimonials Slider */}
+        <div className="relative max-w-4xl mx-auto">
+          <Slider {...settings} ref={slider}>
+            {data?.testimonials?.map((t: any, index: number) => (
+              <div key={index} className="px-3">
+                <div className="relative p-6 rounded-xl transition-all duration-300 hover:transform hover:scale-102" style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)'
+                }}>
+                  {/* Quote Icon */}
+                  <div className="absolute -top-3 left-6">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{
+                      background: 'linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%)'
+                    }}>
+                      <Quote className="w-4 h-4 text-white" />
+                    </div>
                   </div>
 
-                  <p className="mt-4 text-gray-300 text-sm mb-6 leading-relaxed">
-                    {t?.acf?.testimonial_review}
-                  </p>
+                  {/* Star Rating */}
+                  <div className="flex items-center gap-1 mb-3 pt-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
 
-                  <div className="flex items-center gap-3 mt-auto">
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-white/10">
+                  {/* Testimonial Content */}
+                  <blockquote className="text-base leading-relaxed text-gray-100 mb-4 italic">
+                    "{t?.acf?.testimonial_review || "This testimonial demonstrates the exceptional service and results we provide to our clients."}"
+                  </blockquote>
+
+                  {/* Client Info */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-white/20">
                       <Image
-                        src={
-                          t?.acf?.testimonial_image ||
-                          "/images/placeholderMember.png"
-                        }
-                        alt=""
-                        width={66}
-                        height={66}
-                        className="object-cover rounded-full w-full h-full"
+                        src={t?.acf?.testimonial_image || "/images/placeholderMember.png"}
+                        alt={t?.acf?.testimonial_name || "Client"}
+                        width={40}
+                        height={40}
+                        className="object-cover w-full h-full"
                       />
                     </div>
                     <div>
-                      <h6 className="font-sora font-semibold">
-                        {t?.acf?.testimonial_name}
-                      </h6>
-                      <p className="text-sm text-gray-400">
-                        {t?.acf?.testimonial_designation}
+                      <h4 className="font-semibold text-white text-sm">
+                        {t?.acf?.testimonial_name || "Satisfied Client"}
+                      </h4>
+                      <p className="text-gray-300 text-xs">
+                        {t?.acf?.testimonial_designation || "Business Owner"}
                       </p>
                     </div>
                   </div>
+
+                  {/* Decorative gradient border */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/20 via-transparent to-blue-500/20 pointer-events-none"></div>
                 </div>
-              ))}
-            </Slider>
+              </div>
+            ))}
+          </Slider>
 
-            {/* Decorative elements */}
-            <div className="absolute top-4 right-4 text-blue-400/20">
-              <Sparkles
-                className="w-12 h-12 animate-spin"
-                style={{ animationDuration: "8s" }}
-              />
-            </div>
-
-            <div className="flex items-center justify-center mt-10 md:hidden gap-3">
-              <button
-                onClick={() => slider?.current?.slickPrev()}
-                className="group bg-white/5 backdrop-blur-sm border border-white/10 p-[13px] rounded-full hover:bg-white cursor-pointer transition-all duration-300"
-              >
-                <svg
-                  width="15"
-                  height="16"
-                  viewBox="0 0 15 16"
-                  fill="none"
-                  className="transition-all duration-200"
-                >
-                  <path
-                    d="M0.179353 7.65033C-0.0116072 7.86039 -0.0116072 8.07045 0.179353 8.2805L4.30409 12.4052C4.51415 12.5962 4.7242 12.5962 4.93426 12.4052C5.12522 12.1952 5.12522 11.9851 4.93426 11.7751L1.61155 8.42372H14.2436C14.53 8.40463 14.6828 8.25186 14.7019 7.96542C14.6828 7.67898 14.53 7.52621 14.2436 7.50711H1.61155L4.93426 4.15576C5.12522 3.94571 5.12522 3.73565 4.93426 3.52559C4.7242 3.33463 4.51415 3.33463 4.30409 3.52559L0.179353 7.65033Z"
-                    className="fill-[#ffffff] group-hover:fill-black"
-                  />
-                </svg>
-              </button>
-
-              <button
-                onClick={() => slider?.current?.slickNext()}
-                className="group bg-white/5 backdrop-blur-sm border border-white/10 p-[13px] rounded-full hover:bg-white cursor-pointer transition-all duration-300"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M15.2969 8.2805C15.4879 8.07045 15.4879 7.86039 15.2969 7.65033L11.1722 3.52559C10.9621 3.33463 10.7521 3.33463 10.542 3.52559C10.3511 3.73565 10.3511 3.94571 10.542 4.15576L13.8647 7.50711H1.23272C0.946278 7.52621 0.79351 7.67898 0.774414 7.96542C0.79351 8.25186 0.946278 8.40463 1.23272 8.42372H13.8647L10.542 11.7751C10.3511 11.9851 10.3511 12.1952 10.542 12.4052C10.7521 12.5962 10.9621 12.5962 11.1722 12.4052L15.2969 8.2805Z"
-                    className="fill-[#ffffff] group-hover:fill-black"
-                  />
-                </svg>
-              </button>
-            </div>
+          {/* Navigation Buttons */}
+          <div className="flex items-center justify-center gap-3 mt-6">
+            <button
+              onClick={() => slider?.current?.slickPrev()}
+              className="group p-2 rounded-full transition-all duration-300 bg-white/10 border border-white/20 hover:bg-white/20"
+            >
+              <ChevronLeft className="w-4 h-4 text-white" />
+            </button>
+            <button
+              onClick={() => slider?.current?.slickNext()}
+              className="group p-2 rounded-full transition-all duration-300 bg-white/10 border border-white/20 hover:bg-white/20"
+            >
+              <ChevronRight className="w-4 h-4 text-white" />
+            </button>
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import React from "react";
-import BlogHero from "@/template/blog/blog-hero";
+import SharedHero from "@/components/shared-hero";
 
 export default function NotFound() {
   return (
     <>
-      <BlogHero
+      <SharedHero
         title="News Article Not Found"
         subtitle="Error"
         description="We couldn't find the news article you're looking for."

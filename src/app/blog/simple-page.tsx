@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import BlogHero from "@/template/blog/blog-hero";
+import SharedHero from "@/components/shared-hero";
 import Blogs from "@/template/services/blogs";
 
 // Define Post interface for strong typing
@@ -55,7 +55,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <BlogHero
+      <SharedHero
         title="Intel & Insights"
         subtitle="Intel & Insights"
         description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"

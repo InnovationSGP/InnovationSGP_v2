@@ -6,28 +6,32 @@ export const navItems = [
   {
     label: "Services",
     href: "/services",
+    heroImage: "/images/services-hero.jpg",
+    description: "Comprehensive business solutions tailored to your needs",
     subMenu: [
       {
         label: "Offshore IT Services",
         href: "/services/offshore-it-professional-services",
+        description: "Cost-effective offshore IT solutions",
+        icon: "🌐",
       },
       {
-        label: "Business Consulting",
+        label: "Business Consulting", 
         href: "/services/business-consulting",
+        description: "Strategic business advisory services",
+        icon: "💼",
       },
       {
         label: "IT Professional Services",
         href: "/services/technology-consulting",
+        description: "Expert technology consulting",
+        icon: "⚡",
       },
       {
         label: "Software & Solutions",
         href: "/services/software-solutions",
-        // subMenu: [
-        //     { label: "Strategic Portfolio Management", href: "/services/software-solutions/spm" },
-        //     { label: "Portfolio Insights", href: "/services/software-solutions/insights" },
-        //     { label: "Enterprise Connect", href: "/services/software-solutions/connect" },
-        //     { label: "Project and Program Management", href: "/services/software-solutions/ppm" },
-        // ],
+        description: "Custom software development",
+        icon: "🔧",
       },
     ],
   },
@@ -38,14 +42,20 @@ export const navItems = [
   {
     label: "Intel",
     href: "/blog",
+    heroImage: "/images/intel-hero.jpg",
+    description: "Latest insights and industry intelligence",
     subMenu: [
       {
         label: "Intel & Insights",
         href: "/blog",
+        description: "Strategic market insights",
+        icon: "📊",
       },
       {
         label: "News and Highlights",
         href: "/news-highlight",
+        description: "Latest company updates",
+        icon: "📰",
       },
     ],
   },

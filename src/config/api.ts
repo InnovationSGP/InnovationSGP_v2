@@ -49,7 +49,7 @@ export const fetchAPI = async ({
     // Add _embed=true parameter if it's a WordPress API endpoint accessing posts
     // and doesn't already have it
     if (
-      sanitizedEndpoint.includes("/posts") &&
+      sanitizedEndpoint.includes("posts") &&
       !sanitizedEndpoint.includes("_embed")
     ) {
       sanitizedEndpoint += sanitizedEndpoint.includes("?")
@@ -61,14 +61,39 @@ export const fetchAPI = async ({
       ? `${baseUrl}${sanitizedEndpoint}`
       : `${baseUrl}/${sanitizedEndpoint}`;
 
-    const response = await fetch(fullUrl, options);
+    // Create AbortController for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // Increased to 15 seconds
+
+    const response = await fetch(fullUrl, {
+      ...options,
+      signal: controller.signal,
+      // Add headers for WordPress API
+      headers: {
+        ...options.headers,
+        'Accept': 'application/json'
+      }
+    });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
+      const errorText = await response.text();
       console.error(`HTTP error ${response.status} for URL: ${fullUrl}`);
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.error(`Response text:`, errorText);
+      
+      // Handle WordPress-specific errors
+      if (response.status === 404) {
+        throw new Error(`WordPress endpoint not found: ${sanitizedEndpoint}`);
+      } else if (response.status >= 500) {
+        throw new Error(`WordPress server error: ${response.status}`);
+      } else {
+        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+      }
     }
 
-    const responseData = await response.json(); // or response.text() if it's not JSON
+    const responseData = await response.json();
+    
 
     // If headers are requested, return both data and headers
     if (includeHeaders) {

@@ -1,30 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import FeatureTopics from "@/template/blog/feature-topics";
-import BlogHero from "@/template/blog/blog-hero";
+import SharedHero from "@/components/shared-hero";
 import Pagination from "@/template/blog/pagination";
 import Blogs from "@/template/services/blogs";
 import { useSearchParams } from "next/navigation";
-
-// Define interfaces for our data
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  count?: number;
-}
-
-interface Post {
-  id: number;
-  date: string;
-  title: { rendered: string };
-  slug: string;
-  excerpt: { rendered: string };
-  featured_media: number;
-  categories: number[];
-  _embedded?: any;
-  [key: string]: any;
-}
+import { usePosts, useCategories } from "@/services/wordpress";
+import { WordPressPost } from "@/types/wordpress";
 
 export default function BlogPage() {
   // Get URL params
@@ -33,16 +15,30 @@ export default function BlogPage() {
   const categoryParam = searchParams.get("id");
   const page = parseInt(pageParam) || 1;
 
-  // State
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState(1);
+  // Use the central WordPress store
+  const { categories, loading: categoriesLoading, error: categoriesError } = useCategories();
+  const { 
+    posts, 
+    loading: postsLoading, 
+    error: postsError, 
+    pagination,
+    refetch: refetchPosts 
+  } = usePosts();
+
+  // Local state for UI
   const [activeCategory, setActiveCategory] = useState<number | null>(
     categoryParam ? parseInt(categoryParam) : null
   );
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<WordPressPost[]>([]);
+  
+  // Combine loading and error states
+  const loading = categoriesLoading || postsLoading;
+  const error = categoriesError || postsError;
+  
+  // Filter categories to show only non-empty ones
+  const validCategories = categories.filter(
+    (cat) => cat.count && cat.count > 0 && cat.slug !== "uncategorized"
+  );
 
   // Safely parse category ID
   const parseCategoryId = (id: string | null): number | null => {
@@ -52,99 +48,35 @@ export default function BlogPage() {
   };
 
   // Handle category changes from the FeatureTopics component
-  const handleCategoryChange = (categoryId: number | null, posts: Post[]) => {
+  const handleCategoryChange = (categoryId: number | null, posts: WordPressPost[]) => {
     setActiveCategory(categoryId);
     setFilteredPosts(posts);
   };
 
   // Filter posts by category
-  const filterPostsByCategory = (posts: Post[], categoryId: number | null) => {
+  const filterPostsByCategory = (posts: WordPressPost[], categoryId: number | null) => {
     if (!categoryId) return posts;
     return posts.filter((post) => post.categories.includes(categoryId));
   };
 
-  // Fetch data on mount and when parameters change
+  // Fetch posts when page or category changes
   useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        setError(null);
+    const fetchParams = {
+      page,
+      per_page: 9,
+      ...(activeCategory && { categories: String(activeCategory) })
+    };
+    
+    refetchPosts(fetchParams);
+  }, [page, activeCategory, refetchPosts]);
 
-        // Get the base URL from environment or fallback
-        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-
-        // 1. Fetch categories with a higher per_page limit to get all of them
-        const categoriesUrl = `${apiBaseUrl}/categories?per_page=100`;
-
-        const catResponse = await fetch(categoriesUrl);
-        if (!catResponse.ok) {
-          throw new Error(
-            `HTTP error! Status: ${catResponse.status} when fetching categories`
-          );
-        }
-
-        const categoriesData = await catResponse.json();
-
-        // Filter out empty categories and uncategorized
-        const validCategories = categoriesData.filter(
-          (cat: Category) =>
-            cat.count && cat.count > 0 && cat.slug !== "uncategorized"
-        );
-
-        setCategories(validCategories);
-
-        // 2. Build the URL for posts
-        const perPage = 9;
-        let postsUrl = `${apiBaseUrl}/posts?_embed=true&per_page=${perPage}&page=${page}`;
-
-        // Add category filter if needed
-        if (activeCategory) {
-          postsUrl += `&categories=${activeCategory}`;
-        }
-
-        // 3. Fetch posts
-        const postsResponse = await fetch(postsUrl);
-
-        if (!postsResponse.ok) {
-          throw new Error(
-            `HTTP error! Status: ${postsResponse.status} when fetching posts`
-          );
-        }
-
-        // 4. Extract posts and pagination info
-        const postsData = await postsResponse.json();
-
-        // Get total pages from headers for pagination
-        const totalPosts =
-          postsResponse.headers.get("X-WP-Total") ||
-          postsResponse.headers.get("x-wp-total");
-        const totalPagesHeader =
-          postsResponse.headers.get("X-WP-TotalPages") ||
-          postsResponse.headers.get("x-wp-totalpages");
-        const totalPagesNum = totalPagesHeader ? parseInt(totalPagesHeader) : 1;
-
-        setTotalPages(totalPagesNum); // 6. Update state with fetched posts
-        setPosts(postsData);
-
-        // 7. Apply category filtering
-        const categoryId = parseCategoryId(categoryParam);
-        const filtered = filterPostsByCategory(postsData, categoryId);
-        setFilteredPosts(filtered);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred"
-        );
-        // Reset state in case of error
-        setPosts([]);
-        setFilteredPosts([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchData();
-  }, [page, activeCategory, categoryParam]);
+  // Update filtered posts when posts or category changes
+  useEffect(() => {
+    const categoryId = parseCategoryId(categoryParam);
+    const filtered = filterPostsByCategory(posts, categoryId);
+    setFilteredPosts(filtered);
+    setActiveCategory(categoryId);
+  }, [posts, categoryParam]);
 
   // Handle browser back/forward navigation
   useEffect(() => {
@@ -166,7 +98,7 @@ export default function BlogPage() {
 
   return (
     <>
-      <BlogHero
+      <SharedHero
         title="Intel & Insights"
         subtitle="Intel & Insights"
         description="Strategic solutions tailored to disrupt, adapt, and lead across key industries"
@@ -183,7 +115,7 @@ export default function BlogPage() {
 
       <section className="blog_gradient mb-20">
         <FeatureTopics
-          categories={categories}
+          categories={validCategories}
           allPosts={posts}
           onCategoryChange={(categoryId, filteredPosts) =>
             handleCategoryChange(categoryId, filteredPosts as any)
@@ -280,8 +212,8 @@ export default function BlogPage() {
           </div>
         )}
 
-        {!loading && filteredPosts.length > 0 && totalPages > 1 && (
-          <Pagination totalPages={totalPages} />
+        {!loading && filteredPosts.length > 0 && pagination.totalPages && pagination.totalPages > 1 && (
+          <Pagination totalPages={pagination.totalPages} />
         )}
       </section>
     </>

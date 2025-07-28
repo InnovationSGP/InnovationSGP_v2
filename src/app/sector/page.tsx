@@ -1,7 +1,7 @@
 import { fetchAPI } from "@/config/api";
 import Healthcare from "@/template/sector/healthcare";
 import EnhancedLeftRightCard from "@/template/sector/enhanced-left-right-card";
-import SectorHero from "@/template/sector/sector-hero";
+import SharedHero from "@/components/shared-hero";
 import { Metadata } from "next";
 
 const parseYoastValue = (val: any) => {
@@ -120,7 +120,7 @@ export default async function SectorPage() {
 
   return (
     <>
-      <SectorHero
+      <SharedHero
         title={sector_title || "Industry Sectors"}
         subtitle={sector_subtitle || "Strategic Industries"}
         description={
@@ -130,6 +130,11 @@ export default async function SectorPage() {
         backgroundImage={sector_background_image || "/images/about-hero.png"}
         ctaText={sector_cta_button_text}
         ctaLink={sector_cta_button_link}
+        breadcrumbs={[
+          { label: "Home", url: "/" },
+          { label: "Sectors", url: "" },
+        ]}
+        highlightPattern="bookend"
       />
       <Healthcare data={healthcareData} />
       {data?.slice(1)?.map((item: any, idx: number) => {

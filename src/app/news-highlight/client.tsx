@@ -1,6 +1,6 @@
 "use client";
 import { fetchAPI } from "@/config/api";
-import BlogHero from "@/template/blog/blog-hero";
+import SharedHero from "@/components/shared-hero";
 import Pagination from "@/template/blog/pagination";
 import Blogs from "@/template/services/blogs";
 import FeaturedNews from "@/template/highlight/treding";
@@ -204,7 +204,7 @@ export default function NewsHighlight() {
 
   return (
     <>
-      <BlogHero
+      <SharedHero
         title="News and Highlights"
         subtitle="Latest Updates"
         description="Stay informed with the latest news and strategic intelligence from our research team"

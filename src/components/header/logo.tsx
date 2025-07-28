@@ -13,24 +13,40 @@
 //
 // export default Logo
 
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
+const Logo = ({
+  contrast,
+  footer,
+}: {
+  contrast?: boolean;
+  footer?: boolean;
+}) => {
+  const logoSrc = "/logo.svg";
+  const footerLogogSrc = "/secondLogo.svg";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-
-const Logo = ({  contrast }: { contrast?: boolean }) => {
-  const logoSrc = contrast ? '/secondLogo.svg' : '/logo.svg';
-
-  return (
-    <Link href="/">
+  return footer ? (
+    <Link href="/" className="flex items-center">
+      <Image
+        src={footerLogogSrc}
+        className="w-50 h-6"
+        alt="Logo"
+        width={150}
+        height={50}
+        priority
+      />
+    </Link>
+  ) : (
+    <Link href="/" className="flex items-center">
       <Image
         src={logoSrc}
-        style={{ width: 'auto', height: 'auto' }}
-        className="w-auto h-auto p-2"
+        className="w-50 h-6"
         alt="Logo"
-        width={187}
-        height={17}
+        width={150}
+        height={50}
+        priority
       />
     </Link>
   );

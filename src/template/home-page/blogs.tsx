@@ -1,9 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import BlogCard from "../services/blog-card";
-import Label from "@/components/ui/label";
-import Heading from "@/components/ui/heading";
-import { Sparkles, ChevronRight } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 // Helper function to validate WordPress posts for required fields
@@ -20,63 +18,116 @@ const Blogs = ({ data, title, colorTitle, label }: any) => {
   const [validatedPosts, setValidatedPosts] = useState<any[]>([]);
 
   useEffect(() => {
-    // Validate posts and ensure they have required data
-    setValidatedPosts(validatePosts(data));
+    // Handle both array data and object with posts property
+    const postsData = Array.isArray(data) ? data : data?.posts || [];
 
+    // Validate posts and ensure they have required data
+    const validated = validatePosts(postsData);
+    setValidatedPosts(validated);
+  }, [data]);
+
+  useEffect(() => {
     // Add animation on mount with a slight delay
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [data]);
-
-  // Log for debugging
-  console.log(
-    "Blogs component rendered with data:",
-    Array.isArray(data) ? `${data.length} posts received` : "No posts"
-  );
-
-  // Only log detailed post data if we have posts
-  if (validatedPosts.length > 0) {
-    console.log("First post details:", {
-      id: validatedPosts[0]?.id,
-      hasEmbedded: !!validatedPosts[0]?._embedded,
-      hasFeaturedMedia: !!validatedPosts[0]?._embedded?.["wp:featuredmedia"],
-      mediaPath:
-        validatedPosts[0]?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-        "none",
-    });
-  }
+  }, []); // Empty dependency array to run only once
 
   // If no valid posts, render a simplified version
   if (validatedPosts.length === 0) {
     return (
-      <section className="relative overflow-hidden home_page_blog_gradient py-20">
-        <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
-          <div className="flex flex-col text-center items-center gap-4 mb-16">
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
-              <Sparkles className="w-4 h-4 text-blue-500" />
-              <span className="text-blue-600 text-sm font-medium">
+      <section
+        className="py-24 relative overflow-hidden"
+        style={{ background: "var(--brand-bg-secondary)" }}
+      >
+        {/* Minimal background accent */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute -top-40 -right-40 w-80 h-80 rounded-full filter blur-3xl opacity-[0.03]"
+            style={{ backgroundColor: "var(--brand-primary-purple)" }}
+          ></div>
+          <div
+            className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full filter blur-3xl opacity-[0.02]"
+            style={{ backgroundColor: "var(--brand-primary-blue)" }}
+          ></div>
+        </div>
+
+        <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 transition-colors duration-300"
+              style={{
+                backgroundColor: "var(--brand-purple-50)",
+                border: `1px solid var(--brand-border-accent)`,
+              }}
+            >
+              <BookOpen
+                className="w-4 h-4"
+                style={{ color: "var(--brand-primary-purple)" }}
+              />
+              <span
+                className="text-sm font-medium uppercase tracking-wider"
+                style={{ color: "var(--brand-text-brand)" }}
+              >
                 {label || "Latest Articles"}
               </span>
             </div>
-
-            <Heading
-              colorText={colorTitle}
-              className="!text-3xl md:!text-4xl !leading-tight !text-slate-800 max-w-2xl"
+            <h2
+              className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto"
+              style={{ color: "var(--brand-text-dark)" }}
             >
-              {title || "Explore Our Latest Insights and Updates"}
-            </Heading>
+              {title || "Explore Our Latest"}{" "}
+              <span
+                style={{
+                  background: "var(--brand-gradient-accent)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {colorTitle || "Insights"}
+              </span>
+            </h2>
+            <p
+              className="max-w-2xl mx-auto text-lg md:text-xl"
+              style={{ color: "var(--brand-text-secondary)" }}
+            >
+              Stay informed with our latest thoughts, insights, and industry
+              updates
+            </p>
           </div>
 
-          <div className="col-span-3 py-10 text-center text-slate-500">
-            <p className="mb-6">No blog posts available at the moment.</p>
+          <div className="text-center py-16">
+            <div className="mb-8">
+              <div
+                className="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6"
+                style={{
+                  backgroundColor: "var(--brand-purple-50)",
+                  border: `2px solid var(--brand-border-accent)`,
+                }}
+              >
+                <BookOpen
+                  className="w-12 h-12"
+                  style={{ color: "var(--brand-primary-purple)" }}
+                />
+              </div>
+              <p
+                className="text-lg mb-8"
+                style={{ color: "var(--brand-text-secondary)" }}
+              >
+                No blog posts available at the moment. Check back soon for fresh
+                insights and updates.
+              </p>
+            </div>
             <Link
               href="/blog"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-blue-50 font-medium border border-blue-100 hover:bg-gray-300 transition-all shadow-sm hover:shadow"
+              className="group inline-flex items-center gap-2 px-6 py-3 bg-brand-primary text-white hover:bg-brand-primary-light rounded-full font-semibold text-sm transition-all duration-300 shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/30 hover:translate-y-[-1px]"
+              aria-label="View all blog articles"
             >
-              View All Articles
+              <span>Explore All Articles</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -86,38 +137,76 @@ const Blogs = ({ data, title, colorTitle, label }: any) => {
   }
 
   return (
-    <section className="relative overflow-hidden home_page_blog_gradient py-20">
-      {/* Subtle background elements */}
+    <section
+      className="py-24 relative overflow-hidden"
+      style={{ background: "var(--brand-bg-secondary)" }}
+    >
+      {/* Minimal background accent */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-40 right-20 w-[300px] h-[300px] bg-blue-100 rounded-full mix-blend-multiply filter blur-[80px] opacity-50 animate-pulse"></div>
-        <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] bg-indigo-100 rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-pulse animation-delay-2000"></div>
+        <div
+          className="absolute -top-40 -right-40 w-80 h-80 rounded-full filter blur-3xl opacity-[0.03]"
+          style={{ backgroundColor: "var(--brand-primary-purple)" }}
+        ></div>
+        <div
+          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full filter blur-3xl opacity-[0.02]"
+          style={{ backgroundColor: "var(--brand-primary-blue)" }}
+        ></div>
       </div>
 
-      <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <div
           className={`transition-all duration-1000 transform ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className="flex flex-col text-center items-center gap-4 mb-16">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-4">
-              <Sparkles className="w-4 h-4 text-blue-500" />
-              <span className="text-blue-600 text-sm font-medium">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 transition-colors duration-300"
+              style={{
+                backgroundColor: "var(--brand-purple-50)",
+                border: `1px solid var(--brand-border-accent)`,
+              }}
+            >
+              <BookOpen
+                className="w-4 h-4"
+                style={{ color: "var(--brand-primary-purple)" }}
+              />
+              <span
+                className="text-sm font-medium uppercase tracking-wider"
+                style={{ color: "var(--brand-text-brand)" }}
+              >
                 {label || "Latest Articles"}
               </span>
             </div>
-
-            <Heading
-              colorText={colorTitle}
-              className="!text-3xl md:!text-4xl !leading-tight !text-slate-800 max-w-2xl"
+            <h2
+              className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto"
+              style={{ color: "var(--brand-text-dark)" }}
             >
-              {title || "Explore Our Latest Insights and Updates"}
-            </Heading>
+              {title || "Explore Our Latest"}{" "}
+              <span
+                style={{
+                  background: "var(--brand-gradient-accent)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                {colorTitle || "Insights"}
+              </span>
+            </h2>
+            <p
+              className="max-w-2xl mx-auto text-lg md:text-xl"
+              style={{ color: "var(--brand-text-secondary)" }}
+            >
+              Stay informed with our latest thoughts, insights, and industry
+              updates
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {validatedPosts.map((post: any, idx: number) => (
+          {/* Blog Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {validatedPosts.slice(0, 6).map((post: any, idx: number) => (
               <div
                 key={idx}
                 className={`transform transition-all duration-700 ${
@@ -135,12 +224,13 @@ const Blogs = ({ data, title, colorTitle, label }: any) => {
           </div>
 
           {/* View all blogs button */}
-          <div className="flex justify-center mt-4">
+          <div className="text-center">
             <Link
               href="/blog"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-blue-50 font-medium border border-blue-100 hover:bg-gray-300 transition-all shadow-sm hover:shadow"
+              className="group inline-flex items-center gap-2 px-6 py-3 bg-brand-primary text-white hover:bg-brand-primary-light rounded-full font-semibold text-sm transition-all duration-300 shadow-lg shadow-brand-primary/20 hover:shadow-brand-primary/30 hover:translate-y-[-1px]"
+              aria-label="View all blog articles"
             >
-              View All Articles
+              <span>View All Articles</span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

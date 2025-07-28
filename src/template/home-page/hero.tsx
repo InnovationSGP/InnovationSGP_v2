@@ -1,139 +1,109 @@
 "use client";
-import Button from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
-import Label from "@/components/ui/label";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
-import { fixedUrls } from "@/components/header/nav-items";
-import { ArrowRight, Sparkles, ChevronRight, Shield } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 const Hero = ({ data }: any) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Add animation on mount with a slight delay
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 200);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <section className="relative min-h-screen py-8 bg-gradient-to-b from-slate-900 to-blue-900 overflow-hidden">
-      {/* Removed duplicate navigation - using the one from layout */}
-
-      {/* Subtle background elements - reduced noise */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-500 rounded-full mix-blend-multiply filter blur-[120px] opacity-10 animate-pulse"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-indigo-500 rounded-full mix-blend-multiply filter blur-[100px] opacity-10 animate-pulse animation-delay-2000"></div>
-      </div>
-
-      {/* Simplified grid overlay with reduced opacity */}
-      <div className="absolute inset-0 bg-grid-white/[0.01] bg-[length:30px_30px]"></div>
-
-      {/* Hero content container - adjusted for header */}
-      <div className="relative z-10 max-w-[1600px] mx-auto px-4 md:px-8 min-h-screen pt-28 flex items-center">
-        <div
-          className={`w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center transition-all duration-1000 transform ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          {/* Left column - Text content (spans 7/12 columns) */}
-          <div className="lg:col-span-7 flex flex-col items-start">
-            {/* Badge - simplified */}
-            <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-6">
-              <Sparkles className="w-4 h-4 text-blue-200" />
-              <span className="text-blue-100 text-sm font-medium">
-                {data?.hero_label || "Innovation Strategy Group"}
-              </span>
+    <section className="relative overflow-hidden bg-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid min-h-screen grid-cols-1 items-center py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
+          
+          {/* Left Column - Content */}
+          <div className="flex flex-col justify-center space-y-8">
+            
+            {/* Badge */}
+            <div className="flex justify-center lg:justify-start">
+              <div className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-4 py-2 ring-1 ring-teal-200/50">
+                <div className="h-2 w-2 rounded-full bg-teal-500"></div>
+                <span className="text-sm font-medium text-teal-700">
+                  {data?.hero_label || "Innovation Strategy Group"}
+                </span>
+              </div>
             </div>
 
-            {/* Heading with reduced glow effect */}
-            <div className="relative">
+            {/* Main Heading */}
+            <div className="text-center lg:text-left">
               <Heading
-                colorText={data?.hero_color_title || "innovative solutions"}
-                secondColor="blue"
-                className="!text-4xl md:!text-5xl xl:!text-6xl !leading-tight !text-white"
+                colorText={data?.hero_color_title || null}
+                secondColor="teal"
+                className="!text-4xl !font-bold !tracking-tight text-gray-900 sm:!text-5xl lg:!text-6xl"
               >
-                {data?.hero_title || "Transforming businesses with"}
+                {data?.hero_title || "Transform your strategy into reality"}
               </Heading>
             </div>
 
-            <p className="mt-6 text-gray-200 text-lg md:text-xl max-w-xl leading-relaxed">
-              {data?.hero_caption ||
-                "Empower your organization with cutting-edge strategies and technology solutions designed to drive growth and innovation."}
+            {/* Description */}
+            <p className="text-center text-lg leading-8 text-gray-600 sm:text-xl lg:text-left">
+              {data?.hero_caption || "Practical solutions that deliver lasting results for forward-thinking enterprises."}
             </p>
 
-            {/* CTA buttons - simplified */}
-            <div className="mt-10 flex flex-wrap gap-4">
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-4 sm:flex-row lg:justify-start">
               <Link
                 href={data?.hero_button_link || "/contact"}
-                className="px-8 py-4 bg-white text-blue-900 hover:bg-blue-50 rounded-full font-medium transition-all duration-300 flex items-center gap-2"
+                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-blue-900 px-8 py-3.5 text-base font-semibold text-white shadow-sm transition-all hover:bg-blue-800 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-900"
+                style={{ backgroundColor: "var(--brand-primary)" }}
               >
-                <span>Get Started</span>
-                <ArrowRight className="w-4 h-4" />
+                Let's Get to Work
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-
               <Link
                 href={data?.hero_secondary_button_link || "/about"}
-                className="px-8 py-4 bg-white/10 hover:bg-white/15 border border-white/20 text-white rounded-full font-medium transition-all duration-300 flex items-center gap-2"
+                className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-8 py-3.5 text-base font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
               >
-                <span>Learn More</span>
-                <ChevronRight className="w-4 h-4" />
+                See How
               </Link>
             </div>
 
-            {/* Simple highlight badge */}
-            <div className="mt-12 inline-flex items-center gap-2 bg-blue-900/50 border border-blue-400/20 rounded-full px-4 py-2">
-              <Shield className="w-4 h-4 text-blue-300" />
-              <span className="text-blue-100 text-sm">
-                Enterprise-grade security & reliability
-              </span>
-            </div>
-          </div>
-
-          {/* Right column - Image (spans 5/12 columns) */}
-          <div className="hidden lg:block lg:col-span-5">
-            <div className="relative">
-              {/* Clean image container */}
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-10"></div>
-                <Image
-                  src={data?.hero_image || "/images/hero.png"}
-                  alt="Innovation Strategy"
-                  width={800}
-                  height={600}
-                  className="w-full h-[500px] object-cover"
-                  priority
-                />
-
-                {/* Single clean overlay card */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 max-w-[280px]">
-                  <h5 className="text-white font-medium text-center mb-1">
-                    Trusted by Industry Leaders
-                  </h5>
-                  <p className="text-gray-200 text-sm text-center">
-                    Helping businesses achieve their strategic goals
-                  </p>
+            {/* Trust Indicators */}
+            <div className="pt-8">
+              <p className="text-center text-sm font-medium uppercase tracking-wide text-gray-500 lg:text-left">
+                Trusted by industry leaders
+              </p>
+              <div className="mt-6 grid grid-cols-3 gap-8">
+                <div className="text-center lg:text-left">
+                  <div className="text-2xl font-bold tracking-tight text-blue-900 lg:text-3xl" style={{ color: "var(--brand-primary)" }}>
+                    500+
+                  </div>
+                  <div className="mt-1 text-sm text-gray-600">Clients</div>
+                </div>
+                <div className="text-center lg:text-left">
+                  <div className="text-2xl font-bold tracking-tight text-teal-600 lg:text-3xl">98%</div>
+                  <div className="mt-1 text-sm text-gray-600">Success Rate</div>
+                </div>
+                <div className="text-center lg:text-left">
+                  <div className="text-2xl font-bold tracking-tight text-blue-900 lg:text-3xl" style={{ color: "var(--brand-primary)" }}>
+                    $2.8B+
+                  </div>
+                  <div className="mt-1 text-sm text-gray-600">Value Created</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Mobile view - simplified */}
-      <div className="lg:hidden absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 to-blue-900/95 z-10"></div>
-        <Image
-          src={data?.hero_image || "/images/hero.png"}
-          alt="Innovation Strategy"
-          fill
-          className="object-cover"
-          priority
-        />
+          {/* Right Column - Image */}
+          <div className="relative mt-16 lg:mt-0">
+            <div className="relative">
+              <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-gray-100 shadow-2xl">
+                <Image
+                  src={data?.hero_background_image?.url || "/images/hero.png"}
+                  alt="Innovation Strategy"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              
+              {/* Floating Elements */}
+              <div className="absolute -left-4 top-1/4 hidden h-16 w-16 rounded-2xl bg-teal-100 ring-1 ring-teal-200/50 lg:block"></div>
+              <div className="absolute -right-6 bottom-1/4 hidden h-12 w-12 rounded-xl bg-blue-100 ring-1 ring-blue-200/50 lg:block" style={{ backgroundColor: "var(--brand-primary-100)" }}></div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

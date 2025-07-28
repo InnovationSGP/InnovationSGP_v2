@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import { ArrowUpCircle } from "lucide-react";
 
 // Dynamically import the client-side BlogHero component
-const BlogHero = dynamic(() => import("@/template/blog/blog-hero"), {
+const SharedHero = dynamic(() => import("@/components/shared-hero"), {
   ssr: true,
 });
 
@@ -162,7 +162,7 @@ export default async function About() {
   return (
     <>
       {/* Hero Section using BlogHero */}
-      <BlogHero
+      <SharedHero
         title="About Innovation Strategy Group"
         subtitle="Our Story"
         description="Innovating with purpose, leading with strategy, and transforming at scale. Discover the team behind Innovation Strategy Group and our mission to deliver excellence."

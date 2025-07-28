@@ -67,55 +67,42 @@ const AboutUs = ({ data }: any) => {
   const slider = React.useRef<any>(null);
 
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      {/* Animated background elements */}
+    <section className="py-24 relative overflow-hidden" style={{ background: 'var(--brand-bg-secondary)' }}>
+      {/* Minimal background accent */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
-      </div>
-
-      {/* Grid background overlay */}
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:20px_20px]"></div>
-
-      {/* Floating particles */}
-      <div className="absolute inset-0">
-        {PARTICLES.map((particle, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full opacity-30 animate-ping"
-            style={{
-              left: `${particle.left}%`,
-              top: `${particle.top}%`,
-              animationDelay: `${particle.animationDelay}s`,
-              animationDuration: `${particle.animationDuration}s`,
-            }}
-          />
-        ))}
+        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full filter blur-3xl opacity-[0.03]" style={{ backgroundColor: 'var(--brand-primary-purple)' }}></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full filter blur-3xl opacity-[0.02]" style={{ backgroundColor: 'var(--brand-primary-blue)' }}></div>
       </div>
 
       <div
-        className={`max-w-[1600px] mx-auto px-4 md:px-6 lg:px-8 relative z-10 transition-all duration-1000 transform ${
+        className={`container mx-auto px-4 md:px-6 lg:px-8 relative z-10 transition-all duration-1000 transform ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-6 hover:bg-blue-500/20 transition-colors duration-300">
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span className="text-blue-300 text-sm font-medium uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-6 transition-colors duration-300" style={{
+            backgroundColor: 'var(--brand-purple-50)',
+            border: `1px solid var(--brand-border-accent)`
+          }}>
+            <Sparkles className="w-4 h-4" style={{ color: 'var(--brand-primary-purple)' }} />
+            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--brand-text-brand)' }}>
               {data?.about_label || "Innovation Strategy Group"}
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-white max-w-4xl mx-auto">
+          <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto" style={{ color: 'var(--brand-text-dark)' }}>
             {data?.about_plain_title || "We help companies"}{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-cyan-400 bg-clip-text text-transparent">
+            <span style={{ 
+              background: 'var(--brand-gradient-accent)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
               {data?.about_color_title || "achieve their goals"}
             </span>
           </h2>
-          x
-          <p className="text-gray-300 max-w-2xl mx-auto text-lg md:text-xl">
-            {data?.about_description ||
+          <p className="max-w-2xl mx-auto text-lg md:text-xl" style={{ color: 'var(--brand-text-secondary)' }}>
+            {data?.about_caption ||
               "Innovation Strategy Group combines strategic thinking with cutting-edge technology to help businesses navigate digital transformation."}
           </p>
         </div>
@@ -124,8 +111,11 @@ const AboutUs = ({ data }: any) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           {/* Left Column - Image Slider (6/12 width) */}
           <div className="lg:col-span-6">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/30 group">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-10"></div>
+            <div className="relative rounded-2xl overflow-hidden group" style={{ 
+              border: `1px solid var(--brand-border-light)`,
+              boxShadow: 'var(--shadow-lg)'
+            }}>
+              <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, transparent 60%, rgba(255, 255, 255, 0.1) 100%)' }}></div>
               <Slider {...settings} ref={slider}>
                 {data?.about_images?.map((item: any, idx: number) => (
                   <figure key={idx} className="relative">
@@ -151,11 +141,15 @@ const AboutUs = ({ data }: any) => {
               </Slider>
 
               {/* Stats overlay */}
-              <div className="absolute top-[330px] right-10 p-6 max-w-[180px] z-10 bg-gradient-to-r from-blue-50 to-blue-400 rounded-xl backdrop-blur-xs transform hover:scale-105 transition-all duration-300">
-                <h4 className="font-bold text-4xl text-white">
+              <div className="absolute top-[330px] right-10 p-6 max-w-[180px] z-10 rounded-xl backdrop-blur-md transform hover:scale-105 transition-all duration-300" style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                border: `1px solid var(--brand-border-light)`,
+                boxShadow: 'var(--shadow-lg)'
+              }}>
+                <h4 className="font-bold text-4xl" style={{ color: 'var(--brand-primary-purple)' }}>
                   {data?.about_customers_impacted || "1M+"}
                 </h4>
-                <p className="font-medium leading-tight text-sm text-blue-100 mt-2">
+                <p className="font-medium leading-tight text-sm mt-2" style={{ color: 'var(--brand-text-secondary)' }}>
                   end users impacted
                 </p>
               </div>
@@ -164,17 +158,31 @@ const AboutUs = ({ data }: any) => {
               <div className="absolute bottom-6 left-6 z-20 flex items-center gap-3">
                 <button
                   onClick={() => slider?.current?.slickPrev()}
-                  className="bg-white/20 backdrop-blur-sm h-10 w-10 cursor-pointer rounded-full flex items-center justify-center rotate-180 hover:bg-white/30 transition-all duration-300"
+                  className="h-10 w-10 cursor-pointer rounded-full flex items-center justify-center rotate-180 transition-all duration-300 backdrop-blur-sm"
+                  style={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    border: `1px solid var(--brand-border-light)`,
+                    color: 'var(--brand-text-secondary)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.95)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'}
                   aria-label="Previous slide"
                 >
-                  <ArrowRight className="h-5 w-5 text-white" />
+                  <ArrowRight className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => slider?.current?.slickNext()}
-                  className="bg-white/20 backdrop-blur-sm h-10 w-10 cursor-pointer rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
+                  className="h-10 w-10 cursor-pointer rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm"
+                  style={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    border: `1px solid var(--brand-border-light)`,
+                    color: 'var(--brand-text-secondary)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.95)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.8)'}
                   aria-label="Next slide"
                 >
-                  <ArrowRight className="h-5 w-5 text-white" />
+                  <ArrowRight className="h-5 w-5" />
                 </button>
               </div>
             </div>
@@ -183,15 +191,19 @@ const AboutUs = ({ data }: any) => {
           {/* Right Column - Content (6/12 width for better balance) */}
           <div className="lg:col-span-6">
             {/* Key features with enhanced styling */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-8 hover:bg-white/8 transition-colors duration-300 shadow-lg shadow-blue-900/10">
+            <div className="rounded-2xl p-8 mb-8 transition-colors duration-300" style={{
+              backgroundColor: 'var(--white)',
+              border: `1px solid var(--brand-border-light)`,
+              boxShadow: 'var(--shadow-lg)'
+            }}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-px w-8 bg-blue-300"></div>
-                <span className="text-blue-300 text-sm font-medium uppercase tracking-wider">
+                <div className="h-px w-8" style={{ backgroundColor: 'var(--brand-primary-purple)' }}></div>
+                <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'var(--brand-text-brand)' }}>
                   {data?.about_label}
                 </span>
               </div>
 
-              <h3 className="text-2xl font-bold text-white mb-6">
+              <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--brand-text-dark)' }}>
                 {data?.about_caption}
               </h3>
 
@@ -199,15 +211,17 @@ const AboutUs = ({ data }: any) => {
               <ul className="space-y-5">
                 {data?.about_icon_list?.map((item: any, idx: number) => (
                   <li key={idx} className="flex items-start gap-4 group">
-                    <div className="w-8 h-8 rounded-full bg-blue-300/10 flex items-center justify-center shrink-0 group-hover:bg-blue-300/20 transition-colors duration-300">
-                      <CheckCircle2 className="w-5 h-5 text-blue-300" />
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300" style={{
+                      backgroundColor: 'var(--brand-purple-50)',
+                    }}>
+                      <CheckCircle2 className="w-5 h-5" style={{ color: 'var(--brand-primary-purple)' }} />
                     </div>
                     <div>
-                      <span className="text-gray-200 text-lg">
+                      <span className="text-lg" style={{ color: 'var(--brand-text-primary)' }}>
                         {typeof item === "string" ? item : item.text}
                       </span>
                       {item.description && (
-                        <p className="text-gray-400 text-sm mt-1">
+                        <p className="text-sm mt-1" style={{ color: 'var(--brand-text-muted)' }}>
                           {item.description}
                         </p>
                       )}
@@ -216,41 +230,47 @@ const AboutUs = ({ data }: any) => {
                 )) || (
                   <>
                     <li className="flex items-start gap-4 group">
-                      <div className="w-8 h-8 rounded-full bg-blue-300/10 flex items-center justify-center shrink-0 group-hover:bg-blue-300/20 transition-colors duration-300">
-                        <CheckCircle2 className="w-5 h-5 text-blue-300" />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300" style={{
+                        backgroundColor: 'var(--brand-purple-50)',
+                      }}>
+                        <CheckCircle2 className="w-5 h-5" style={{ color: 'var(--brand-primary-purple)' }} />
                       </div>
                       <div>
-                        <span className="text-gray-200 text-lg">
+                        <span className="text-lg" style={{ color: 'var(--brand-text-primary)' }}>
                           Strategic business consulting
                         </span>
-                        <p className="text-gray-400 text-sm mt-1">
+                        <p className="text-sm mt-1" style={{ color: 'var(--brand-text-muted)' }}>
                           Expert guidance to drive business growth and
                           innovation
                         </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-4 group">
-                      <div className="w-8 h-8 rounded-full bg-blue-300/10 flex items-center justify-center shrink-0 group-hover:bg-blue-300/20 transition-colors duration-300">
-                        <CheckCircle2 className="w-5 h-5 text-blue-300" />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300" style={{
+                        backgroundColor: 'var(--brand-purple-50)',
+                      }}>
+                        <CheckCircle2 className="w-5 h-5" style={{ color: 'var(--brand-primary-purple)' }} />
                       </div>
                       <div>
-                        <span className="text-gray-200 text-lg">
+                        <span className="text-lg" style={{ color: 'var(--brand-text-primary)' }}>
                           Technology implementation
                         </span>
-                        <p className="text-gray-400 text-sm mt-1">
+                        <p className="text-sm mt-1" style={{ color: 'var(--brand-text-muted)' }}>
                           Seamless integration of cutting-edge technologies
                         </p>
                       </div>
                     </li>
                     <li className="flex items-start gap-4 group">
-                      <div className="w-8 h-8 rounded-full bg-blue-300/10 flex items-center justify-center shrink-0 group-hover:bg-blue-300/20 transition-colors duration-300">
-                        <CheckCircle2 className="w-5 h-5 text-blue-300" />
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300" style={{
+                        backgroundColor: 'var(--brand-purple-50)',
+                      }}>
+                        <CheckCircle2 className="w-5 h-5" style={{ color: 'var(--brand-primary-purple)' }} />
                       </div>
                       <div>
-                        <span className="text-gray-200 text-lg">
+                        <span className="text-lg" style={{ color: 'var(--brand-text-primary)' }}>
                           Digital transformation
                         </span>
-                        <p className="text-gray-400 text-sm mt-1">
+                        <p className="text-sm mt-1" style={{ color: 'var(--brand-text-muted)' }}>
                           Comprehensive strategies for digital evolution
                         </p>
                       </div>
@@ -260,10 +280,16 @@ const AboutUs = ({ data }: any) => {
               </ul>
 
               {/* Add a CTA button */}
-              <div className="mt-8 pt-6 border-t border-white/10">
+              <div className="mt-8 pt-6" style={{ borderTop: `1px solid var(--brand-border-light)` }}>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-full font-medium transition-all duration-300 group"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 group"
+                  style={{ 
+                    backgroundColor: 'var(--brand-primary-purple)',
+                    color: 'var(--white)'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--brand-purple-light)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--brand-primary-purple)'}
                 >
                   <span>Learn how we can help</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
@@ -274,16 +300,6 @@ const AboutUs = ({ data }: any) => {
         </div>
       </div>
 
-      {/* Floating elements */}
-      <div className="absolute bottom-0 right-0 w-32 h-32 md:w-56 md:h-56 opacity-40">
-        <Image
-          src="/svg/shape.svg"
-          alt=""
-          className="w-full h-full"
-          width={200}
-          height={200}
-        />
-      </div>
     </section>
   );
 };

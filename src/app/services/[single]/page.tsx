@@ -1,5 +1,5 @@
 import LeftRightCard from "@/template/services/left-right-card";
-import Hero from "../../../template/services/hero";
+import SharedHero from "@/components/shared-hero";
 import Blogcard from "@/template/services/blog-card";
 import { fetchAPI } from "@/config/api";
 import WordProcess from "@/template/services/word-process";
@@ -81,9 +81,11 @@ export default async function Home({ params }: any) {
 
   return (
     <>
-      <Hero
+      <SharedHero
         title={pageData?.title.rendered}
         excerpt={pageData?.excerpt?.rendered}
+        showScrollIndicator={true}
+        scrollText="Scroll down to explore our comprehensive service offerings"
       />
       {/* <TechServices /> */}
       <WordProcess

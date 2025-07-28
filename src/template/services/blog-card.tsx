@@ -71,9 +71,6 @@ const getPostImageURL = (post: any): string => {
     if (fallback) return sanitizeImageUrl(fallback);
 
     // If all else fails, use default image
-    console.log(
-      `No image found for post ${post.id} - ${post?.title?.rendered}`
-    );
     return "/images/blog-read.png";
   } catch (error) {
     console.error("Error getting post image URL:", error);
@@ -118,7 +115,6 @@ function BlogCard({ post }: any) {
         // First try the direct approach
         const url = getPostImageURL(post);
         if (url) {
-          console.log(`BlogCard: Image URL found for post ${post.id}: ${url}`);
           setMediaURL(url);
           return;
         }
@@ -126,14 +122,11 @@ function BlogCard({ post }: any) {
         // If direct approach fails, try the existing async approach
         const fetchMedia = async () => {
           try {
-            console.log(`BlogCard: Fetching media async for post ${post.id}`);
             const url = await getMediaURL(post);
             // Make sure the URL is sanitized
             if (url) {
-              console.log(`BlogCard: Async media URL found: ${url}`);
               setMediaURL(sanitizeImageUrl(url));
             } else {
-              console.log(`BlogCard: No async media URL found, using fallback`);
               setMediaURL("/images/blog-read.png");
             }
           } catch (error) {
@@ -186,10 +179,6 @@ function BlogCard({ post }: any) {
 
                 // Also update state to prevent future errors with this image
                 setMediaURL("/images/blog-read.png");
-                console.log(
-                  "Using fallback image for post:",
-                  post?.title?.rendered || "Unknown post"
-                );
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-70"></div>

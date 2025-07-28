@@ -1,114 +1,58 @@
-import { fetchAPI } from "@/config/api";
-import { Metadata } from "next";
-import ServicesHero from "@/template/services/services-hero";
+"use client";
+import React from "react";
+import SharedHero from "@/components/shared-hero";
 import ServiceCards from "@/template/services/service-cards";
 import ServiceProcess from "@/template/services/service-process";
 import ServiceStats from "@/template/services/service-stats";
 import WhyChoseUs from "@/template/home-page/why-chose-us";
 import Blogs from "@/template/home-page/blogs";
 import TechServices from "@/template/home-page/tech-services";
+import { useServices, usePage, usePosts } from "@/services/wordpress";
+import { useWordPressStore } from "@/store/wordpress";
 
-export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const res = await fetchAPI({
-      endpoint: "pages/342",
-    });
-    const yoast = res?.yoast_head_json;
-
-    if (!yoast) {
-      return {
-        title: "Services | InnovationSGP",
-        description: "Professional services offered by InnovationSGP",
-      };
-    }
-
-    return {
-      title:
-        yoast.title?.replace(/&#0*39;/g, "'") || "Services | InnovationSGP",
-      description:
-        yoast.og_description ||
-        "Professional services offered by InnovationSGP",
-      alternates: {
-        canonical: `${process.env.NEXT_PUBLIC_BASE_URL}/services`,
-      },
-      openGraph: {
-        title: yoast.og_title?.replace(/&#0*39;/g, "'"),
-        url: yoast.og_url,
-        siteName: yoast.og_site_name?.replace(/&#0*39;/g, "'"),
-        type: yoast.og_type,
-        locale: yoast.og_locale,
-      },
-      twitter: {
-        card: yoast.twitter_card,
-      },
-      robots: {
-        index: yoast?.robots?.index === "index",
-        follow: yoast?.robots?.follow === "follow",
-        maxSnippet: parseInt(
-          yoast?.robots?.["max-snippet"]?.split(":")[1] ?? "-1"
-        ),
-        maxImagePreview: yoast?.robots?.["max-image-preview"]?.split(":")[1],
-        maxVideoPreview: parseInt(
-          yoast?.robots?.["max-video-preview"]?.split(":")[1] ?? "-1"
-        ),
-      } as any,
-    };
-  } catch (error) {
-    console.error("Error fetching metadata:", error);
-    return {
-      title: "Services | InnovationSGP",
-      description: "Professional services offered by InnovationSGP",
-    };
-  }
-}
-
-async function getServicesData() {
-  try {
-    // Fetch the services landing page data
-    const pageData = await fetchAPI({ endpoint: "pages/342" });
-
-    // Fetch all services for the services grid
-    const servicesData = await fetchAPI({ endpoint: "services?per_page=100" });
-
-    // Fetch recent blog posts
-    const recentPosts = await fetchAPI({ endpoint: "posts?per_page=3&_embed" });
-
-    // Validate the pageData structure
-    if (!pageData || !pageData.acf) {
-      console.error("Invalid page data structure:", pageData);
-    }
-
-    return {
-      pageData,
-      servicesData: Array.isArray(servicesData) ? servicesData : [],
-      recentPosts: Array.isArray(recentPosts) ? recentPosts : [],
-    };
-  } catch (error) {
-    console.error("Error fetching services data:", error);
-    return {
-      pageData: null,
-      servicesData: [],
-      recentPosts: [],
-    };
-  }
-}
-
-export default async function ServicesPage() {
-  const { pageData, servicesData, recentPosts } = await getServicesData();
-
-  // Log only essential parts of the data for debugging
-  console.log("Services Page Data:", {
-    acf: pageData?.acf
-      ? Object.keys(pageData.acf).filter((key) => key.startsWith("services_"))
-      : [],
-    servicesCount: servicesData?.length || 0,
-    recentPostsCount: recentPosts?.length || 0,
+const ServicesPage = () => {
+  const {
+    services,
+    loading: servicesLoading,
+    refetch: refetchServices,
+  } = useServices();
+  const {
+    page: pageData,
+    loading: pageLoading,
+    refetch: refetchPage,
+  } = usePage("342");
+  const { posts: recentPosts, refetch: refetchPosts } = usePosts({
+    per_page: 3,
   });
 
-  if (!pageData) {
+  // Fetch data when component mounts
+  React.useEffect(() => {
+    if (!pageData) {
+      refetchPage();
+    }
+    if (!services?.length) {
+      refetchServices();
+    }
+    if (!recentPosts?.length) {
+      refetchPosts();
+    }
+  }, [
+    pageData,
+    services,
+    recentPosts,
+    refetchPage,
+    refetchServices,
+    refetchPosts,
+  ]);
+
+  // Show loading state with bright white background
+  if (pageLoading || servicesLoading || !pageData) {
     return (
-      <div className="h-screen flex justify-center items-center text-center">
-        Error loading the page data. Please try again later.
+      <div className="min-h-screen bg-white flex justify-center items-center text-center">
+        <div className="animate-pulse">
+          <div className="h-6 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+        </div>
       </div>
     );
   }
@@ -132,11 +76,10 @@ export default async function ServicesPage() {
   // Use services_title if available, otherwise fall back to services_label
   const heroTitle =
     services_title || services_label || "Our Professional Services";
-
   return (
-    <>
+    <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <ServicesHero
+      <SharedHero
         title={heroTitle}
         subtitle={
           services_subtitle || "Expert Solutions for Modern Business Challenges"
@@ -148,30 +91,49 @@ export default async function ServicesPage() {
         backgroundImage={services_background_image || "/images/services.avif"}
         ctaText={services_cta_button_text || "Explore Our Services"}
         ctaLink={services_cta_button_link || "#services-grid"}
+        showScrollIndicator={true}
+        scrollText="Scroll down to explore our services"
       />
-      {/* Services Grid
-      <section id="services-grid" className="py-24">
-        <ServiceCards services={servicesData} />
-      </section> */}
-      {/* Tech Services Showcase
-      <TechServices /> */}
+
+      {/* Services Grid */}
+      {services?.length > 0 && (
+        <section id="services-grid" className="py-24 bg-white">
+          <ServiceCards services={services} />
+        </section>
+      )}
+
+      {/* Tech Services Showcase */}
+      <div className="bg-gray-50">
+        <TechServices />
+      </div>
+
       {/* Service Process Section */}
-      <ServiceProcess
-        title={services_process_title || "Our Proven Process"}
-        subtitle={services_process_subtitle || "How We Deliver Results"}
-        steps={services_process_steps || []}
-      />
+      <div className="bg-white">
+        <ServiceProcess
+          title={services_process_title || "Our Proven Process"}
+          subtitle={services_process_subtitle || "How We Deliver Results"}
+          steps={services_process_steps || []}
+        />
+      </div>
+
       {/* Why Choose Us Section */}
-      <WhyChoseUs data={pageData.acf} />
+      <div className="bg-gray-50">
+        <WhyChoseUs data={pageData.acf} />
+      </div>
+
       {/* Recent Blog Posts */}
       {recentPosts?.length > 0 && (
-        <Blogs
-          title="Read our latest"
-          colorTitle="Blog posts"
-          label="Blogs"
-          data={recentPosts}
-        />
+        <div className="bg-white">
+          <Blogs
+            title="Read our latest"
+            colorTitle="Blog posts"
+            label="Blogs"
+            data={recentPosts}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
-}
+};
+
+export default ServicesPage;

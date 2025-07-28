@@ -1,18 +1,178 @@
 @import "tailwindcss";
 
 :root {
+  /* === MODERN WHITE-FIRST BASE COLORS === */
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* === EXISTING BLUES (PRESERVED) === */
   --blue-10: #7f9ad6f7;
   --blue-20: #486ec4;
   --blue-30: #2951ac;
   --blue-40: #193881;
   --blue-50: #050950;
+  --blue-70: #7f9ad6;
+
+  /* === ENHANCED BRAND COLOR PALETTE - CENTERED ON #050950 + TEAL === */
+  --brand-primary-white: #ffffff;
+  --brand-primary: #050950;
+  --brand-primary-blue: #050950;
+  --brand-primary-teal: #0d9488;
+  --brand-secondary-teal: #14b8a6;
+  --brand-accent-teal: #5eead4;
+  --brand-primary-gold: #515100;
+
+  /* Reduced purple - only for minimal accent use */
+  --brand-accent-purple: #193881;
+  --brand-secondary-purple-light: #f4e6fa;
+  --brand-secondary-background: #dceee0;
+
+  /* Enhanced variations of #050950 */
+  --brand-primary-light: #193881;
+  --brand-primary-lighter: #2951ac;
+  --brand-primary-lightest: #486ec4;
+  --brand-primary-50: #f0f4ff;
+  --brand-primary-100: #e0e7ff;
+  --brand-primary-200: #c7d2fe;
+  --brand-primary-300: #a5b4fc;
+  --brand-primary-400: #818cf8;
+  --brand-primary-500: #6366f1;
+  --brand-primary-600: #4f46e5;
+  --brand-primary-700: #4338ca;
+  --brand-primary-800: #3730a3;
+  --brand-primary-900: #050950;
+
+  /* Teal variations that complement #050950 */
+  --brand-teal-50: #f0fdfa;
+  --brand-teal-100: #ccfbf1;
+  --brand-teal-200: #99f6e4;
+  --brand-teal-300: #5eead4;
+  --brand-teal-400: #2dd4bf;
+  --brand-teal-500: #14b8a6;
+  --brand-teal-600: #0d9488;
+  --brand-teal-700: #0f766e;
+  --brand-teal-800: #115e59;
+  --brand-teal-900: #134e4a;
+
+  /* Supporting colors that work with #050950 and teal */
+  --brand-blue-light: #1e40af;
+  --brand-blue-lighter: #3b82f6;
+  --brand-navy: #1e3a8a;
+  --brand-steel: #475569;
+  --brand-steel-light: #64748b;
+
+  /* === BRAND GRADIENTS - #050950 + TEAL FOCUSED === */
+  --brand-gradient-primary: linear-gradient(135deg, #050950 0%, #0d9488 100%);
+  --brand-gradient-hero: linear-gradient(
+    135deg,
+    var(--white) 0%,
+    var(--brand-primary-50) 100%
+  );
+  --brand-gradient-accent: linear-gradient(135deg, #050950 0%, #14b8a6 100%);
+  --brand-gradient-subtle: linear-gradient(
+    135deg,
+    var(--brand-teal-50) 0%,
+    var(--white) 100%
+  );
+  --brand-gradient-teal: linear-gradient(
+    135deg,
+    var(--brand-teal-100) 0%,
+    var(--brand-teal-50) 100%
+  );
+  --gradient-professional: linear-gradient(
+    135deg,
+    var(--gray-50) 0%,
+    var(--white) 50%,
+    var(--brand-teal-50) 100%
+  );
+  --gradient-deep: linear-gradient(
+    135deg,
+    #050950 0%,
+    #1e40af 50%,
+    #0d9488 100%
+  );
+  --gradient-ocean: linear-gradient(
+    135deg,
+    #050950 0%,
+    #0369a1 25%,
+    #0891b2 75%,
+    #0d9488 100%
+  );
+
+  /* === UPDATED BRAND TEXT COLORS === */
+  --brand-text-primary: var(--gray-900);
+  --brand-text-secondary: var(--gray-700);
+  --brand-text-muted: var(--gray-500);
+  --brand-text-dark: var(--gray-900);
+  --brand-text-light: var(--gray-400);
+  --brand-text-inverse: var(--white);
+  --brand-text-brand: var(--brand-primary);
+  --brand-text-accent: var(--brand-primary-teal);
+  --brand-text-teal: var(--brand-teal-600);
+
+  /* === UPDATED BRAND BACKGROUND COLORS === */
+  --brand-bg-light: var(--white);
+  --brand-bg-secondary: var(--gray-50);
+  --brand-bg-tertiary: var(--gray-100);
+  --brand-bg-accent: var(--brand-teal-50);
+  --brand-bg-accent-alt: var(--brand-primary-50);
+  --brand-bg-primary: var(--brand-primary);
+  --brand-bg-teal: var(--brand-primary-teal);
+  --brand-bg-dark: var(--gray-900);
+  --brand-bg-darker: #020617;
+
+  /* === UPDATED BRAND BORDER COLORS === */
+  --brand-border-light: var(--gray-200);
+  --brand-border-dark: var(--gray-300);
+  --brand-border-accent: rgba(5, 9, 80, 0.2);
+  --brand-border-teal: rgba(13, 148, 136, 0.2);
+  --brand-border-strong: var(--gray-400);
+  --brand-border-brand: var(--brand-primary);
+  --brand-border-primary: var(--brand-primary);
+
+  /* === EXISTING COLORS (PRESERVED) === */
   --black-10: #858585;
   --black-20: #2d2d2d;
-  --text: #515151;
-  --blue-70: #7f9ad6;
+  --text: var(--gray-900);
+
+  /* === TAILWIND COLOR REFERENCES === */
+  --slate-900: #0f172a;
+  --blue-900: #1e3a8a;
+
+  /* === PROFESSIONAL SHADOWS === */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-brand: 0 4px 6px -1px rgba(5, 9, 80, 0.1),
+    0 2px 4px -1px rgba(5, 9, 80, 0.06);
+  --shadow-teal: 0 4px 6px -1px rgba(13, 148, 136, 0.1),
+    0 2px 4px -1px rgba(13, 148, 136, 0.06);
+  --shadow-brand-strong: 0 10px 25px -3px rgba(5, 9, 80, 0.15),
+    0 4px 6px -2px rgba(5, 9, 80, 0.05);
+
+  /* === INTERACTIVE STATES - #050950 + TEAL === */
+  --interactive-primary: var(--brand-primary);
+  --interactive-primary-hover: var(--brand-primary-light);
+  --interactive-primary-active: var(--brand-primary);
+  --interactive-secondary: var(--brand-primary-teal);
+  --interactive-secondary-hover: var(--brand-teal-700);
+  --interactive-tertiary: var(--gray-600);
+  --interactive-tertiary-hover: var(--gray-700);
 }
 
 @theme inline {
+  /* === EXISTING THEME COLORS (PRESERVED) === */
   --color-blue-10: var(--blue-10);
   --color-blue-20: var(--blue-20);
   --color-blue-30: var(--blue-30);
@@ -21,10 +181,91 @@
   --color-black-10: var(--black-10);
   --color-black-20: var(--black-20);
   --color-text: var(--text);
+
+  /* === NEW MODERN COLORS FOR TAILWIND === */
+  --color-white: var(--white);
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+
+  /* === BRAND COLORS CENTERED ON #050950 + TEAL === */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-blue: var(--brand-primary-blue);
+  --color-brand-primary-teal: var(--brand-primary-teal);
+  --color-brand-secondary-teal: var(--brand-secondary-teal);
+  --color-brand-accent-teal: var(--brand-accent-teal);
+  --color-brand-primary-gold: var(--brand-primary-gold);
+
+  /* Minimal purple for legacy support */
+  --color-brand-accent-purple: var(--brand-accent-purple);
+
+  /* Brand primary scale */
+  --color-brand-primary-50: var(--brand-primary-50);
+  --color-brand-primary-100: var(--brand-primary-100);
+  --color-brand-primary-200: var(--brand-primary-200);
+  --color-brand-primary-300: var(--brand-primary-300);
+  --color-brand-primary-400: var(--brand-primary-400);
+  --color-brand-primary-500: var(--brand-primary-500);
+  --color-brand-primary-600: var(--brand-primary-600);
+  --color-brand-primary-700: var(--brand-primary-700);
+  --color-brand-primary-800: var(--brand-primary-800);
+  --color-brand-primary-900: var(--brand-primary-900);
+
+  --color-brand-primary-light: var(--brand-primary-light);
+  --color-brand-primary-lighter: var(--brand-primary-lighter);
+  --color-brand-primary-lightest: var(--brand-primary-lightest);
+
+  /* Teal scale */
+  --color-brand-teal-50: var(--brand-teal-50);
+  --color-brand-teal-100: var(--brand-teal-100);
+  --color-brand-teal-200: var(--brand-teal-200);
+  --color-brand-teal-300: var(--brand-teal-300);
+  --color-brand-teal-400: var(--brand-teal-400);
+  --color-brand-teal-500: var(--brand-teal-500);
+  --color-brand-teal-600: var(--brand-teal-600);
+  --color-brand-teal-700: var(--brand-teal-700);
+  --color-brand-teal-800: var(--brand-teal-800);
+  --color-brand-teal-900: var(--brand-teal-900);
+
+  /* Supporting blues and neutrals */
+  --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-blue-lighter: var(--brand-blue-lighter);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-steel: var(--brand-steel);
+  --color-brand-steel-light: var(--brand-steel-light);
+
+  /* === UPDATED BRAND SEMANTIC COLORS === */
+  --color-brand-text-primary: var(--brand-text-primary);
+  --color-brand-text-secondary: var(--brand-text-secondary);
+  --color-brand-text-muted: var(--brand-text-muted);
+  --color-brand-text-dark: var(--brand-text-dark);
+  --color-brand-text-brand: var(--brand-text-brand);
+  --color-brand-text-accent: var(--brand-text-accent);
+  --color-brand-text-teal: var(--brand-text-teal);
+  --color-brand-bg-light: var(--brand-bg-light);
+  --color-brand-bg-secondary: var(--brand-bg-secondary);
+  --color-brand-bg-accent: var(--brand-bg-accent);
+  --color-brand-bg-primary: var(--brand-bg-primary);
+  --color-brand-bg-teal: var(--brand-bg-teal);
+  --color-brand-bg-dark: var(--brand-bg-dark);
+  --color-brand-border-light: var(--brand-border-light);
+  --color-brand-border-dark: var(--brand-border-dark);
+  --color-brand-border-brand: var(--brand-border-brand);
+  --color-brand-border-teal: var(--brand-border-teal);
+
+  /* === FONTS (PRESERVED) === */
   --font-sans: var(--font-dm-sans);
   --font-sora: var(--font-sora);
 }
 
+/* === TYPOGRAPHY (PRESERVED) === */
 h1,
 h2,
 h3,
@@ -41,6 +282,7 @@ span {
   font-family: var(--font-sans);
 }
 
+/* === UTILITY CLASSES (PRESERVED) === */
 .container {
   max-width: 1260px !important;
 }
@@ -53,6 +295,7 @@ span {
   background: linear-gradient(120deg, #3d60ad 21.65%, #153170 78.35%);
 }
 
+/* === SLIDER STYLES (PRESERVED) === */
 .slick-list {
   margin: 0 -10px;
   z-index: 2;
@@ -61,6 +304,14 @@ span {
   padding: 0 10px;
 }
 
+.slick-dots button {
+  padding: 0 !important;
+}
+.slick-dots li button:before {
+  font-size: 15px !important;
+}
+
+/* === BLOG GRADIENTS (PRESERVED) === */
 .blog_gradient {
   background: linear-gradient(180deg, #eff7ff 54.73%, #ffffff 105.65%);
 }
@@ -73,6 +324,7 @@ span {
   );
 }
 
+/* === LOGO SCROLLER (PRESERVED) === */
 .logo-scroller {
   overflow: hidden;
   width: 100%;
@@ -83,14 +335,8 @@ span {
   display: flex;
   width: max-content;
   animation: scroll 20s linear infinite;
-  gap: 40px; /* space between logos */
+  gap: 40px;
   align-items: center;
-}
-.slick-dots button {
-  padding: 0 !important;
-}
-.slick-dots li button:before {
-  font-size: 15px !important;
 }
 
 @keyframes scroll {
@@ -102,7 +348,7 @@ span {
   }
 }
 
-/* Optional: Mobile only */
+/* === RESPONSIVE STYLES (PRESERVED) === */
 @media (min-width: 768px) {
   .logo-track {
     animation: none;
@@ -116,6 +362,7 @@ span {
   }
 }
 
+/* === CONTENT STYLES (PRESERVED) === */
 .content h2,
 .content h3,
 .content h4,
@@ -129,7 +376,7 @@ span {
   font-weight: 600;
 }
 
-/* Animation Utilities */
+/* === ANIMATIONS (PRESERVED) === */
 @keyframes pulse {
   0%,
   100% {

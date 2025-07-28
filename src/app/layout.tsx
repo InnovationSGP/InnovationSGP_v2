@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { fetchAPI } from "@/config/api";
 import type { Metadata } from "next";
 import ClientOnlyLayout from "@/components/client-only-layout";
+import { WordPressProvider } from "@/providers/WordPressProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",

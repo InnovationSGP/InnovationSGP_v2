@@ -21,7 +21,7 @@ const Footer = async () => {
   const { data } = await getFooterData();
 
   return (
-    <footer className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <footer className="relative bg-gradient-to-br from-brand-primary via-brand-primary-light to-brand-primary-teal">
       {/* CTA Section */}
       <section className="relative">
         <CTASection footerData={data} />
@@ -31,20 +31,20 @@ const Footer = async () => {
       <section className="relative">
         {/* Subtle background elements - fixed positions for SSR/CSR consistency */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-[-160px] right-[-160px] w-[320px] h-[320px] bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"></div>
-          <div className="absolute bottom-[-160px] left-[-160px] w-[320px] h-[320px] bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-2000"></div>
-          <div className="absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] w-[384px] h-[384px] bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse animation-delay-4000"></div>
+          <div className="absolute top-[-160px] right-[-160px] w-[320px] h-[320px] bg-brand-teal-400 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse"></div>
+          <div className="absolute bottom-[-160px] left-[-160px] w-[320px] h-[320px] bg-brand-primary-lightest rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse animation-delay-2000"></div>
+          <div className="absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] w-[384px] h-[384px] bg-brand-teal-300 rounded-full mix-blend-multiply filter blur-xl opacity-15 animate-pulse animation-delay-4000"></div>
         </div>
 
         {/* Grid background overlay */}
-        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:20px_20px]"></div>
+        <div className="absolute inset-0 bg-grid-white/[0.03] bg-[length:20px_20px]"></div>
 
         <div className="container relative mx-auto px-6 py-20">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             {/* Logo and Description */}
             <div className="md:col-span-4 flex flex-col items-center md:items-start">
-              <Logo />
-              <p className="text-gray-300 text-center md:text-left mt-6 max-w-sm">
+              <Logo footer />
+              <p className="text-brand-teal-100 text-center md:text-left mt-6 max-w-sm font-medium">
                 {data?.acf?.footer_description ||
                   "Project Management as a Service. Built for Complexity. Focused on Results."}
               </p>
@@ -54,15 +54,17 @@ const Footer = async () => {
 
             {/* Quick Links */}
             <div className="md:col-span-2">
-              <h5 className="font-medium text-white text-xl mb-6">Company</h5>
+              <h5 className="font-semibold text-white text-xl mb-6 border-b border-brand-teal-400/30 pb-2">
+                Company
+              </h5>
               <ul className="space-y-4">
                 {footerLinks?.map((item, index) => (
                   <li
                     key={index}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-brand-teal-200 hover:text-white hover:translate-x-1 transition-all duration-200"
                   >
                     <Link href={item.href} className="inline-flex items-center">
-                      <span className="h-1 w-1 rounded-full bg-teal-400 mr-2"></span>
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand-teal-400 mr-3 group-hover:bg-white transition-colors"></span>
                       {item.label}
                     </Link>
                   </li>
@@ -72,35 +74,37 @@ const Footer = async () => {
 
             {/* Services */}
             <div className="md:col-span-2">
-              <h5 className="font-medium text-white text-xl mb-6">Services</h5>
+              <h5 className="font-semibold text-white text-xl mb-6 border-b border-brand-teal-400/30 pb-2">
+                Services
+              </h5>
               <ul className="space-y-4">
-                <li className="text-gray-400 hover:text-white transition-colors">
-                  <Link href="#" className="inline-flex items-center">
-                    <span className="h-1 w-1 rounded-full bg-teal-400 mr-2"></span>
+                <li className="text-brand-teal-200 hover:text-white hover:translate-x-1 transition-all duration-200">
+                  <Link href="#" className="inline-flex items-center group">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-teal-400 mr-3 group-hover:bg-white transition-colors"></span>
                     Business Intelligence
                   </Link>
                 </li>
-                <li className="text-gray-400 hover:text-white transition-colors">
-                  <Link href="#" className="inline-flex items-center">
-                    <span className="h-1 w-1 rounded-full bg-teal-400 mr-2"></span>
+                <li className="text-brand-teal-200 hover:text-white hover:translate-x-1 transition-all duration-200">
+                  <Link href="#" className="inline-flex items-center group">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-teal-400 mr-3 group-hover:bg-white transition-colors"></span>
                     Risk Management
                   </Link>
                 </li>
-                <li className="text-gray-400 hover:text-white transition-colors">
-                  <Link href="#" className="inline-flex items-center">
-                    <span className="h-1 w-1 rounded-full bg-teal-400 mr-2"></span>
+                <li className="text-brand-teal-200 hover:text-white hover:translate-x-1 transition-all duration-200">
+                  <Link href="#" className="inline-flex items-center group">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-teal-400 mr-3 group-hover:bg-white transition-colors"></span>
                     Finance Advisory
                   </Link>
                 </li>
-                <li className="text-gray-400 hover:text-white transition-colors">
-                  <Link href="#" className="inline-flex items-center">
-                    <span className="h-1 w-1 rounded-full bg-teal-400 mr-2"></span>
+                <li className="text-brand-teal-200 hover:text-white hover:translate-x-1 transition-all duration-200">
+                  <Link href="#" className="inline-flex items-center group">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-teal-400 mr-3 group-hover:bg-white transition-colors"></span>
                     Portfolio Management
                   </Link>
                 </li>
-                <li className="text-gray-400 hover:text-white transition-colors">
-                  <Link href="#" className="inline-flex items-center">
-                    <span className="h-1 w-1 rounded-full bg-teal-400 mr-2"></span>
+                <li className="text-brand-teal-200 hover:text-white hover:translate-x-1 transition-all duration-200">
+                  <Link href="#" className="inline-flex items-center group">
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-teal-400 mr-3 group-hover:bg-white transition-colors"></span>
                     Consulting Network
                   </Link>
                 </li>
@@ -109,14 +113,14 @@ const Footer = async () => {
 
             {/* Contact Information */}
             <div className="md:col-span-4">
-              <h5 className="font-medium text-white text-xl mb-6">
+              <h5 className="font-semibold text-white text-xl mb-6 border-b border-brand-teal-400/30 pb-2">
                 Get In Touch
               </h5>
               <div className="space-y-4">
-                <p className="text-gray-400 flex items-start">
+                <p className="text-brand-teal-200 flex items-start group hover:text-white transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-teal-400 mr-3 mt-0.5"
+                    className="h-5 w-5 text-brand-teal-400 mr-3 mt-0.5 group-hover:text-white transition-colors"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -139,10 +143,10 @@ const Footer = async () => {
                       "1234 Innovation Way, Suite 500, Anytown, USA 12345"}
                   </span>
                 </p>
-                <p className="text-gray-400 flex items-start">
+                <p className="text-brand-teal-200 flex items-start group hover:text-white transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-teal-400 mr-3 mt-0.5"
+                    className="h-5 w-5 text-brand-teal-400 mr-3 mt-0.5 group-hover:text-white transition-colors"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -158,10 +162,10 @@ const Footer = async () => {
                     {data?.acf?.contact_email || "sales@innovationsgp.com"}
                   </span>
                 </p>
-                <p className="text-gray-400 flex items-start">
+                <p className="text-brand-teal-200 flex items-start group hover:text-white transition-colors">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-teal-400 mr-3 mt-0.5"
+                    className="h-5 w-5 text-brand-teal-400 mr-3 mt-0.5 group-hover:text-white transition-colors"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -184,15 +188,15 @@ const Footer = async () => {
         </div>
 
         {/* Copyright Section */}
-        <div className="relative border-t border-white/10">
+        <div className="relative border-t border-brand-teal-400/20">
           <div className="container mx-auto px-6 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 text-sm">
+              <p className="text-brand-teal-200 text-sm font-medium">
                 Copyright © {getCurrentYear()} Innovation Strategy Group LLC dba
                 InnovationSGP. All rights reserved.
               </p>
               <div className="mt-4 md:mt-0">
-                <ul className="flex space-x-6 text-sm text-gray-400">
+                <ul className="flex space-x-6 text-sm text-brand-teal-200">
                   <li className="hover:text-white transition-colors">
                     <Link href="/privacy-policy">Privacy Policy</Link>
                   </li>
